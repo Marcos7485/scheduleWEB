@@ -3,9 +3,7 @@
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/', 'welcome')->name('index');
 
 Route::view('/registro', 'session.register')->name('registro');
 Route::view('/login', 'session.login')->name('login');

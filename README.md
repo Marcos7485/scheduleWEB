@@ -15,5 +15,4 @@ Archivo de las traducciones al español, junto a la modificacion del archivo .en
 
 
 
-
 # schedule
