@@ -1,0 +1,146 @@
+/* 
+Black: #000000 
+Air Blue: #7D99B2
+Pear: #C2E150
+white: #FFFFFF
+*/
+
+body {
+    margin: auto;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    overflow-x: hidden;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.container-fluid {
+    background-color: #000000;
+    color: #FFFFFF;
+}
+
+/* ////////////////////////////////////////////////////////////////////////////// */
+
+.banner {
+    text-align: center;
+}
+
+.banner img {
+    width: 10vw;
+}
+
+#drs-icon {
+    width: 1.5vw;
+}
+
+#footer {
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    background-color: #000000;
+    z-index: 1000;
+    width: 100%;
+    height: 4vh;
+}
+
+#footer a {
+    text-decoration: none;
+    color: #7D99B2;
+}
+
+.menuHeader {
+    display: flex;
+    color: #7D99B2;
+    list-style: none;
+    justify-content: center;
+}
+
+header ul a {
+    text-decoration: none;
+    padding-right: 20px;
+}
+
+/* ////////////////////////////////////////////////////////////////////////////// */
+
+
+.page_1 {
+    background-color: #000000;
+    height: 70vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.page_1 a {
+    text-decoration: none;
+}
+
+.card-welcome {
+    box-shadow: 2px 2px 1px #7D99B2;
+    background-color: #C2E150;
+    border-radius: 20px;
+    color: #000000;
+    height: 20vh;
+    width: 20vw;
+    cursor: pointer;
+    transform: translateY(20vh);
+}
+
+.card-welcome:active {
+    box-shadow: 0 0 0px #7D99B2;
+    /* Reducir sombra al hacer clic */
+    transform: translate(.2vw, 21vh);
+}
+
+#agenda-design {
+    width: 5vw;
+}
+
+
+/* //////////////////////////////////////////////////////////////////////////////////////////////*/
+
+.page_2 {
+    background-color: #000000;
+    height: 70vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.card-login{
+    height: 20vh;
+    width: 20vw;
+    transform: translateY(10vh);
+}
+
+/* //////////////////////////////////////////////////////////////////////////////////////////////*/
+
+.page_3 {
+    background-color: #000000;
+    height: 105vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.card-register{
+    height: 20vh;
+    width: 20vw;
+    transform: translateY(10vh);
+}
+
+/* //////////////////////////////////////////////////////////////////////////////////////////////*/
+
+.page_4 {
+    background-color: #000000;
+    height: 105vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
