@@ -7,8 +7,10 @@
     <title>@yield('title')</title>
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="icon" href="/img/icon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="//unpkg.com/alpinejs" defer></script>
 </head>
 
 <body class="antialiased">
@@ -19,12 +21,19 @@
                 <a href="{{ route('welcome') }}"><img src="/img/icon.webp"></a>
             </div>
             <div>
+                @guest
                 @if ($menu == true)
                 <ul class="menuHeader">
-                    <li><a href="{{ route('login') }}">Login</a></li>
-                    <li><a href="{{ route('registro') }}">registrarse</a></li>
+                    <li><a href="{{ route('login') }}"><i class="fa-solid fa-right-to-bracket"></i>&nbsp;Login</a></li>
+                    <li><a href="{{ route('registro') }}">Registrarse &nbsp;<i class="fa-solid fa-pen-to-square"></i></a></li>
                 </ul>
                 @endif
+                @endguest
+                @auth
+                <ul class="menuHeader">
+                    <li><a href="{{ route('logout') }}">Logout &nbsp;<i class="fa-solid fa-arrow-right-from-bracket"></i></a></li>
+                </ul>
+                @endauth
             </div>
         </header>
 
@@ -41,6 +50,8 @@
         </footer>
 
     </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
     <script src="/js/scripts.js"></script>
     <scrip src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
         </script>

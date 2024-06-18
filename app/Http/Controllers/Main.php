@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 class Main extends Controller
 {
+
     public function registro(){
         
         $bool = false;
@@ -42,14 +43,15 @@ class Main extends Controller
     public function dashboard(){
 
         
-        $bool = false;
+        $user = auth()->user();
 
         $data = [
-            'menu' => $bool
+            'user' => $user
         ];
 
 
         return view('dashboard.main', $data);
-
     }
+
+
 }

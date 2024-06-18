@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DisponibilidadController;
 use App\Http\Controllers\Main;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -18,4 +19,11 @@ Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [Main::class, 'dashboard'])->name('dashboard');
+
+    Route::get('/disponibilidad', [DisponibilidadController::class, 'disp'])->name('disponibilidad');
+    Route::get('/edicion-horario', [DisponibilidadController::class, 'dispoedit'])->name('disp-horaria-edit');
+
+    
+    Route::post('/update-disp', [DisponibilidadController::class, 'update'])->name('update-disp');
+
 });

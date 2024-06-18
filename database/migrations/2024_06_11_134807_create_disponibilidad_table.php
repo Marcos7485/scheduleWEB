@@ -15,8 +15,13 @@ return new class extends Migration
             $table->id();
             $table->integer('idUser');
             $table->integer('moth');
-            $table->integer('day');
-            $table->integer('hour');
+            $table->string('lunes');
+            $table->string('martes');
+            $table->string('miercoles');
+            $table->string('jueves');
+            $table->string('viernes');
+            $table->string('sabado');
+            $table->string('domingo');
             $table->tinyInteger('active')->default(1);
             $table->timestamps();
         });
