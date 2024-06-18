@@ -28,7 +28,7 @@ class UserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('schedule'));
+        return redirect(route('dashboard'));
     }
 
 
@@ -37,10 +37,11 @@ class UserController extends Controller
     {
         $credentials = $request->only('email', 'password');
         $remember = $request->filled('remember');
+ 
 
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
-            return redirect()->intended(route('schedule'));
+            return redirect()->intended(route('dashboard'));
         }
 
         return redirect()->back()->withErrors([
@@ -58,6 +59,6 @@ class UserController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect(route('index'));
+        return redirect(route('welcome'));
     }
 }

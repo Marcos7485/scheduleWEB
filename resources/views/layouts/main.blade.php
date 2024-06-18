@@ -16,13 +16,15 @@
 
         <header>
             <div class="banner">
-                <img src="/img/icon.webp">
+                <a href="{{ route('welcome') }}"><img src="/img/icon.webp"></a>
             </div>
             <div>
+                @if ($menu == true)
                 <ul class="menuHeader">
                     <li><a href="{{ route('login') }}">Login</a></li>
                     <li><a href="{{ route('registro') }}">registrarse</a></li>
                 </ul>
+                @endif
             </div>
         </header>
 
