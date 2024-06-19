@@ -31,6 +31,7 @@
                 @endguest
                 @auth
                 <ul class="menuHeader">
+                    <a href="{{ route('dashboard') }}"><li><i class="fa-solid fa-house"></i></li></a>
                     <li><a href="{{ route('logout') }}">Logout &nbsp;<i class="fa-solid fa-arrow-right-from-bracket"></i></a></li>
                 </ul>
                 @endauth

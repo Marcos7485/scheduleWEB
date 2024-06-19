@@ -64,6 +64,7 @@ body {
 header ul a {
     text-decoration: none;
     padding-right: 20px;
+    color:#C2E150;
 }
 
 /* ////////////////////////////////////////////////////////////////////////////// */
@@ -205,7 +206,7 @@ header ul a {
     justify-content: center;
 }
 
-.form1 table{
+#disp-horaria{
     text-align: center;
     box-shadow: -2px 2px 2px #7D99B2;
     background-color: #C2E150;
@@ -213,16 +214,33 @@ header ul a {
     color: #000000;
 }
 
+#disp-horaria-todas {
+    text-align: center;
+    box-shadow: -2px 2px 2px white;
+    margin-top: 7px;
+    margin-left: 5px;
+    background-color: #7D99B2;
+    color: #000000;
+}
+
+#disp-horaria-todas td select {
+    display: inline-block;
+    margin-right: 5px; /* Espacio opcional entre los selectores */
+    margin-bottom: 5px; /* Espacio opcional entre los selectores */
+}
+
+
+
 .form1 table td select {
     display: inline-block;
     margin-right: 5px; /* Espacio opcional entre los selectores */
-  }
+}
 
 .form1 table thead tr th{
     text-align: center;
 }
 
-.form1 h1{
+.tituloPagina{
     text-align: center;
     font-size: 2vw;
 }

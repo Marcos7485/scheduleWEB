@@ -22,8 +22,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/disponibilidad', [DisponibilidadController::class, 'disp'])->name('disponibilidad');
     Route::get('/edicion-horario', [DisponibilidadController::class, 'dispoedit'])->name('disp-horaria-edit');
-
-    
     Route::post('/update-disp', [DisponibilidadController::class, 'update'])->name('update-disp');
+    Route::post('/update-disp-todas', [DisponibilidadController::class, 'updateTodas'])->name('update-disp-todas');
 
 });

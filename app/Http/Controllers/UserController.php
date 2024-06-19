@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginPostRequest;
 use App\Http\Requests\RegistroPostRequest;
+use App\Models\Disponibilidad;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +15,7 @@ class UserController extends Controller
     public function registro(RegistroPostRequest $request)
     {
         $user = new User();
+        $disponibilidad = new Disponibilidad();
 
         $user->idEmpresa = null;
         $user->name = $request->name;
@@ -27,6 +29,18 @@ class UserController extends Controller
         $user->save();
 
         Auth::login($user);
+
+        $disponibilidad->idUser = $user->id;
+        $disponibilidad->lunes = json_encode("Cerrado");
+        $disponibilidad->martes = json_encode("Cerrado");
+        $disponibilidad->miercoles = json_encode("Cerrado");
+        $disponibilidad->jueves = json_encode("Cerrado");
+        $disponibilidad->viernes = json_encode("Cerrado");
+        $disponibilidad->sabado = json_encode("Cerrado");
+        $disponibilidad->domingo = json_encode("Cerrado");
+        $disponibilidad->active = "1";
+
+        $disponibilidad->save();
 
         return redirect(route('dashboard'));
     }
