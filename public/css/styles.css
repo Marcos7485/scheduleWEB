@@ -17,6 +17,11 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+
+}
+
+html{
+    background-color: #000000;
 }
 
 .container-fluid {
@@ -24,6 +29,7 @@ body {
     color: #FFFFFF;
     overflow: hidden;
 }
+
 
 /* ////////////////////////////////////////////////////////////////////////////// */
 
@@ -172,7 +178,7 @@ header ul a {
 
 .page_5 {
     background-color: #000000;
-    height: 100vh;
+    height: 70vh;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -200,7 +206,7 @@ header ul a {
 
 .form1 {
     background-color: #000000;
-    height: 100vh;
+    height: 62vh;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -285,3 +291,14 @@ header ul a {
     text-align: center;
 }
 
+#turnos-week th{
+    text-align: center;
+}
+
+.pageturnos table{
+    text-align: center;
+    box-shadow: -2px 2px 2px #7D99B2;
+    background-color: #C2E150;
+    border-radius: 20px;
+    color: #000000;
+}

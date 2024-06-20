@@ -15,9 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('idCliente');
             $table->integer('idUser');
-            $table->string('month');
-            $table->string('day');
-            $table->string('hour');
+            $table->datetime('fecha'); // Columna de fecha
             $table->string('status');
             $table->tinyInteger('active')->default(1);
             $table->timestamps();

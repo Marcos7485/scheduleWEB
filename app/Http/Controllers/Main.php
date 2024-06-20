@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class Main extends Controller
@@ -24,8 +23,9 @@ class Main extends Controller
         $bool = false;
 
         $data = [
-            'menu' => $bool
+            'menu' => $bool,
         ];
+
 
         return view('session.login', $data);
     }
@@ -34,8 +34,9 @@ class Main extends Controller
 
         $bool = true;
 
+
         $data = [
-            'menu' => $bool
+            'menu' => $bool,
         ];
 
         return view('welcome', $data);

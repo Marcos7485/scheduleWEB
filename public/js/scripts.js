@@ -24,6 +24,20 @@ $(document).ready(function () {
     });
 });
 
+$(document).ready(function () {
+    $('#turnos-week').DataTable({
+        paging: true,
+        pageLength: 5,
+        lengthChange: false, // Deshabilita la opción para cambiar el número de entradas por página
+        searching: false,
+        ordering: false,
+        language: {
+            info: "",
+            infoEmpty: "",
+        }
+    });
+});
+
 
 function mostrarOcultarInput(selectorId, inputId1, inputId2, inputId3, inputId4) {
     var selector = document.getElementsByName(selectorId)[0]; // Obtener el primer elemento con el nombre especificado

@@ -6,6 +6,7 @@ use App\Http\Requests\LoginPostRequest;
 use App\Http\Requests\RegistroPostRequest;
 use App\Models\Disponibilidad;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -51,11 +52,17 @@ class UserController extends Controller
     {
         $credentials = $request->only('email', 'password');
         $remember = $request->filled('remember');
+        $bool = true;
+
+
+        $data = [
+            'menu' => $bool,
+        ];
  
 
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
-            return redirect()->intended(route('dashboard'));
+            return redirect()->intended(route('dashboard', $data));
         }
 
         return redirect()->back()->withErrors([

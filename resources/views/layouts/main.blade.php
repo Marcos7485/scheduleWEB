@@ -1,3 +1,13 @@
+@php
+use Carbon\Carbon;
+
+Carbon::setLocale('es');
+$diahoy = Carbon::now()->translatedFormat('l'); // 'l' representa el día completo de la semana
+$numerohoy = Carbon::now()->format('d');
+$month = Carbon::now()->format('m'); // 'F' para el nombre completo del mes
+$year = Carbon::now()->format('Y');
+
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,20 +31,20 @@
                 <a href="{{ route('welcome') }}"><img src="/img/icon.webp"></a>
             </div>
             <div>
-                @guest
-                @if ($menu == true)
                 <ul class="menuHeader">
+                    @guest
+                    @if ($menu == true)
                     <li><a href="{{ route('login') }}"><i class="fa-solid fa-right-to-bracket"></i>&nbsp;Login</a></li>
                     <li><a href="{{ route('registro') }}">Registrarse &nbsp;<i class="fa-solid fa-pen-to-square"></i></a></li>
-                </ul>
-                @endif
-                @endguest
-                @auth
-                <ul class="menuHeader">
-                    <a href="{{ route('dashboard') }}"><li><i class="fa-solid fa-house"></i></li></a>
+                    @endif
+                    @endguest
+                    @auth
+                    <a href="{{ route('dashboard') }}">
+                        <li><i class="fa-solid fa-house"></i></li>
+                    </a>
                     <li><a href="{{ route('logout') }}">Logout &nbsp;<i class="fa-solid fa-arrow-right-from-bracket"></i></a></li>
+                    @endauth
                 </ul>
-                @endauth
             </div>
         </header>
 

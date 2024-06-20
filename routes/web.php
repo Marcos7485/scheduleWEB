@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Route;
 
 
 
+// Route::get('/secretline', [TurnosController::class, 'create']);
+
+
 Route::get('/', [Main::class, 'welcome'])->name('welcome');
 Route::get('/registro', [Main::class, 'registro'])->name('registro');
 Route::get('/login', [Main::class, 'login'])->name('login');
@@ -23,6 +26,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::view('/turnos', 'turnos.turnosMenu')->name('TurnosMenu');
     Route::get('/turnosHoy', [TurnosController::class, 'TurnosHoy'])->name('turnosHoy');
+    Route::get('/turnosWeek', [TurnosController::class, 'TurnosWeek'])->name('turnosWeek');
 
 
     Route::get('/disponibilidad', [DisponibilidadController::class, 'disp'])->name('disponibilidad');
