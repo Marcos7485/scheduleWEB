@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('disponibilidad', function (Blueprint $table) {
             $table->id();
             $table->integer('idUser');
-            $table->integer('moth');
             $table->string('lunes');
             $table->string('martes');
             $table->string('miercoles');

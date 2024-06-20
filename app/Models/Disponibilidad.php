@@ -12,7 +12,6 @@ class Disponibilidad extends Model
     protected $table = 'disponibilidad';
 
     protected $fillable = [
-        'moth',
         'lunes',
         'martes',
         'miercoles',

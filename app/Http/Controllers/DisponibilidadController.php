@@ -11,7 +11,7 @@ class DisponibilidadController extends Controller
     public function disp()
     {
         $user = Auth::user();
-        $disponibilidad = Disponibilidad::where('idUser', 'like', $user->id)->get();
+        $disponibilidad = Disponibilidad::where('idUser', $user->id)->get();
 
         $data = [
             "info" => $disponibilidad[0],
@@ -199,7 +199,7 @@ class DisponibilidadController extends Controller
     {
 
         $user = Auth::user();
-        $disponibilidad = Disponibilidad::where('idUser', 'like', $user->id)->get();
+        $disponibilidad = Disponibilidad::where('idUser', $user->id)->get();
 
         $data = [
             "info" => $disponibilidad[0],
