@@ -30,7 +30,8 @@ $(document).ready(function () {
         pageLength: 5,
         lengthChange: false, // Deshabilita la opción para cambiar el número de entradas por página
         searching: false,
-        ordering: false,
+        ordering: true,
+        order: [[0, 'asc']], // Ordenar por la segunda columna (índice 1) de forma ascendente
         language: {
             info: "",
             infoEmpty: "",

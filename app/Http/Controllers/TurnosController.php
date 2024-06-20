@@ -18,14 +18,13 @@ class TurnosController extends Controller
         // DATES:
         Carbon::setLocale('es');
         $diahoy = Carbon::now()->translatedFormat('l');  // 'l' representa el día completo de la semana
-        $numerohoy = Carbon::now()->format('d');
-        $month = Carbon::now()->format('m');    // 'F' para el nombre completo del mes
-        $year = Carbon::now()->format('Y');
-
+        $fechahoy = Carbon::now()->format('d/m/Y');
         $hoy = Carbon::now()->toDateString(); // Obtiene la fecha en formato 'YYYY-MM-DD'
 
         // Recuperar los turnos de hoy
-        $turnos = Turnos::whereDate('fechahora', $hoy)->get();
+        $turnos = Turnos::whereDate('fechahora', $hoy)
+        ->where('idUser', $user->id)
+        ->get();
 
 
         // Extraer la fecha y la hora de cada turno
@@ -60,9 +59,7 @@ class TurnosController extends Controller
             'turnos' => $turnos,
             'clientes' => $clientesHoy,
             'diahoy' => $diahoy,
-            'numerohoy' => $numerohoy,
-            'mes' => $month,
-            'year' => $year
+            'hoy' => $fechahoy
         ];
 
         return view('turnos.turnosHoy', $data);
@@ -71,30 +68,31 @@ class TurnosController extends Controller
 
     public function TurnosWeek()
     {
+
         $user = Auth::user();
         // DATES:
         Carbon::setLocale('es');
         $diahoy = Carbon::now()->translatedFormat('l');  // 'l' representa el día completo de la semana
-        $numerohoy = Carbon::now()->format('d');
-        $month = Carbon::now()->format('m');    // 'F' para el nombre completo del mes
-        $year = Carbon::now()->format('Y');
+        // Obtener la fecha en formato 'DD-MM-YYYY'
+        $hoy = Carbon::now()->format('d/m/Y');
 
-        $hoy = Carbon::now()->toDateString(); // Obtiene la fecha en formato 'YYYY-MM-DD'
+        // Obtener el inicio y el final de la semana actual
+        $inicioSemana = Carbon::now()->startOfWeek(Carbon::MONDAY); // Lunes de esta semana
+        $finSemana = Carbon::now()->endOfWeek(Carbon::SUNDAY); // Domingo de esta semana
 
-        // Recuperar los turnos de hoy
-        $turnos = Turnos::whereDate('fechahora', $hoy)->get();
+        // Recuperar los turnos de esta semana
+        $turnos = Turnos::whereBetween('fechahora', [$inicioSemana, $finSemana])
+        ->where('idUser', $user->id)
+        ->get();
 
-
-        // Extraer la fecha y la hora de cada turno
         $turnos->transform(function ($turno) {
-            // Convertir la cadena de fechahora en un objeto Carbon si aún no lo es
             $fechaCarbon = Carbon::parse($turno->fechahora); // Convertir a objeto Carbon
             $fecha = $fechaCarbon->toDateString(); // Obtener la fecha en formato 'YYYY-MM-DD'
             $hora = $fechaCarbon->format('H:i'); // Obtener la hora en formato 'HH:MM'
 
             // $nombreDia = $fechaCarbon->dayName; Obtener el nombre completo del día (por ejemplo, "Monday")
             // $nombreDiaAbreviado = $fechaCarbon->shortDayName; Obtener el nombre abreviado del día (por ejemplo, "Mon")
-            
+
             return [
                 'id' => $turno->id,
                 'idCliente' => $turno->idCliente,
@@ -110,25 +108,141 @@ class TurnosController extends Controller
 
         $index = count($turnos);
 
-        $clientesHoy = [];
+        $clientesWeek = [];
 
         // CLIENTES
         for ($i = 0; $i < $index; $i++) {
             $cliente = Cliente::where('id', $turnos[$i]['idCliente'])->get();
-            array_push($clientesHoy, $cliente[0]);
+            array_push($clientesWeek, $cliente[0]);
         }
 
         $data = [
             'turnos' => $turnos,
-            'clientes' => $clientesHoy,
+            'clientes' => $clientesWeek,
             'diahoy' => $diahoy,
-            'numerohoy' => $numerohoy,
-            'mes' => $month,
-            'year' => $year
+            'hoy' => $hoy
         ];
 
         return view('turnos.turnosWeek', $data);
     }
+
+
+    public function TurnosMonth()
+    {
+        $user = Auth::user();
+        // DATES:
+        Carbon::setLocale('es');
+        $diahoy = Carbon::now()->translatedFormat('l');  // 'l' representa el día completo de la semana
+        // Obtener la fecha en formato 'DD-MM-YYYY'
+        $hoy = Carbon::now()->format('d/m/Y');
+
+        // Obtener el inicio y el final del mes actual
+        $inicioMes = Carbon::now()->startOfMonth(); // Primer día del mes actual
+        $finMes = Carbon::now()->endOfMonth(); // Último día del mes actual
+
+        // Recuperar los turnos de esta semana
+        $turnos = Turnos::whereBetween('fechahora', [$inicioMes, $finMes])
+            ->where('idUser', $user->id)
+            ->get();
+
+
+        $turnos->transform(function ($turno) {
+            $fechaCarbon = Carbon::parse($turno->fechahora); // Convertir a objeto Carbon
+            $fecha = $fechaCarbon->toDateString(); // Obtener la fecha en formato 'YYYY-MM-DD'
+            $hora = $fechaCarbon->format('H:i'); // Obtener la hora en formato 'HH:MM'
+
+            // $nombreDia = $fechaCarbon->dayName; Obtener el nombre completo del día (por ejemplo, "Monday")
+            // $nombreDiaAbreviado = $fechaCarbon->shortDayName; Obtener el nombre abreviado del día (por ejemplo, "Mon")
+
+            return [
+                'id' => $turno->id,
+                'idCliente' => $turno->idCliente,
+                'idUser' => $turno->idUser,
+                'dianame' => $fechaCarbon->dayName,
+                'fecha' => $fecha,
+                'hora' => $hora,
+                'status' => $turno->status, // Asegúrate de que 'status' sea un atributo válido en tu modelo
+                'active' => $turno->active,
+            ];
+        });
+
+
+        $index = count($turnos);
+
+        $clientesWeek = [];
+
+        // CLIENTES
+        for ($i = 0; $i < $index; $i++) {
+            $cliente = Cliente::where('id', $turnos[$i]['idCliente'])->get();
+            array_push($clientesWeek, $cliente[0]);
+        }
+
+        $data = [
+            'turnos' => $turnos,
+            'clientes' => $clientesWeek,
+            'diahoy' => $diahoy,
+            'hoy' => $hoy
+        ];
+
+        return view('turnos.turnosMonth', $data);
+    }
+
+
+
+    public function All()
+    {
+
+        $user = Auth::user();
+        // DATES:
+        Carbon::setLocale('es');
+        $diahoy = Carbon::now()->translatedFormat('l');  // 'l' representa el día completo de la semana
+        // Obtener la fecha en formato 'DD-MM-YYYY'
+        $hoy = Carbon::now()->format('d/m/Y');
+
+        // Recuperar los turnos de esta semana
+        $turnos = Turnos::where('idUser', $user->id)->get();
+
+        $turnos->transform(function ($turno) {
+            $fechaCarbon = Carbon::parse($turno->fechahora); // Convertir a objeto Carbon
+            $fecha = $fechaCarbon->toDateString(); // Obtener la fecha en formato 'YYYY-MM-DD'
+            $hora = $fechaCarbon->format('H:i'); // Obtener la hora en formato 'HH:MM'
+
+            // $nombreDia = $fechaCarbon->dayName; Obtener el nombre completo del día (por ejemplo, "Monday")
+            // $nombreDiaAbreviado = $fechaCarbon->shortDayName; Obtener el nombre abreviado del día (por ejemplo, "Mon")
+
+            return [
+                'id' => $turno->id,
+                'idCliente' => $turno->idCliente,
+                'idUser' => $turno->idUser,
+                'dianame' => $fechaCarbon->dayName,
+                'fecha' => $fecha,
+                'hora' => $hora,
+                'status' => $turno->status, // Asegúrate de que 'status' sea un atributo válido en tu modelo
+                'active' => $turno->active,
+            ];
+        });
+
+
+        $index = count($turnos);
+
+        $clientesWeek = [];
+
+        // CLIENTES
+        for ($i = 0; $i < $index; $i++) {
+            $cliente = Cliente::where('id', $turnos[$i]['idCliente'])->get();
+            array_push($clientesWeek, $cliente[0]);
+        }
+
+        $data = [
+            'turnos' => $turnos,
+            'clientes' => $clientesWeek,
+            'diahoy' => $diahoy,
+            'hoy' => $hoy
+        ];
+
+        return view('turnos.turnosAll', $data);
+    }
+
 
 
 

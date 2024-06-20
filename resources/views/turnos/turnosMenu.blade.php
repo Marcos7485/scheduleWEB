@@ -17,13 +17,13 @@
                 <img src="">
             </div>
         </a>
-        <a href="#">
+        <a href="{{ route('turnosMonth') }}">
             <div>
                 <h1>Este mes</h1>
                 <img src="">
             </div>
         </a>
-        <a href="#">
+        <a href="{{ route('turnosAll') }}">
             <div>
                 <h1>Todos</h1>
                 <img src="">
