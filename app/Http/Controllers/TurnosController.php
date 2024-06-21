@@ -9,6 +9,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use function PHPUnit\Framework\isNull;
+
 class TurnosController extends Controller
 {
 
@@ -23,8 +25,8 @@ class TurnosController extends Controller
 
         // Recuperar los turnos de hoy
         $turnos = Turnos::whereDate('fechahora', $hoy)
-        ->where('idUser', $user->id)
-        ->get();
+            ->where('idUser', $user->id)
+            ->get();
 
 
         // Extraer la fecha y la hora de cada turno
@@ -82,8 +84,8 @@ class TurnosController extends Controller
 
         // Recuperar los turnos de esta semana
         $turnos = Turnos::whereBetween('fechahora', [$inicioSemana, $finSemana])
-        ->where('idUser', $user->id)
-        ->get();
+            ->where('idUser', $user->id)
+            ->get();
 
         $turnos->transform(function ($turno) {
             $fechaCarbon = Carbon::parse($turno->fechahora); // Convertir a objeto Carbon
@@ -244,38 +246,129 @@ class TurnosController extends Controller
     }
 
 
-
-
-    public function disponible()
+    public function darTurnos()
     {
 
-        $user = Auth::user();
 
-        $disponibilidad = Disponibilidad::where('idUser', $user->id)->get();
+        $link = 'HASHPRUEBA';
 
-        $data = [];
 
-        die('pendiente');
+
+        $data = ['link' => $link];
+
+
+        return view('turnos.darTurnos', $data);
     }
 
 
-    public function create()
+    public function crearTurnos()
+    {
+        $data = [
+            'message' => ""
+        ];
+
+        return view('turnos.turnosForm', $data);
+    }
+
+    public function getHorariosDisponibles(Request $request)
+    {
+        Carbon::setLocale('es');
+        $user = Auth::user();
+        $fecha = $request->query('fecha');
+
+        $fechaCarbon = Carbon::parse($fecha);
+        $nombreDiaSemana = $fechaCarbon->isoFormat('dddd');
+
+        // Array de reemplazo para quitar acentos
+        $acentos = ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'];
+        $sinAcentos = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
+
+        // Remover acentos del nombre del día de la semana
+        $nombreDiaSinAcentos = str_replace($acentos, $sinAcentos, $nombreDiaSemana);
+
+
+        $Disponibilidad = Disponibilidad::where('idUser', $user->id)->get();
+        $horarioDelDia = $Disponibilidad[0]->$nombreDiaSinAcentos;
+
+
+        $horariosDisponibles = json_decode($horarioDelDia);
+
+
+        $horainicio = Carbon::parse($horariosDisponibles[0] . ":" . $horariosDisponibles[1]);
+        $horafin = Carbon::parse($horariosDisponibles[2] . ":" . $horariosDisponibles[3]);
+
+        $lapsos = [];
+
+        $horaActual = $horainicio;
+
+        while ($horaActual < $horafin) {
+            $lapsos[] = $horaActual->format('H:i');
+            $horaActual->addMinutes(30);
+        }
+
+        $turnosOcupados = Turnos::whereDate('fechahora', $fechaCarbon->toDateString())->get();
+
+        $index = count($turnosOcupados);
+        $ocupado = [];
+
+        for ($i = 0; $i < $index; $i++) {
+            $a = Carbon::parse($turnosOcupados[$i]->fechahora);
+
+            array_push($ocupado, $a->format('H:i'));
+        }
+
+        $lapsosDisponibles = array_diff($lapsos, $ocupado);
+        $lapsosDisponibles = array_values($lapsosDisponibles);
+
+        return response()->json($lapsosDisponibles);
+    }
+
+    public function create(Request $request)
     {
 
-        $input = '2024-06-24 16:00:00';
-        // Datos para crear un nuevo turno
-        $idUser = 1;
-        $idCliente = 1;
-        $fechahora = Carbon::parse($input); // Convertir la fecha usando Carbon 
-        $active = 1;
-
-        // Crear el turno
+        $user = Auth::user();
         $turno = new Turnos();
-        $turno->idUser = $idUser;
-        $turno->idCliente = $idCliente;
-        $turno->fechahora = $fechahora;
+
+        $telefono = $request->telefono;
+
+        $exist = Cliente::where('telefono', $telefono)->get();
+
+        if ($exist->isEmpty()) {
+            // No hay resultados que coincidan con el teléfono proporcionado
+            $cliente = new Cliente;
+            $cliente->nombre = $request->name;
+            $cliente->telefono = $telefono;
+            $cliente->frequency = 1;
+            $cliente->save();
+        } else {
+            // Hay resultados que coinciden con el teléfono proporcionado
+            $exist[0]->frequency = $exist[0]->frequency + 1;
+            $exist[0]->save();
+        }
+
+
+        $persona = Cliente::where('telefono', $telefono)->get();
+
+        $fecha = $request->fecha;
+        $horario = $request->horario;
+
+        $fechaHoraString = $fecha . ' ' . $horario . ':00';
+
+        // Usa Carbon para crear una instancia de fecha y hora y formatearla correctamente
+        $fechaHora = Carbon::parse($fechaHoraString);
+
+        $turno->idCliente = $persona[0]->id;
+        $turno->idUser = $user->id;
+        $turno->fechahora = $fechaHora;
         $turno->status = 'PENDIENTE';
-        $turno->active = $active;
+        $turno->active = 1;
         $turno->save();
+
+
+        $data = [
+            'message' => "Turno guardado exitosamente"
+        ];
+
+        return view('turnos.turnosForm', $data);
     }
 }

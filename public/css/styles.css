@@ -20,7 +20,7 @@ body {
 
 }
 
-html{
+html {
     background-color: #000000;
 }
 
@@ -70,7 +70,7 @@ html{
 header ul a {
     text-decoration: none;
     padding-right: 20px;
-    color:#C2E150;
+    color: #C2E150;
 }
 
 /* ////////////////////////////////////////////////////////////////////////////// */
@@ -152,7 +152,7 @@ header ul a {
     justify-content: center;
 }
 
-.dashboard-menu a{
+.dashboard-menu a {
     text-decoration: none;
 
 }
@@ -170,7 +170,7 @@ header ul a {
     margin-bottom: 2vw;
 }
 
-.dashboard-menu div h1{
+.dashboard-menu div h1 {
     font-size: 2vw;
 }
 
@@ -184,7 +184,7 @@ header ul a {
     justify-content: center;
 }
 
-.page_5 table{
+.page_5 table {
     text-align: center;
     box-shadow: -2px 2px 2px #7D99B2;
     background-color: #C2E150;
@@ -192,11 +192,11 @@ header ul a {
     color: #000000;
 }
 
-.page_5 table thead tr th{
+.page_5 table thead tr th {
     text-align: center;
 }
 
-.page_5 h1{
+.page_5 h1 {
     text-align: center;
     font-size: 2vw;
 }
@@ -212,7 +212,7 @@ header ul a {
     justify-content: center;
 }
 
-#disp-horaria{
+#disp-horaria {
     text-align: center;
     box-shadow: -2px 2px 2px #7D99B2;
     background-color: #C2E150;
@@ -231,22 +231,25 @@ header ul a {
 
 #disp-horaria-todas td select {
     display: inline-block;
-    margin-right: 5px; /* Espacio opcional entre los selectores */
-    margin-bottom: 5px; /* Espacio opcional entre los selectores */
+    margin-right: 5px;
+    /* Espacio opcional entre los selectores */
+    margin-bottom: 5px;
+    /* Espacio opcional entre los selectores */
 }
 
 
 
 .form1 table td select {
     display: inline-block;
-    margin-right: 5px; /* Espacio opcional entre los selectores */
+    margin-right: 5px;
+    /* Espacio opcional entre los selectores */
 }
 
-.form1 table thead tr th{
+.form1 table thead tr th {
     text-align: center;
 }
 
-.tituloPagina{
+.tituloPagina {
     text-align: center;
     font-size: 2vw;
 }
@@ -255,7 +258,7 @@ header ul a {
 
 
 
-.dashboard-menu-turnos a{
+.dashboard-menu-turnos a {
     text-decoration: none;
 
 }
@@ -263,8 +266,8 @@ header ul a {
 .dashboard-menu-turnos div {
     display: flex;
     justify-content: center;
-    box-shadow: 2px 2px 1px #7D99B2;
-    background-color:#C2E150;
+    box-shadow: 2px 2px 1px #FFFFFF;
+    background-color: #7D99B2;
     border-radius: 20px;
     color: #000000;
     width: 20vw;
@@ -273,7 +276,7 @@ header ul a {
     margin-bottom: 2vw;
 }
 
-.dashboard-menu-turnos div h1{
+.dashboard-menu-turnos div h1 {
     font-size: 2vw;
 }
 
@@ -287,18 +290,53 @@ header ul a {
     justify-content: center;
 }
 
-#turnos-hoy th{
+#turnos-hoy th {
     text-align: center;
 }
 
-#turnos-week th{
+#turnos-week th {
     text-align: center;
 }
 
-.pageturnos table{
+.pageturnos table {
     text-align: center;
     box-shadow: -2px 2px 2px #7D99B2;
     background-color: #C2E150;
     border-radius: 20px;
     color: #000000;
+}
+
+/* ///////////////////////////////////////////////////////////////////////////////////////// */
+
+.darturnospage{
+    height: 40vh;
+    width: 100%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.input-text{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10vh;
+}
+
+.card-link {
+    padding: 1vw;
+    height: 10vh;
+    width: 20vw;
+    text-align: center;
+    box-shadow: -2px 2px 2px #7D99B2;
+    background-color: #C2E150;
+    border-radius: 20px;
+    color: #000000;
+}
+
+.Page_10{
+    height: 60vh;
+    width: 100%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
 }

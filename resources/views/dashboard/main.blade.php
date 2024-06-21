@@ -11,7 +11,7 @@
                 <img src="">
             </div>
         </a>
-        <a href="#">
+        <a href="{{ route('darTurnos') }}">
             <div>
                 <h1>Dar Turnos</h1>
                 <img src="">

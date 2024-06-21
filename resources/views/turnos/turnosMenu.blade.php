@@ -29,6 +29,7 @@
                 <img src="">
             </div>
         </a>
+        <a href="{{ route('dashboard') }}" class="btn btn-success">volver</a>
     </div>
 </div>
 @endsection

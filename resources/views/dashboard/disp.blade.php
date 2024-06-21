@@ -23,7 +23,7 @@
                 <tr>
                     <td>Estado</td>
                     @if(json_decode($info->lunes) !== "Cerrado")
-                    <td><button class="btn btn-success" >Abierto</button></td>
+                    <td><button class="btn btn-success">Abierto</button></td>
                     @else
                     <td><button class="btn btn-danger" disabled>Cerrado</button></td>
                     @endif
@@ -137,7 +137,8 @@
             </tbody>
         </table>
         <div class="text-center">
-            <a href="{{ route('disp-horaria-edit') }}"><button class="btn btn-success">Modificar &nbsp;<i class="fa-solid fa-pen-to-square"></i></button></a>
+            <a href="{{ route('dashboard') }}" class="btn btn-success">volver</a>
+            <a href="{{ route('disp-horaria-edit') }}"><button class="btn btn-warning">Modificar &nbsp;<i class="fa-solid fa-pen-to-square"></i></button></a>
         </div>
     </div>
 </div>
