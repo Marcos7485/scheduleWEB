@@ -20,7 +20,11 @@
                     <td>{{$turnos[$i]['hora']}}</td>
                     <td>{{ $clientes[$i]->nombre }}</td>
                     <td><a href="https://wa.me/54{{ $clientes[$i]->telefono }}"  style="text-decoration: none;">{{ $clientes[$i]->telefono }}&nbsp;<i class="fa-brands fa-whatsapp"></i></a></td>
-                    <td>{{ $turnos[$i]['status'] }}</td>
+                    @if ($turnos[$i]['status'] == 'PENDIENTE')
+                    <td style="color:green;">{{ $turnos[$i]['status'] }}</td>
+                    @else
+                    <td style="color:red">{{ $turnos[$i]['status'] }}</td>
+                    @endif
                     </tr>
                     @endfor
             </tbody>

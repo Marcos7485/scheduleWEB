@@ -20,6 +20,8 @@ class TurnosController extends Controller
     public function TurnosHoy()
     {
         $user = Auth::user();
+
+
         // DATES:
         Carbon::setLocale('es');
         $diahoy = Carbon::now()->translatedFormat('l');  // 'l' representa el día completo de la semana
@@ -79,6 +81,7 @@ class TurnosController extends Controller
         Carbon::setLocale('es');
         $diahoy = Carbon::now()->translatedFormat('l');  // 'l' representa el día completo de la semana
         // Obtener la fecha en formato 'DD-MM-YYYY'
+
         $hoy = Carbon::now()->format('d/m/Y');
 
         // Obtener el inicio y el final de la semana actual
@@ -89,6 +92,15 @@ class TurnosController extends Controller
         $turnos = Turnos::whereBetween('fechahora', [$inicioSemana, $finSemana])
             ->where('idUser', $user->id)
             ->get();
+
+        $fechayhoraActual = Carbon::now();
+        foreach ($turnos as $turno) {
+            if ($turno->fechahora < $fechayhoraActual) {
+                $turno->active = 0;
+                $turno->status = 'FINALIZADO';
+                $turno->save();
+            }
+        }
 
         $turnos->transform(function ($turno) {
             $fechaCarbon = Carbon::parse($turno->fechahora); // Convertir a objeto Carbon
@@ -150,7 +162,15 @@ class TurnosController extends Controller
             ->where('idUser', $user->id)
             ->get();
 
-
+        $fechayhoraActual = Carbon::now();
+        foreach ($turnos as $turno) {
+            if ($turno->fechahora < $fechayhoraActual) {
+                $turno->active = 0;
+                $turno->status = 'FINALIZADO';
+                $turno->save();
+            }
+        }
+        
         $turnos->transform(function ($turno) {
             $fechaCarbon = Carbon::parse($turno->fechahora); // Convertir a objeto Carbon
             $fecha = $fechaCarbon->toDateString(); // Obtener la fecha en formato 'YYYY-MM-DD'
@@ -532,9 +552,6 @@ class TurnosController extends Controller
 
             return view('turnos.linkCaducado', $data);
         } else {
-
-
-
 
             $turno = new Turnos();
 

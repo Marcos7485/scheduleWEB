@@ -17,6 +17,17 @@ Archivo de las traducciones al español, junto a la modificacion del archivo .en
 
 # schedule
 
+# falta:
+
+
+- Colocar en Turnos menu la opcion, semana proxima.
+
+- Recordatorios por Telegram.
+
+- Autenticacion de registro de usuario, el telegram.
+
+
+
 
 
 # Repasar conceptos:
