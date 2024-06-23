@@ -65,40 +65,5 @@ function mostrarOcultarInput(selectorId, inputId1, inputId2, inputId3, inputId4)
     }
 }
 
-function copyToClipboard(link) {
-    navigator.clipboard.writeText(link).then(function () {
-        alert("Link copiado");
-    }, function (err) {
-        alert("Error: ", err);
-    });
-}
 
 
-const fechaInput = document.getElementById('fecha');
-const horarioSelect = document.getElementById('horario');
-
-fechaInput.addEventListener('change', function () {
-    const fecha = fechaInput.value;
-    if (fecha) {
-        fetch(`/api/horarios?fecha=${fecha}`)
-            .then(response => response.json())
-            .then(data => {
-                horarioSelect.innerHTML = '<option value="">Seleccione un horario</option>';
-                data.forEach(horario => {
-                    const option = document.createElement('option');
-                    option.value = horario;
-                    option.textContent = horario;
-                    horarioSelect.appendChild(option);
-                });
-                horarioSelect.disabled = false;
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                horarioSelect.disabled = true;
-                horarioSelect.innerHTML = '<option value="">No disponible</option>';
-            });
-    } else {
-        horarioSelect.disabled = true;
-        horarioSelect.innerHTML = '<option value="">Seleccione una fecha primero</option>';
-    }
-});

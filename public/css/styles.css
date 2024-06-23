@@ -313,7 +313,12 @@ header ul a {
     width: 100%;
     align-items: center;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+}
+
+.darturnospage div{
+    margin-bottom: 1vw;
 }
 
 .input-text{
@@ -333,8 +338,26 @@ header ul a {
     color: #000000;
 }
 
+
 .Page_10{
     height: 60vh;
+    width: 100%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+/* /////////////////////////////////////////////////////////////////////////// */
+
+.LinkCaducado{
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.createClienteTurno{
+    height: 70vh;
     width: 100%;
     align-items: center;
     display: flex;

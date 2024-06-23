@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Cliente;
 use App\Models\Disponibilidad;
 use App\Models\Turnos;
+use App\Models\TurnosHash;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 use function PHPUnit\Framework\isNull;
 
@@ -249,16 +252,80 @@ class TurnosController extends Controller
     public function darTurnos()
     {
 
-
-        $link = 'HASHPRUEBA';
-
-
+        $link = '---------------';
 
         $data = ['link' => $link];
 
-
         return view('turnos.darTurnos', $data);
     }
+
+    public function generateTurnosHash(Request $request)
+    {
+
+        $Turnoshash = new TurnosHash();
+        $user = Auth::user();
+
+        $fechaLimite = Carbon::now()->subDays(2)->toDateString();
+
+
+        // /////////////////Eliminar Registros viejos activos//////////
+
+        $TurnosViejos = TurnosHash::whereDate('created_at', '<=', $fechaLimite)->get();
+        foreach ($TurnosViejos as $turnos) {
+            $turnos->delete();
+        }
+
+        // /////////////////HASH////////////////////////////////////////////
+
+        $randomBytes = random_bytes(32);
+        $randomString = bin2hex($randomBytes);
+        $hash = hash('ripemd160', $randomString);
+        $link = route('registrar-turno', ['token' => $hash]);
+
+        // ////////////////SAVEHASH/////////////////////////////////////////
+
+        $Turnoshash->idUser = $user->id;
+        $Turnoshash->hash = $hash;
+        $Turnoshash->active = 1;
+        $Turnoshash->save();
+
+        // ////////////////////////////////////////////////////////////
+
+        return response()->json(['link' => $link]);
+    }
+
+
+    public function registrarTurno($token)
+    {
+
+        $Turno = TurnosHash::where('hash', $token)
+            ->where('active', 1)
+            ->get();
+
+        if ($Turno->isEmpty()) {
+            $data = [
+                'menu' => false
+            ];
+            return view('turnos.linkCaducado', $data);
+        } else {
+
+            $user = User::where('id', $Turno[0]->idUser)->get();
+
+            $nombreUser = $user[0]->name;
+            $idUser = $user[0]->id;
+
+            $data = [
+                'menu' => false,
+                'usuarioNombre' => $nombreUser,
+                'usuarioId' => $idUser,
+                'message' => '',
+                'token' => $token
+            ];
+
+            return view('turnos.crearTurno', $data);
+        }
+    }
+
 
 
     public function crearTurnos()
@@ -306,7 +373,65 @@ class TurnosController extends Controller
             $horaActual->addMinutes(30);
         }
 
-        $turnosOcupados = Turnos::whereDate('fechahora', $fechaCarbon->toDateString())->get();
+        $turnosOcupados = Turnos::whereDate('fechahora', $fechaCarbon->toDateString())
+            ->where('idUser', $user->id)
+            ->get();
+
+        $index = count($turnosOcupados);
+        $ocupado = [];
+
+        for ($i = 0; $i < $index; $i++) {
+            $a = Carbon::parse($turnosOcupados[$i]->fechahora);
+
+            array_push($ocupado, $a->format('H:i'));
+        }
+
+        $lapsosDisponibles = array_diff($lapsos, $ocupado);
+        $lapsosDisponibles = array_values($lapsosDisponibles);
+
+        return response()->json($lapsosDisponibles);
+    }
+
+
+    public function getHorariosDisponiblesCliente(Request $request)
+    {
+        Carbon::setLocale('es');
+        $userId = $request->query('usp');
+        $fecha = $request->query('fecha');
+
+        $fechaCarbon = Carbon::parse($fecha);
+        $nombreDiaSemana = $fechaCarbon->isoFormat('dddd');
+
+        // Array de reemplazo para quitar acentos
+        $acentos = ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'];
+        $sinAcentos = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
+
+        // Remover acentos del nombre del día de la semana
+        $nombreDiaSinAcentos = str_replace($acentos, $sinAcentos, $nombreDiaSemana);
+
+
+        $Disponibilidad = Disponibilidad::where('idUser', $userId)->get();
+        $horarioDelDia = $Disponibilidad[0]->$nombreDiaSinAcentos;
+
+
+        $horariosDisponibles = json_decode($horarioDelDia);
+
+
+        $horainicio = Carbon::parse($horariosDisponibles[0] . ":" . $horariosDisponibles[1]);
+        $horafin = Carbon::parse($horariosDisponibles[2] . ":" . $horariosDisponibles[3]);
+
+        $lapsos = [];
+
+        $horaActual = $horainicio;
+
+        while ($horaActual < $horafin) {
+            $lapsos[] = $horaActual->format('H:i');
+            $horaActual->addMinutes(30);
+        }
+
+        $turnosOcupados = Turnos::whereDate('fechahora', $fechaCarbon->toDateString())
+            ->where('idUser', $userId)
+            ->get();
 
         $index = count($turnosOcupados);
         $ocupado = [];
@@ -329,26 +454,6 @@ class TurnosController extends Controller
         $user = Auth::user();
         $turno = new Turnos();
 
-        $telefono = $request->telefono;
-
-        $exist = Cliente::where('telefono', $telefono)->get();
-
-        if ($exist->isEmpty()) {
-            // No hay resultados que coincidan con el teléfono proporcionado
-            $cliente = new Cliente;
-            $cliente->nombre = $request->name;
-            $cliente->telefono = $telefono;
-            $cliente->frequency = 1;
-            $cliente->save();
-        } else {
-            // Hay resultados que coinciden con el teléfono proporcionado
-            $exist[0]->frequency = $exist[0]->frequency + 1;
-            $exist[0]->save();
-        }
-
-
-        $persona = Cliente::where('telefono', $telefono)->get();
-
         $fecha = $request->fecha;
         $horario = $request->horario;
 
@@ -357,18 +462,160 @@ class TurnosController extends Controller
         // Usa Carbon para crear una instancia de fecha y hora y formatearla correctamente
         $fechaHora = Carbon::parse($fechaHoraString);
 
-        $turno->idCliente = $persona[0]->id;
-        $turno->idUser = $user->id;
-        $turno->fechahora = $fechaHora;
-        $turno->status = 'PENDIENTE';
-        $turno->active = 1;
-        $turno->save();
+        $verificador = Turnos::where('fechahora', $fechaHora)
+            ->where('idUser', $user->id)
+            ->get();
+
+        if ($verificador->isEmpty()) {
+
+            $telefono = $request->telefono;
+
+            $exist = Cliente::where('telefono', $telefono)->get();
+
+            if ($exist->isEmpty()) {
+                // No hay resultados que coincidan con el teléfono proporcionado
+                $cliente = new Cliente;
+                $cliente->nombre = $request->name;
+                $cliente->telefono = $telefono;
+                $cliente->frequency = 1;
+                $cliente->save();
+            } else {
+                // Hay resultados que coinciden con el teléfono proporcionado
+                $exist[0]->frequency = $exist[0]->frequency + 1;
+                $exist[0]->save();
+            }
 
 
-        $data = [
-            'message' => "Turno guardado exitosamente"
-        ];
+            $persona = Cliente::where('telefono', $telefono)->get();
 
-        return view('turnos.turnosForm', $data);
+
+
+            $turno->idCliente = $persona[0]->id;
+            $turno->idUser = $user->id;
+            $turno->fechahora = $fechaHora;
+            $turno->status = 'PENDIENTE';
+            $turno->active = 1;
+            $turno->save();
+
+
+            $data = [
+                'message' => "Turno guardado exitosamente"
+            ];
+
+            return view('turnos.turnosForm', $data);
+        } else {
+
+            $data = [
+                'message' => "Ese turno ya fue agendado anteriormente"
+            ];
+
+            return view('turnos.turnosForm', $data);
+        }
+    }
+
+    public function createTurnoCliente(Request $request)
+    {
+
+        $user = $request->usId;
+        $token = $request->token;
+        $userDate = User::where('id', $user)->get();
+        $userName = $userDate[0]->name;
+
+        $tokenActivoVerif = TurnosHash::where('hash', $token)
+            ->where('active', 1)
+            ->get();
+
+        if ($tokenActivoVerif->isEmpty()) {
+            $data = [
+                'menu' => false,
+            ];
+
+            return view('turnos.linkCaducado', $data);
+        } else {
+
+
+
+
+            $turno = new Turnos();
+
+            $fecha = $request->fecha;
+            $horario = $request->horario;
+
+            $fechaHoraString = $fecha . ' ' . $horario . ':00';
+
+            // Usa Carbon para crear una instancia de fecha y hora y formatearla correctamente
+            $fechaHora = Carbon::parse($fechaHoraString);
+
+            $verificador = Turnos::where('fechahora', $fechaHora)
+                ->where('idUser', $user)
+                ->get();
+
+            if ($verificador->isEmpty()) {
+
+                $telefono = $request->telefono;
+
+                $exist = Cliente::where('telefono', $telefono)->get();
+
+                if ($exist->isEmpty()) {
+                    // No hay resultados que coincidan con el teléfono proporcionado
+                    $cliente = new Cliente;
+                    $cliente->nombre = $request->name;
+                    $cliente->telefono = $telefono;
+                    $cliente->frequency = 1;
+                    $cliente->save();
+                } else {
+                    // Hay resultados que coinciden con el teléfono proporcionado
+                    $exist[0]->frequency = $exist[0]->frequency + 1;
+                    $exist[0]->save();
+                }
+
+
+                $persona = Cliente::where('telefono', $telefono)->get();
+
+
+
+                $turno->idCliente = $persona[0]->id;
+                $turno->idUser = $user;
+                $turno->fechahora = $fechaHora;
+                $turno->status = 'PENDIENTE';
+                $turno->active = 1;
+                $turno->save();
+
+                $TurnoInfo = Turnos::where('fechahora', $fechaHora)
+                    ->where('idCliente', $persona[0]->id)
+                    ->where('idUser', $user)
+                    ->where('active', 1)
+                    ->get();
+
+
+                TurnosHash::updateOrCreate(
+                    ['hash' => $token], // Condición para encontrar el registro existente
+                    [
+                        'active' => 0,
+                        'idTurno' => $TurnoInfo[0]->id
+                    ]
+                );
+
+                $data = [
+                    'fecha' => $fecha,
+                    'horario' => $horario,
+                    'cliente' => $request->name,
+                    'userName' => $userName,
+                    'menu' => false
+                ];
+
+                return view('turnos.turnoConfirmation', $data);
+            } else {
+
+                $data = [
+                    'menu' => false,
+                    'usuarioNombre' => $userName,
+                    'usuarioId' => $user,
+                    'message' => "El turno seleccionado no se encuentra disponible"
+                ];
+
+                return view('turnos.crearTurno', $data);
+            }
+        }
     }
 }

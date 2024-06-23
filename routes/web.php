@@ -19,6 +19,10 @@ Route::get('/login', [Main::class, 'login'])->name('login');
 Route::post('/validar-registro', [UserController::class, 'registro'])->name('validar-registro');
 Route::post('/inicia-sesion', [UserController::class, 'login'])->name('inicia-sesion');
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
+Route::get('/registrarTurno/{token}', [TurnosController::class, 'registrarTurno'])->name('registrar-turno');
+Route::get('/api/horarioscliente/', [TurnosController::class, 'getHorariosDisponiblesCliente']);
+Route::post('/createTurnoCliente', [TurnosController::class, 'createTurnoCliente'])->name('turnos-createCliente');
+
 
 
 Route::middleware(['auth'])->group(function () {
@@ -35,9 +39,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/createup', [TurnosController::class, 'create'])->name('turnos-create');
     Route::get('/api/horarios', [TurnosController::class, 'getHorariosDisponibles']);
-
-    
-    
+    Route::post('/api/hash', [TurnosController::class, 'generateTurnosHash']);
     
 
 

@@ -16,3 +16,9 @@ Archivo de las traducciones al español, junto a la modificacion del archivo .en
 
 
 # schedule
+
+
+
+# Repasar conceptos:
+- Fetch javascript para conectar html con controller.
+- Encriptacion
