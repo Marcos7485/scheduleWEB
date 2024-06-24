@@ -25,12 +25,41 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
+    $('#turnos-hoycel').DataTable({
+        paging: true,
+        pageLength: 5,
+        lengthChange: false, // Deshabilita la opción para cambiar el número de entradas por página
+        searching: false,
+        ordering: false,
+        language: {
+            info: "",
+            infoEmpty: "",
+        }
+    });
+});
+
+$(document).ready(function () {
     $('#turnos-week').DataTable({
         paging: true,
         pageLength: 5,
         lengthChange: false, // Deshabilita la opción para cambiar el número de entradas por página
         searching: false,
         ordering: true,
+        order: [[0, 'asc']], // Ordenar por la segunda columna (índice 1) de forma ascendente
+        language: {
+            info: "",
+            infoEmpty: "",
+        }
+    });
+});
+
+$(document).ready(function () {
+    $('#turnos-weekcel').DataTable({
+        paging: true,
+        pageLength: 5,
+        lengthChange: false, // Deshabilita la opción para cambiar el número de entradas por página
+        searching: false,
+        ordering: false,
         order: [[0, 'asc']], // Ordenar por la segunda columna (índice 1) de forma ascendente
         language: {
             info: "",

@@ -29,6 +29,13 @@ html {
     overflow: hidden;
 }
 
+.show {
+    display: block !important;
+}
+
+.hide {
+    display: none !important;
+}
 
 /* ////////////////////////////////////////////////////////////////////////////// */
 
@@ -365,6 +372,15 @@ header ul a {
 
 @media (max-width: 800px) {
 
+    .show {
+        display: none !important;
+    }
+
+    .hide {
+        display: block !important;
+    }
+
+
     .banner img {
         width: 40vw;
     }
@@ -527,7 +543,7 @@ header ul a {
     }
 
 
-    .pageturnos{
+    .pageturnos {
         background-color: #000000;
         height: 100vh;
         width: 100%;
@@ -535,7 +551,7 @@ header ul a {
         justify-content: center;
     }
 
-    .pageturnos h1{
+    .pageturnos h1 {
         font-size: 4vw;
     }
 
@@ -557,7 +573,7 @@ header ul a {
         justify-content: center;
         margin-bottom: 0vh;
     }
-    
+
     .card-link {
         padding: 5vw;
         height: 10vh;
@@ -568,5 +584,78 @@ header ul a {
         border-radius: 20px;
         color: #000000;
     }
-    
+
+    .DisponibilidadTable {
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        height: 70vh;
+        width: 100%;
+    }
+
+    .DisponibilidadTable2 {
+        text-align: center;
+
+    }
+
+    .buttonsCel {
+        margin-top: 5vh;
+    }
+
+    /* ////////////////////////////////////////////////////////////////////////// */
+
+
+    .Disponibilidadform1 {
+        text-align: center;
+        height: 80vh;
+        width: 100%;
+        font-size: 3vw;
+        justify-content: center;
+    }
+
+    .DisponibilidadTodasForm {
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        margin-top: 5vh;
+    }
+
+
+    .LinkCaducado {
+        height: 50vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .createClienteTurno {
+        height: 70vh;
+        width: 100%;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    }
+
+    .Page_10 {
+        height: 70vh;
+        width: 100%;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    }
+
+    .pageturnoscel h1{
+        font-size: 4vw;
+    }
+
+    .pageturnoscel{
+        font-size: 3vw;
+        display: flex;
+        justify-content: center;
+        height: 85vh;
+        width: 100%;
+    }
+
+
+
 }
