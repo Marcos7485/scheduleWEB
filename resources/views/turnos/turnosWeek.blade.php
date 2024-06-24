@@ -4,7 +4,7 @@
 @section('content')
 <div class="pageturnos text-center show">
     <div>
-        <h1>Turnos de la Semana: {{ $diahoy }}, {{ $hoy }}</h1>
+        <h1>Turnos de la {{$cuando}}: {{ $diahoy }}, {{ $hoy }}</h1>
 
         <table id="turnos-week">
             <thead>
@@ -39,7 +39,7 @@
 
 <div class="pageturnoscel text-center hide">
     <div>
-        <h1>Turnos de la Semana: {{ $diahoy }}, {{ $hoy }}</h1>
+        <h1>Turnos de la {{$cuando}}: {{ $diahoy }}, {{ $hoy }}</h1>
 
         <table id="turnos-weekcel">
             <thead>

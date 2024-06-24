@@ -17,6 +17,12 @@
                 <img src="">
             </div>
         </a>
+        <a href="{{ route('turnosNextWeek') }}">
+            <div>
+                <h1>Semana próxima</h1>
+                <img src="">
+            </div>
+        </a>
         <a href="{{ route('turnosMonth') }}">
             <div>
                 <h1>Este mes</h1>

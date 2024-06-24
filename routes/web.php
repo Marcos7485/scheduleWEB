@@ -31,6 +31,7 @@ Route::middleware(['auth'])->group(function () {
     Route::view('/turnos', 'turnos.turnosMenu')->name('TurnosMenu');
     Route::get('/turnosHoy', [TurnosController::class, 'TurnosHoy'])->name('turnosHoy');
     Route::get('/turnosWeek', [TurnosController::class, 'TurnosWeek'])->name('turnosWeek');
+    Route::get('/turnosNextWeek', [TurnosController::class, 'TurnosNextWeek'])->name('turnosNextWeek');
     Route::get('/turnosMonth', [TurnosController::class, 'TurnosMonth'])->name('turnosMonth');
     Route::get('/turnosAll', [TurnosController::class, 'All'])->name('turnosAll');
     Route::get('/darTurnos', [TurnosController::class, 'darTurnos'])->name('darTurnos');
