@@ -3,29 +3,30 @@
 
 @section('content')
 <div class="darturnospage text-center">
-    <div>
-        <small id="idmensaje" style="color: green;"></small>
-    </div>
+    <div class="darPageAll">
+        <div>
+            <small id="idmensaje" style="color: green;"></small>
+        </div>
 
-    <div>
-        <button class="btn btn-light" id="generateButton"><i class="fa-solid fa-arrows-rotate"></i></button>
-    </div>
+        <div>
+            <button class="btn btn-light" id="generateButton"><i class="fa-solid fa-arrows-rotate"></i></button>
+        </div>
 
-    <div>
-        <small>Sus turnos estan establecidos en {{ $lapsos }} minutos.</small>
-    </div>
+        <div>
+            <small>Sus turnos estan establecidos en {{ $lapsos }} minutos.</small>
+        </div>
 
-    <div class="card-link">
-        <div class="input-text">
-            <input type="text" id="linkInput" value="{{ $link }}" style="padding: 5px;" disabled><button class="btn btn-info" onclick="copyToClipboard()"><i class="fa-solid fa-copy"></i></button>
+        <div class="card-link">
+            <div class="input-text">
+                <input type="text" id="linkInput" value="{{ $link }}" style="padding: 5px;" disabled><button class="btn btn-info" onclick="copyToClipboard()"><i class="fa-solid fa-copy"></i></button>
+            </div>
+        </div>
+
+
+        <div>
+            <a href="{{ Route('create-turno') }}" class="btn btn-info">Crear Turno<i class="fa-solid fa-pen-to-square"></i></a>
         </div>
     </div>
-
-
-    <div>
-        <a href="{{ Route('create-turno') }}" class="btn btn-info">Crear Turno<i class="fa-solid fa-pen-to-square"></i></a>
-    </div>
-
 </div>
 
 

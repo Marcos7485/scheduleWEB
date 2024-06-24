@@ -34,7 +34,14 @@ class TurnosController extends Controller
             ->where('idUser', $user->id)
             ->get();
 
-
+        $fechayhoraActual = Carbon::now();
+        foreach ($turnos as $turno) {
+            if ($turno->fechahora < $fechayhoraActual) {
+                $turno->active = 0;
+                $turno->status = 'FINALIZADO';
+                $turno->save();
+            }
+        }
         // Extraer la fecha y la hora de cada turno
         $turnos->transform(function ($turno) {
             // Convertir la cadena de fechahora en un objeto Carbon si aún no lo es
@@ -303,6 +310,15 @@ class TurnosController extends Controller
 
         // Recuperar los turnos de esta semana
         $turnos = Turnos::where('idUser', $user->id)->get();
+
+        $fechayhoraActual = Carbon::now();
+        foreach ($turnos as $turno) {
+            if ($turno->fechahora < $fechayhoraActual) {
+                $turno->active = 0;
+                $turno->status = 'FINALIZADO';
+                $turno->save();
+            }
+        }
 
         $turnos->transform(function ($turno) {
             $fechaCarbon = Carbon::parse($turno->fechahora); // Convertir a objeto Carbon
@@ -795,11 +811,10 @@ class TurnosController extends Controller
 
 
             $data = [
-                'message' => "Turno guardado exitosamente",
                 'lapsos' => $lapsos
             ];
 
-            return view('turnos.turnosForm', $data);
+            return view('turnos.turnoAgendado', $data);
         } else {
 
             $data = [

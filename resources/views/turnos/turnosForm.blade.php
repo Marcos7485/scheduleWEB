@@ -35,8 +35,6 @@
                <small style="color: red;">{{ $message }}</small>
                @enderror
             </select>
-         </div>
-         <div>
             <small>Sus turnos estan establecidos en {{ $lapsos }} minutos.</small>
          </div>
          <div class="mb-3">

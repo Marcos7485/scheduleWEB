@@ -323,7 +323,7 @@ header ul a {
 /* ///////////////////////////////////////////////////////////////////////////////////////// */
 
 .darturnospage {
-    height: 40vh;
+    height: 50vh;
     width: 100%;
     align-items: center;
     display: flex;
@@ -354,11 +354,15 @@ header ul a {
 
 
 .Page_10 {
-    height: 80vh;
+    height: 70vh;
     width: 100%;
     align-items: center;
     display: flex;
     justify-content: center;
+}
+
+.turnosForm{
+    margin-top: -10vh;
 }
 
 /* /////////////////////////////////////////////////////////////////////////// */
@@ -570,6 +574,10 @@ header ul a {
         display: flex;
         flex-direction: column;
         justify-content: center;
+    }
+
+    .darPageAll{
+        margin-top: -20vh;
     }
 
     .darturnospage div {
