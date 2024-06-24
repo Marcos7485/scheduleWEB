@@ -22,6 +22,7 @@ class DisponibilidadController extends Controller
             "viernes" => json_decode($disponibilidad[0]->viernes),
             "sabado" => json_decode($disponibilidad[0]->sabado),
             "domingo" => json_decode($disponibilidad[0]->domingo),
+            "lapsos" => $disponibilidad[0]->lapsos
         ];
 
         return view('dashboard.disp', $data);
@@ -192,6 +193,22 @@ class DisponibilidadController extends Controller
 
         return redirect(route('disponibilidad'));
 
+    }
+
+    public function updateLapsos(Request $request){
+
+        $duracion = $request->input('lapsos');
+
+        $user = Auth::user();
+
+        Disponibilidad::updateOrCreate(
+            ['idUser' => $user->id], // Condición para encontrar el registro existente
+            [
+                'lapsos' => $duracion
+            ]
+        );
+
+        return redirect(route('disponibilidad'));
     }
 
 

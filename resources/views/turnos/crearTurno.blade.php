@@ -10,6 +10,7 @@
             <h1>Turno para {{ $usuarioNombre }}</h1>
             <input type="hidden" value="{{ $usuarioId }}" id="usuarioId" name="usId">
             <input type="hidden" value="{{ $token }}" name="token">
+            <input type="hidden" value="{{ $lapsos }}" name="lapsos">
             <small style="color:red">{{ $message }}</small>
          </div>
          <div class="mb-3">

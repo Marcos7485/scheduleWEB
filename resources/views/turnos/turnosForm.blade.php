@@ -36,6 +36,9 @@
                @enderror
             </select>
          </div>
+         <div>
+            <small>Sus turnos estan establecidos en {{ $lapsos }} minutos.</small>
+         </div>
          <div class="mb-3">
             <a href="{{ route('dashboard') }}" class="btn btn-success">volver</a>
             <button type="submit" class="btn btn-warning">Agendar</button>

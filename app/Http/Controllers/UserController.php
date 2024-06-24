@@ -39,6 +39,7 @@ class UserController extends Controller
         $disponibilidad->viernes = json_encode("Cerrado");
         $disponibilidad->sabado = json_encode("Cerrado");
         $disponibilidad->domingo = json_encode("Cerrado");
+        $disponibilidad->lapsos = "30";
         $disponibilidad->active = "1";
 
         $disponibilidad->save();

@@ -11,6 +11,10 @@
         <button class="btn btn-light" id="generateButton"><i class="fa-solid fa-arrows-rotate"></i></button>
     </div>
 
+    <div>
+        <small>Sus turnos estan establecidos en {{ $lapsos }} minutos.</small>
+    </div>
+
     <div class="card-link">
         <div class="input-text">
             <input type="text" id="linkInput" value="{{ $link }}" style="padding: 5px;" disabled><button class="btn btn-info" onclick="copyToClipboard()"><i class="fa-solid fa-copy"></i></button>

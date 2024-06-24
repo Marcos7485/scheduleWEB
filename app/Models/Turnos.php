@@ -12,12 +12,13 @@ class Turnos extends Model
 
 
     protected $table = 'turnos';
-    protected $dates = ['fecha'];
+    protected $dates = ['fechahora'];
 
     protected $fillable = [
         'idCliente',
         'idUser',
-        'fecha',
+        'fechahora',
+        'finalizacion',
         'hora',
         'status',
         'active'

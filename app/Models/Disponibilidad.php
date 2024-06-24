@@ -19,6 +19,7 @@ class Disponibilidad extends Model
         'viernes',
         'sabado',
         'domingo',
+        'lapsos',
         'active',
     ];
 }

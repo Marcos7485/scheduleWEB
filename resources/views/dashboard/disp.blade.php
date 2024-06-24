@@ -136,6 +136,9 @@
                 </tr>
             </tbody>
         </table>
+        <div>
+            <h1>Turnos de cada: {{ $lapsos }} minutos.</h1>
+        </div>
         <div class="text-center">
             <a href="{{ route('dashboard') }}" class="btn btn-success">volver</a>
             <a href="{{ route('disp-horaria-edit') }}"><button class="btn btn-warning">Modificar &nbsp;<i class="fa-solid fa-pen-to-square"></i></button></a>
@@ -297,6 +300,9 @@
 
             </tbody>
         </table>
+        <div>
+            <h1>Turnos de cada: {{ $lapsos }} minutos.</h1>
+        </div>
         <div class="buttonsCel text-center">
             <a href="{{ route('dashboard') }}" class="btn btn-success">volver</a>
             <a href="{{ route('disp-horaria-edit') }}"><button class="btn btn-warning">Modificar &nbsp;<i class="fa-solid fa-pen-to-square"></i></button></a>

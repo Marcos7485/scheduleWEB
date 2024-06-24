@@ -19,6 +19,8 @@ Archivo de las traducciones al español, junto a la modificacion del archivo .en
 
 # falta:
 
+- Crear turnos de 30min, 1hr, 2hs.
+
 - Recordatorios por Telegram.
 
 - Autenticacion de registro de usuario, el telegram.

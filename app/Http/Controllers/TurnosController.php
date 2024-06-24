@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+use function PHPUnit\Framework\isEmpty;
 use function PHPUnit\Framework\isNull;
 
 class TurnosController extends Controller
@@ -348,9 +349,15 @@ class TurnosController extends Controller
     public function darTurnos()
     {
 
+        $user = Auth::user();
+        $Disponibilidad = Disponibilidad::where('idUSer', $user->id)->get();
+
         $link = '---------------';
 
-        $data = ['link' => $link];
+        $data = [
+            'link' => $link,
+            'lapsos' => $Disponibilidad[0]->lapsos
+        ];
 
         return view('turnos.darTurnos', $data);
     }
@@ -406,7 +413,7 @@ class TurnosController extends Controller
         } else {
 
             $user = User::where('id', $Turno[0]->idUser)->get();
-
+            $Disponibilidad = Disponibilidad::where('idUser', $Turno[0]->idUser)->get();
             $nombreUser = $user[0]->name;
             $idUser = $user[0]->id;
 
@@ -415,7 +422,8 @@ class TurnosController extends Controller
                 'usuarioNombre' => $nombreUser,
                 'usuarioId' => $idUser,
                 'message' => '',
-                'token' => $token
+                'token' => $token,
+                'lapsos' => $Disponibilidad[0]->lapsos
             ];
 
             return view('turnos.crearTurno', $data);
@@ -426,8 +434,11 @@ class TurnosController extends Controller
 
     public function crearTurnos()
     {
+        $user = Auth::user();
+        $Disponibilidad = Disponibilidad::where('idUSer', $user->id)->get();
         $data = [
-            'message' => ""
+            'message' => "",
+            'lapsos' => $Disponibilidad[0]->lapsos
         ];
 
         return view('turnos.turnosForm', $data);
@@ -462,31 +473,170 @@ class TurnosController extends Controller
 
         $lapsos = [];
 
-        $horaActual = $horainicio;
+        $lapsosTime = $Disponibilidad[0]->lapsos;
 
-        while ($horaActual < $horafin) {
-            $lapsos[] = $horaActual->format('H:i');
-            $horaActual->addMinutes(30);
+
+        while ($horainicio < $horafin) {
+            $lapsos[] = $horainicio->format('H:i');
+            $horainicio->addMinutes(30);
         }
+
 
         $turnosOcupados = Turnos::whereDate('fechahora', $fechaCarbon->toDateString())
             ->where('idUser', $user->id)
             ->get();
 
-        $index = count($turnosOcupados);
         $ocupado = [];
 
-        for ($i = 0; $i < $index; $i++) {
-            $a = Carbon::parse($turnosOcupados[$i]->fechahora);
 
-            array_push($ocupado, $a->format('H:i'));
+        for ($i = 0; $i < count($turnosOcupados); $i++) {
+            $a = Carbon::parse($turnosOcupados[$i]->fechahora);
+            $b = Carbon::parse($turnosOcupados[$i]->finalizacion);
+
+            while ($a < $b) {
+                array_push($ocupado, $a->format('H:i'));
+                $a->addMinutes(30);
+            }
         }
+
+
 
         $lapsosDisponibles = array_diff($lapsos, $ocupado);
         $lapsosDisponibles = array_values($lapsosDisponibles);
+        $disponible = [];
+        $index = count($lapsosDisponibles);
 
-        return response()->json($lapsosDisponibles);
+        if ($lapsosTime == '30') {
+            $disponible = $lapsosDisponibles;
+        } elseif ($lapsosTime == '60') {
+            for ($i = 0; $i < $index; $i++) {
+                if (isset($lapsosDisponibles[$i + 1])) {
+                    $hora1 = Carbon::createFromFormat('H:i', $lapsosDisponibles[$i]);
+                    $hora2 = Carbon::createFromFormat('H:i', $lapsosDisponibles[$i + 1]);
+                    $diferenciaEnMinutos = $hora1->diffInMinutes($hora2);
+                    if ($diferenciaEnMinutos == "30") {
+                        array_push($disponible, $hora1->format('H:i'));
+                    }
+                } else {
+                    break;
+                }
+            }
+        } elseif ($lapsosTime == '120') {
+            for ($i = 0; $i < $index; $i++) {
+                if (isset($lapsosDisponibles[$i + 3])) {
+                    $hora1 = Carbon::createFromFormat('H:i', $lapsosDisponibles[$i]);
+                    $hora2 = Carbon::createFromFormat('H:i', $lapsosDisponibles[$i + 3]);
+                    $diferenciaEnMinutos = $hora1->diffInMinutes($hora2);
+                    if ($diferenciaEnMinutos == "90") {
+                        array_push($disponible, $hora1->format('H:i'));
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
+
+        return response()->json($disponible);
     }
+
+
+
+
+    // public function secretline()
+    // {
+    //     Carbon::setLocale('es');
+    //     $user = Auth::user();
+    //     $fecha = $request->query('fecha');
+
+    //     $fechaCarbon = Carbon::parse($fecha);
+    //     $nombreDiaSemana = $fechaCarbon->isoFormat('dddd');
+
+    //     // Array de reemplazo para quitar acentos
+    //     $acentos = ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'];
+    //     $sinAcentos = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
+
+    //     // Remover acentos del nombre del día de la semana
+    //     $nombreDiaSinAcentos = str_replace($acentos, $sinAcentos, $nombreDiaSemana);
+
+
+    //     $Disponibilidad = Disponibilidad::where('idUser', $user->id)->get();
+    //     $horarioDelDia = $Disponibilidad[0]->$nombreDiaSinAcentos;
+
+
+    //     $horariosDisponibles = json_decode($horarioDelDia);
+
+
+    //     $horainicio = Carbon::parse($horariosDisponibles[0] . ":" . $horariosDisponibles[1]);
+    //     $horafin = Carbon::parse($horariosDisponibles[2] . ":" . $horariosDisponibles[3]);
+
+    //     $lapsos = [];
+
+    //     $lapsosTime = $Disponibilidad[0]->lapsos;
+
+
+    //     while ($horainicio < $horafin) {
+    //         $lapsos[] = $horainicio->format('H:i');
+    //         $horainicio->addMinutes(30);
+    //     }
+
+
+    //     $turnosOcupados = Turnos::whereDate('fechahora', $fechaCarbon->toDateString())
+    //         ->where('idUser', $user->id)
+    //         ->get();
+
+    //     $ocupado = [];
+
+
+    //     for ($i = 0; $i < count($turnosOcupados); $i++) {
+    //         $a = Carbon::parse($turnosOcupados[$i]->fechahora);
+    //         $b = Carbon::parse($turnosOcupados[$i]->finalizacion);
+
+    //         while ($a < $b) {
+    //             array_push($ocupado, $a->format('H:i'));
+    //             $a->addMinutes(30);
+    //         }
+    //     }
+
+
+
+    //     $lapsosDisponibles = array_diff($lapsos, $ocupado);
+    //     $lapsosDisponibles = array_values($lapsosDisponibles);
+    //     $disponible = [];
+    //     $index = count($lapsosDisponibles);
+
+    //     if ($lapsosTime == '30') {
+    //         $disponible = $lapsosDisponibles;
+    //     } elseif ($lapsosTime == '60') {
+    //         for ($i = 0; $i < $index; $i++) {
+    //             if (isset($lapsosDisponibles[$i + 1])) {
+    //                 $hora1 = Carbon::createFromFormat('H:i', $lapsosDisponibles[$i]);
+    //                 $hora2 = Carbon::createFromFormat('H:i', $lapsosDisponibles[$i + 1]);
+    //                 $diferenciaEnMinutos = $hora1->diffInMinutes($hora2);
+    //                 if ($diferenciaEnMinutos == "30") {
+    //                     array_push($disponible, $hora1->format('H:i'));
+    //                 }
+    //             } else {
+    //                 break;
+    //             }
+    //         }
+    //     } elseif ($lapsosTime == '120') {
+    //         for ($i = 0; $i < $index; $i++) {
+    //             if (isset($lapsosDisponibles[$i + 3])) {
+    //                 $hora1 = Carbon::createFromFormat('H:i', $lapsosDisponibles[$i]);
+    //                 $hora2 = Carbon::createFromFormat('H:i', $lapsosDisponibles[$i + 3]);
+    //                 $diferenciaEnMinutos = $hora1->diffInMinutes($hora2);
+    //                 if ($diferenciaEnMinutos == "90") {
+    //                     array_push($disponible, $hora1->format('H:i'));
+    //                 }
+    //             } else {
+    //                 break;
+    //             }
+    //         }
+    //     }
+
+    //     return response()->json($disponible);
+    // }
+
 
 
     public function getHorariosDisponiblesCliente(Request $request)
@@ -518,37 +668,80 @@ class TurnosController extends Controller
 
         $lapsos = [];
 
-        $horaActual = $horainicio;
+        $lapsosTime = $Disponibilidad[0]->lapsos;
 
-        while ($horaActual < $horafin) {
-            $lapsos[] = $horaActual->format('H:i');
-            $horaActual->addMinutes(30);
+
+        while ($horainicio < $horafin) {
+            $lapsos[] = $horainicio->format('H:i');
+            $horainicio->addMinutes(30);
         }
+
 
         $turnosOcupados = Turnos::whereDate('fechahora', $fechaCarbon->toDateString())
             ->where('idUser', $userId)
             ->get();
 
-        $index = count($turnosOcupados);
         $ocupado = [];
 
-        for ($i = 0; $i < $index; $i++) {
-            $a = Carbon::parse($turnosOcupados[$i]->fechahora);
 
-            array_push($ocupado, $a->format('H:i'));
+        for ($i = 0; $i < count($turnosOcupados); $i++) {
+            $a = Carbon::parse($turnosOcupados[$i]->fechahora);
+            $b = Carbon::parse($turnosOcupados[$i]->finalizacion);
+
+            while ($a < $b) {
+                array_push($ocupado, $a->format('H:i'));
+                $a->addMinutes(30);
+            }
         }
 
         $lapsosDisponibles = array_diff($lapsos, $ocupado);
         $lapsosDisponibles = array_values($lapsosDisponibles);
+        $disponible = [];
+        $index = count($lapsosDisponibles);
 
-        return response()->json($lapsosDisponibles);
+        if ($lapsosTime == '30') {
+            $disponible = $lapsosDisponibles;
+        } elseif ($lapsosTime == '60') {
+            for ($i = 0; $i < $index; $i++) {
+                if (isset($lapsosDisponibles[$i + 1])) {
+                    $hora1 = Carbon::createFromFormat('H:i', $lapsosDisponibles[$i]);
+                    $hora2 = Carbon::createFromFormat('H:i', $lapsosDisponibles[$i + 1]);
+                    $diferenciaEnMinutos = $hora1->diffInMinutes($hora2);
+                    if ($diferenciaEnMinutos == "30") {
+                        array_push($disponible, $hora1->format('H:i'));
+                    }
+                } else {
+                    break;
+                }
+            }
+        } elseif ($lapsosTime == '120') {
+            for ($i = 0; $i < $index; $i++) {
+                if (isset($lapsosDisponibles[$i + 3])) {
+                    $hora1 = Carbon::createFromFormat('H:i', $lapsosDisponibles[$i]);
+                    $hora2 = Carbon::createFromFormat('H:i', $lapsosDisponibles[$i + 3]);
+                    $diferenciaEnMinutos = $hora1->diffInMinutes($hora2);
+                    if ($diferenciaEnMinutos == "90") {
+                        array_push($disponible, $hora1->format('H:i'));
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
+
+        return response()->json($disponible);
     }
+
+
+
 
     public function create(Request $request)
     {
 
         $user = Auth::user();
         $turno = new Turnos();
+        $Disponibilidad = Disponibilidad::where("idUser", $user->id)->get();
+        $lapsos = $Disponibilidad[0]->lapsos;
 
         $fecha = $request->fecha;
         $horario = $request->horario;
@@ -584,18 +777,26 @@ class TurnosController extends Controller
 
             $persona = Cliente::where('telefono', $telefono)->get();
 
-
+            if ($lapsos == '30') {
+                $finalizacion = $fechaHora->copy()->addMinutes(30);
+            } elseif ($lapsos == '60') {
+                $finalizacion = $fechaHora->copy()->addMinutes(60);
+            } elseif ($lapsos == '120') {
+                $finalizacion = $fechaHora->copy()->addMinutes(120);
+            }
 
             $turno->idCliente = $persona[0]->id;
             $turno->idUser = $user->id;
             $turno->fechahora = $fechaHora;
+            $turno->finalizacion = $finalizacion;
             $turno->status = 'PENDIENTE';
             $turno->active = 1;
             $turno->save();
 
 
             $data = [
-                'message' => "Turno guardado exitosamente"
+                'message' => "Turno guardado exitosamente",
+                'lapsos' => $lapsos
             ];
 
             return view('turnos.turnosForm', $data);
@@ -609,11 +810,16 @@ class TurnosController extends Controller
         }
     }
 
+
+
+
     public function createTurnoCliente(Request $request)
     {
 
         $user = $request->usId;
         $token = $request->token;
+        $lapsos = $request->lapsos;
+
         $userDate = User::where('id', $user)->get();
         $userName = $userDate[0]->name;
 
@@ -665,11 +871,18 @@ class TurnosController extends Controller
 
                 $persona = Cliente::where('telefono', $telefono)->get();
 
-
+                if ($lapsos == '30') {
+                    $finalizacion = $fechaHora->copy()->addMinutes(30);
+                } elseif ($lapsos == '60') {
+                    $finalizacion = $fechaHora->copy()->addMinutes(60);
+                } elseif ($lapsos == '120') {
+                    $finalizacion = $fechaHora->copy()->addMinutes(120);
+                }
 
                 $turno->idCliente = $persona[0]->id;
                 $turno->idUser = $user;
                 $turno->fechahora = $fechaHora;
+                $turno->finalizacion = $finalizacion;
                 $turno->status = 'PENDIENTE';
                 $turno->active = 1;
                 $turno->save();

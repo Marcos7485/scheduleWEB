@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('viernes');
             $table->string('sabado');
             $table->string('domingo');
+            $table->string('lapsos');
             $table->tinyInteger('active')->default(1);
             $table->timestamps();
         });

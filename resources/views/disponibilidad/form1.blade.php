@@ -559,7 +559,7 @@
                             </select>:
                             <select name="juevesclmin">
                                 @if(json_decode($info->jueves) !== "Cerrado")
-                                <option>{{json_decode($info->jueves)[2]}}</option>
+                                <option>{{json_decode($info->jueves)[3]}}</option>
                                 <option>00</option>
                                 @else
                                 <option>00</option>
@@ -793,6 +793,20 @@
                     </tr>
                 </tbody>
             </table>
+        </form>
+    </div>
+    <div>
+        <form action="{{ route('update-lapsos') }}" method="POST">
+        @csrf
+            <label for="lapsos">Turnos de (minutos): </label>
+            <select name="lapsos">
+                <option>30</option>
+                <option>60</option>
+                <option>120</option>
+            </select>
+            <div>
+                <button type="submit" class="btn btn-success">Guardar&nbsp;<i class="fa-solid fa-square-check"></i></button>
+            </div>
         </form>
     </div>
 </div>
@@ -1365,7 +1379,7 @@
                             </select>:
                             <select name="juevesclmin">
                                 @if(json_decode($info->jueves) !== "Cerrado")
-                                <option>{{json_decode($info->jueves)[2]}}</option>
+                                <option>{{json_decode($info->jueves)[3]}}</option>
                                 <option>00</option>
                                 @else
                                 <option>00</option>
@@ -1600,6 +1614,20 @@
                     </tr>
                 </tbody>
             </table>
+        </form>
+    </div>
+    <div>
+        <form action="{{ route('update-lapsos') }}" method="POST">
+        @csrf
+            <label for="lapsos">Turnos de (minutos): </label>
+            <select name="lapsos">
+                <option>30</option>
+                <option>60</option>
+                <option>120</option>
+            </select>
+            <div>
+                <button type="submit" class="btn btn-success">Guardar&nbsp;<i class="fa-solid fa-square-check"></i></button>
+            </div>
         </form>
     </div>
 </div>

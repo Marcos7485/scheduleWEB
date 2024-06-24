@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-// Route::get('/secretline', [TurnosController::class, 'create']);
+Route::get('/secretline', [TurnosController::class, 'secretline']);
 
 
 Route::get('/', [Main::class, 'welcome'])->name('welcome');
@@ -48,4 +48,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/edicion-horario', [DisponibilidadController::class, 'dispoedit'])->name('disp-horaria-edit');
     Route::post('/update-disp', [DisponibilidadController::class, 'update'])->name('update-disp');
     Route::post('/update-disp-todas', [DisponibilidadController::class, 'updateTodas'])->name('update-disp-todas');
+    Route::post('/update-lapsos', [DisponibilidadController::class, 'updateLapsos'])->name('update-lapsos');
 });
