@@ -7,6 +7,7 @@ use App\Models\Disponibilidad;
 use App\Models\Turnos;
 use App\Models\TurnosHash;
 use App\Models\User;
+use App\Services\ClienteSrv;
 use App\Services\DispSrv;
 use App\Services\TurnosSrv;
 use Carbon\Carbon;
@@ -280,27 +281,13 @@ class TurnosController extends Controller
             $turno = new Turnos();
             $fechaHora = Carbon::parse($fechaHoraString);
 
-            $verificador = $this->DispSrv->VerificadorDisponibilidad($request->usId, $request->fecha, $tokenActivoVerif->lapso, $fechaHoraString);
+            $verificador = $this->DispSrv->VerificadorDisponibilidad($user, $request->fecha, $tokenActivoVerif->lapso, $fechaHoraString);
 
             if (!$verificador) {
 
                 $Cliente = $this->ClienteSrv->RegistrarCliente($request->telefono, $request->name);
                 $this->TurnosSrv->TurnosSave($user, $Cliente->id, $lapsos, $fechaHora);
-
-                $TurnoInfo = Turnos::where('fechahora', $fechaHora)
-                    ->where('idCliente', $Cliente->id)
-                    ->where('idUser', $user)
-                    ->where('active', 1)
-                    ->get();
-
-
-                TurnosHash::updateOrCreate(
-                    ['hash' => $token], // Condición para encontrar el registro existente
-                    [
-                        'active' => 0,
-                        'idTurno' => $TurnoInfo[0]->id
-                    ]
-                );
+                $this->TurnosSrv->TurnoHashUpdate($user, $Cliente->id, $fechaHora, $token);
 
                 $data = [
                     'fecha' => $request->fecha,
@@ -309,8 +296,6 @@ class TurnosController extends Controller
                     'userName' => $userName,
                     'menu' => false
                 ];
-
-                
 
                 return view('turnos.turnoConfirmation', $data);
             } else {
