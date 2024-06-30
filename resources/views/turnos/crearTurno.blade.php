@@ -9,7 +9,7 @@
          <div class="mb-3">
             <h1>Turno para {{ $usuarioNombre }}</h1>
             <input type="hidden" value="{{ $usuarioId }}" id="usuarioId" name="usId">
-            <input type="hidden" value="{{ $token }}" name="token">
+            <input type="hidden" value="{{ $token }}" id="tokenId" name="token">
             <input type="hidden" value="{{ $lapsos }}" name="lapsos">
             <small style="color:red">{{ $message }}</small>
          </div>
@@ -43,13 +43,15 @@
    const fechaInput = document.getElementById('fecha');
    const horarioSelect = document.getElementById('horario');
    const usuarioIdInput = document.getElementById('usuarioId'); // Cambio de nombre aquí
+   const tokenIdInput = document.getElementById('tokenId'); // Cambio de nombre aquí
 
    fechaInput.addEventListener('change', function() {
       const fecha = fechaInput.value;
       const usuarioId = usuarioIdInput.value; // Cambio de nombre aquí
+      const tokenId = tokenIdInput.value; // Cambio de nombre aquí
 
       if (fecha) {
-         fetch(`/api/horarioscliente?fecha=${fecha}&usp=${usuarioId}`) // Utilizando usuarioId en lugar de $useridInput
+         fetch(`/api/horarioscliente?fecha=${fecha}&usp=${usuarioId}&token=${tokenId}`) // Utilizando usuarioId en lugar de $useridInput
             .then(response => response.json())
             .then(data => {
                horarioSelect.innerHTML = '<option value="">Seleccione un horario</option>';

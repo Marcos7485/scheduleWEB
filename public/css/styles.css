@@ -1,9 +1,11 @@
-/* 
-Black: #000000 
-Air Blue: #7D99B2
-Pear: #C2E150
-white: #FFFFFF
-*/
+:root {
+    --fontsize: 2vw;
+    --fontsizeCel: 5vw;
+    --color-AirBlue: #7D99B2;
+    --color-Pear: #C2E150;
+    --color-Black: #000000;
+    --color-White: #FFFFFF;
+}
 
 body {
     margin: auto;
@@ -218,7 +220,7 @@ header ul a {
     justify-content: center;
 }
 
-.form1 div{
+.form1 div {
     display: flex;
     justify-content: center;
     margin-bottom: 1vw;
@@ -361,7 +363,7 @@ header ul a {
     justify-content: center;
 }
 
-.turnosForm{
+.turnosForm {
     margin-top: -10vh;
 }
 
@@ -382,6 +384,20 @@ header ul a {
     justify-content: center;
 }
 
+/* CODIGO NUEVO /////////////////////////////////////////////////////////////////////////////////////*/
+.turnoslist{
+    height: 70vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.message{
+    font-size: var(--fontsize);
+    transform: translateY(20vh);
+}
+
+/* FINAL CODIGO NUEVO ///////////////////////////////////////////////////////////////////////////// */
 @media (max-width: 800px) {
 
     .show {
@@ -483,8 +499,13 @@ header ul a {
 
 
     /* //////////////////////////////////////////////////////////////////////// */
+    #turnos-hoycel thead tr th {
+        text-align: center;
+    }
 
-
+    #turnos-weekcel thead tr th {
+        text-align: center;
+    }
 
     .page_4 {
         background-color: #000000;
@@ -576,7 +597,7 @@ header ul a {
         justify-content: center;
     }
 
-    .darPageAll{
+    .darPageAll {
         margin-top: -20vh;
     }
 
@@ -629,17 +650,27 @@ header ul a {
         justify-content: center;
     }
 
-    .Disponibilidadform1 div{
+    .Disponibilidadform1 div {
         display: flex;
         justify-content: center;
     }
 
     .DisponibilidadTodasForm {
         text-align: center;
-        display: flex;
-        justify-content: center;
-        margin-top: 5vh;
-        margin-bottom: 5vh;
+        box-shadow: -2px 2px 2px white;
+        margin-top: 7px;
+        margin-left: 5px;
+        background-color: #7D99B2;
+        color: #000000;
+        margin-bottom: 1vw;
+    }
+
+    .DisponibilidadTodasForm td select {
+        display: inline-block;
+        margin-right: 5px;
+        /* Espacio opcional entre los selectores */
+        margin-bottom: 5px;
+        /* Espacio opcional entre los selectores */
     }
 
     .LinkCaducado {
@@ -665,11 +696,11 @@ header ul a {
         justify-content: center;
     }
 
-    .pageturnoscel h1{
+    .pageturnoscel h1 {
         font-size: 4vw;
     }
 
-    .pageturnoscel{
+    .pageturnoscel {
         font-size: 3vw;
         display: flex;
         justify-content: center;

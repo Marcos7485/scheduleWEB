@@ -33,7 +33,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/turnosWeek', [TurnosController::class, 'TurnosWeek'])->name('turnosWeek');
     Route::get('/turnosNextWeek', [TurnosController::class, 'TurnosNextWeek'])->name('turnosNextWeek');
     Route::get('/turnosMonth', [TurnosController::class, 'TurnosMonth'])->name('turnosMonth');
-    Route::get('/turnosAll', [TurnosController::class, 'All'])->name('turnosAll');
+    Route::get('/turnosAll', [TurnosController::class, 'TurnosAll'])->name('turnosAll');
     Route::get('/darTurnos', [TurnosController::class, 'darTurnos'])->name('darTurnos');
 
     Route::get('/crearTurnos', [TurnosController::class, 'crearTurnos'])->name('create-turno');
@@ -49,4 +49,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/update-disp', [DisponibilidadController::class, 'update'])->name('update-disp');
     Route::post('/update-disp-todas', [DisponibilidadController::class, 'updateTodas'])->name('update-disp-todas');
     Route::post('/update-lapsos', [DisponibilidadController::class, 'updateLapsos'])->name('update-lapsos');
+    Route::post('/update-lapsos-turnos', [DisponibilidadController::class, 'updateLapsosTurnos'])->name('update-lapsos-turnos');
+    
 });

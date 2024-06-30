@@ -13,7 +13,27 @@
         </div>
 
         <div>
-            <small>Sus turnos estan establecidos en {{ $lapsos }} minutos.</small>
+            <form action="{{ route('update-lapsos-turnos') }}" method="POST">
+                @csrf
+                <small>Turnos de (minutos): <select name="lapsos">
+                        <option>{{$lapsos}}</option>
+                        @if ($lapsos == '30')
+                        <option>60</option>
+                        <option>120</option>
+                        @elseif ($lapsos == '60')
+                        <option>30</option>
+                        <option>120</option>
+                        @elseif ($lapsos == '120')
+                        <option>30</option>
+                        <option>60</option>
+                        @endif
+                    </select></small>
+
+                <button type="submit" class="btn btn-success">Guardar&nbsp;<i class="fa-solid fa-square-check"></i></button>
+            </form>
+        </div>
+        <div>
+            <small>Turno establecido de {{$lapsos}} minutos</small>
         </div>
 
         <div class="card-link">

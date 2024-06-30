@@ -19,11 +19,15 @@ Archivo de las traducciones al español, junto a la modificacion del archivo .en
 
 # falta:
 
-- Crear turnos de 30min, 1hr, 2hs.
 
 - Recordatorios por Telegram.
 
 - Autenticacion de registro de usuario, el telegram.
+
+
+- Colocar cambio de duracion de turnos en la solapa de Darturnos.
+- Link general para crear turno.
+- Agregar hora y media en el turno.
 
 
 
@@ -32,3 +36,8 @@ Archivo de las traducciones al español, junto a la modificacion del archivo .en
 # Repasar conceptos:
 - Fetch javascript para conectar html con controller.
 - Encriptacion
+
+
+adm@adm.com
+
+321321

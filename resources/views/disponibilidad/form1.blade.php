@@ -797,7 +797,7 @@
     </div>
     <div>
         <form action="{{ route('update-lapsos') }}" method="POST">
-        @csrf
+            @csrf
             <label for="lapsos">Turnos de (minutos): </label>
             <select name="lapsos">
                 <option>30</option>
@@ -1618,16 +1618,33 @@
     </div>
     <div>
         <form action="{{ route('update-lapsos') }}" method="POST">
-        @csrf
-            <label for="lapsos">Turnos de (minutos): </label>
-            <select name="lapsos">
-                <option>30</option>
-                <option>60</option>
-                <option>120</option>
-            </select>
-            <div>
-                <button type="submit" class="btn btn-success">Guardar&nbsp;<i class="fa-solid fa-square-check"></i></button>
-            </div>
+            @csrf
+            <table class="DisponibilidadTodasForm">
+
+                <thead>
+                    <tr>
+                        <th>
+                            Turnos de (minutos):
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <select name="lapsos">
+                                <option>30</option>
+                                <option>60</option>
+                                <option>120</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button type="submit" class="btn btn-success">Guardar&nbsp;<i class="fa-solid fa-square-check"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </form>
     </div>
 </div>

@@ -16,6 +16,7 @@ class TurnosHash extends Model
         'idTurno',
         'idUser',
         'hash',
+        'lapso',
         'active'
     ];
 }

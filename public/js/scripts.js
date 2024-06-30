@@ -11,7 +11,7 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-    $('#turnos-hoy').DataTable({
+    $('#turnos-list').DataTable({
         paging: true,
         pageLength: 5,
         lengthChange: false, // Deshabilita la opción para cambiar el número de entradas por página

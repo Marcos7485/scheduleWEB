@@ -3,26 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Models\Disponibilidad;
+use App\Services\DS;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class DisponibilidadController extends Controller
 {
+    protected $DS;
+
+    public function __construct(DS $ds)
+    {
+        $this->DS = $ds;
+    }
+
     public function disp()
     {
         $user = Auth::user();
-        $disponibilidad = Disponibilidad::where('idUser', $user->id)->get();
-
+        $Disponibilidad = $this->DS->DUsuarioId($user->id);
+        
         $data = [
-            "info" => $disponibilidad[0],
-            "lunes" => json_decode($disponibilidad[0]->lunes),
-            "martes" => json_decode($disponibilidad[0]->martes),
-            "miercoles" => json_decode($disponibilidad[0]->miercoles),
-            "jueves" => json_decode($disponibilidad[0]->jueves),
-            "viernes" => json_decode($disponibilidad[0]->viernes),
-            "sabado" => json_decode($disponibilidad[0]->sabado),
-            "domingo" => json_decode($disponibilidad[0]->domingo),
-            "lapsos" => $disponibilidad[0]->lapsos
+            "info" => $Disponibilidad,
+            "lunes" => json_decode($Disponibilidad->lunes),
+            "martes" => json_decode($Disponibilidad->martes),
+            "miercoles" => json_decode($Disponibilidad->miercoles),
+            "jueves" => json_decode($Disponibilidad->jueves),
+            "viernes" => json_decode($Disponibilidad->viernes),
+            "sabado" => json_decode($Disponibilidad->sabado),
+            "domingo" => json_decode($Disponibilidad->domingo),
+            "lapsos" => $Disponibilidad->lapsos
         ];
 
         return view('dashboard.disp', $data);
@@ -209,6 +217,22 @@ class DisponibilidadController extends Controller
         );
 
         return redirect(route('disponibilidad'));
+    }
+
+    public function updateLapsosTurnos(Request $request){
+
+        $duracion = $request->input('lapsos');
+
+        $user = Auth::user();
+
+        Disponibilidad::updateOrCreate(
+            ['idUser' => $user->id], // Condición para encontrar el registro existente
+            [
+                'lapsos' => $duracion
+            ]
+        );
+
+        return redirect(route('darTurnos'));
     }
 
 
