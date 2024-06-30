@@ -8,6 +8,7 @@ use App\Models\TurnosHash;
 use App\Models\User;
 use App\Services\DispSrv;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class TurnosSrv
 {
@@ -172,10 +173,39 @@ class TurnosSrv
     );
     }
 
-    public function TurnosOcupados($idUser, $fecha)
+    public function TurnosDisponibles($idUser, $fecha, $lapsoTurno)
     {
         Carbon::setLocale('es');
         $fechaCarbon = Carbon::parse($fecha);
+        
+        $nombreDiaSemana = $fechaCarbon->isoFormat('dddd');
+        $acentos = ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'];
+        $sinAcentos = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
+        $nombreDiaSinAcentos = str_replace($acentos, $sinAcentos, $nombreDiaSemana);
+        $Disponibilidad = $this->DispSrv->DUsuarioId($idUser);
+
+        if (!$Disponibilidad) {
+            Log::error("Disponibilidad no encontrada para el usuario ID: $idUser");
+            return [];
+        }
+
+        $horarioDelDia = $Disponibilidad->$nombreDiaSinAcentos;
+        $horariosDisponibles = json_decode($horarioDelDia);
+
+        if (!$horariosDisponibles) {
+            Log::error("Horarios no disponibles para el día: $nombreDiaSinAcentos");
+            return [];
+        }
+
+        $horainicio = Carbon::parse($horariosDisponibles[0] . ":" . $horariosDisponibles[1]);
+        $horafin = Carbon::parse($horariosDisponibles[2] . ":" . $horariosDisponibles[3]);
+
+        $lapsos = [];
+        while ($horainicio < $horafin) {
+            $lapsos[] = $horainicio->format('H:i');
+            $horainicio->addMinutes(30);
+        }
+       
         $turnosOcupados = Turnos::whereDate('fechahora', $fechaCarbon->toDateString())
             ->where('idUser', $idUser)
             ->get();
@@ -191,6 +221,61 @@ class TurnosSrv
                 $a->addMinutes(30);
             }
         }
-        return $ocupado;
-    }
+        $lapsosDisponibles = array_diff($lapsos, $ocupado);
+        $lapsosDisponibles = array_values($lapsosDisponibles);
+
+        
+        $disponible = [];
+        $index = count($lapsosDisponibles);
+
+        if ($lapsoTurno == '30') {
+            $disponible = $lapsosDisponibles;
+        } elseif ($lapsoTurno == '60') {
+            for ($i = 0; $i < $index; $i++) {
+                if (isset($lapsosDisponibles[$i + 1])) {
+                    $hora1 = Carbon::createFromFormat('H:i', $lapsosDisponibles[$i]);
+                    $hora2 = Carbon::createFromFormat('H:i', $lapsosDisponibles[$i + 1]);
+                    $diferenciaEnMinutos = $hora1->diffInMinutes($hora2);
+                    if ($diferenciaEnMinutos == 30) {
+                        $disponible[] = $hora1->format('H:i');
+                    }
+                } else {
+                    break;
+                }
+            }
+        } elseif ($lapsoTurno == '120') {
+            for ($i = 0; $i < $index; $i++) {
+                if (isset($lapsosDisponibles[$i + 3])) {
+                    $hora1 = Carbon::createFromFormat('H:i', $lapsosDisponibles[$i]);
+                    $hora2 = Carbon::createFromFormat('H:i', $lapsosDisponibles[$i + 3]);
+                    $diferenciaEnMinutos = $hora1->diffInMinutes($hora2);
+                    if ($diferenciaEnMinutos == 90) {
+                        $disponible[] = $hora1->format('H:i');
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
+
+        return $disponible;
+    } 
+
+
+    public function VerificadorDisponibilidad($idUser, $fecha, $duracion)
+    {
+        $horariosDisponibles = $this->TurnosDisponibles($idUser, $fecha, $duracion);
+        $fechaHora = Carbon::parse($fecha); // Tiene que venir con fecha y hora string.
+        $fechaHoraDisponible = false;
+
+        foreach ($horariosDisponibles as $horario) {
+            $horarioCarbon = Carbon::createFromFormat('H:i', $horario);
+            if ($horarioCarbon->equalTo($fechaHora)) {
+                $fechaHoraDisponible = true;
+                break;
+            }
+        }
+
+        return $fechaHoraDisponible;
+    } 
 }

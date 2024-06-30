@@ -7,12 +7,11 @@ use App\Models\Cliente;
 
 class ClienteSrv {
 
-
     public function RegistrarCliente($telefono, $name){
 
-        $exist = Cliente::where('telefono', $telefono)->get();
+        $exist = Cliente::where('telefono', $telefono)->first();
 
-        if ($exist->isEmpty()) {
+        if (empty($exist)) {
             // No hay resultados que coincidan con el teléfono proporcionado
             $cliente = new Cliente;
             $cliente->nombre = $name;

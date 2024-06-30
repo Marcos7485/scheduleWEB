@@ -41,6 +41,7 @@
 
     <div class="message">
         <h1>{{ $message }}</h1>
+        <a href="{{ route('TurnosMenu') }}" class="btn btn-success">volver</a>
     </div>
 
     @endif

@@ -44,7 +44,7 @@ class Main extends Controller
 
     public function dashboard(){
 
-        
+       
         $user = Auth::user();
 
         $data = [

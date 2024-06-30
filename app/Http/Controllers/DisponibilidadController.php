@@ -3,23 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\Disponibilidad;
-use App\Services\DS;
+use App\Services\DispSrv;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class DisponibilidadController extends Controller
 {
-    protected $DS;
+    protected $DispSrv;
 
-    public function __construct(DS $ds)
+    public function __construct(DispSrv $DispSrv)
     {
-        $this->DS = $ds;
+        $this->DispSrv = $DispSrv;
     }
 
     public function disp()
     {
+       
         $user = Auth::user();
-        $Disponibilidad = $this->DS->DUsuarioId($user->id);
+        $Disponibilidad = $this->DispSrv->DUsuarioId($user->id);
+
+        
         
         $data = [
             "info" => $Disponibilidad,
@@ -248,4 +252,4 @@ class DisponibilidadController extends Controller
 
         return view('disponibilidad.form1', $data);
     }
-}
+} 

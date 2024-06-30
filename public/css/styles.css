@@ -395,6 +395,7 @@ header ul a {
 .message{
     font-size: var(--fontsize);
     transform: translateY(20vh);
+    text-align: center;
 }
 
 /* FINAL CODIGO NUEVO ///////////////////////////////////////////////////////////////////////////// */
