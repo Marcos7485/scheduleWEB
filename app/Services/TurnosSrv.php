@@ -261,14 +261,64 @@ class TurnosSrv
         return $disponible;
     } 
 
+    public function TurnosOcupados($idUser, $fecha){
+        Carbon::setLocale('es');
+        $fechaCarbon = Carbon::parse($fecha);
+        
+        $nombreDiaSemana = $fechaCarbon->isoFormat('dddd');
+        $acentos = ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'];
+        $sinAcentos = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
+        $nombreDiaSinAcentos = str_replace($acentos, $sinAcentos, $nombreDiaSemana);
+        $Disponibilidad = $this->DispSrv->DUsuarioId($idUser);
 
-    public function VerificadorDisponibilidad($idUser, $fecha, $duracion)
+        if (!$Disponibilidad) {
+            Log::error("Disponibilidad no encontrada para el usuario ID: $idUser");
+            return [];
+        }
+
+        $horarioDelDia = $Disponibilidad->$nombreDiaSinAcentos;
+        $horariosDisponibles = json_decode($horarioDelDia);
+
+        if (!$horariosDisponibles) {
+            Log::error("Horarios no disponibles para el día: $nombreDiaSinAcentos");
+            return [];
+        }
+
+        $horainicio = Carbon::parse($horariosDisponibles[0] . ":" . $horariosDisponibles[1]);
+        $horafin = Carbon::parse($horariosDisponibles[2] . ":" . $horariosDisponibles[3]);
+
+        $lapsos = [];
+        while ($horainicio < $horafin) {
+            $lapsos[] = $horainicio->format('H:i');
+            $horainicio->addMinutes(30);
+        }
+       
+        $turnosOcupados = Turnos::whereDate('fechahora', $fechaCarbon->toDateString())
+            ->where('idUser', $idUser)
+            ->get();
+
+        $ocupado = [];
+
+        for ($i = 0; $i < count($turnosOcupados); $i++) {
+            $a = Carbon::parse($turnosOcupados[$i]->fechahora);
+            $b = Carbon::parse($turnosOcupados[$i]->finalizacion);
+
+            while ($a < $b) {
+                array_push($ocupado, $a->format('H:i'));
+                $a->addMinutes(30);
+            }
+        }
+        return array_values($ocupado);
+    }
+
+
+    public function VerificadorDisponibilidad($idUser, $fecha)
     {
-        $horariosDisponibles = $this->TurnosDisponibles($idUser, $fecha, $duracion);
-        $fechaHora = Carbon::parse($fecha); // Tiene que venir con fecha y hora string.
+        $horariosOcupados = $this->TurnosOcupados($idUser, $fecha);
+        $fechaHora = Carbon::parse($fecha);
         $fechaHoraDisponible = false;
 
-        foreach ($horariosDisponibles as $horario) {
+        foreach ($horariosOcupados as $horario) {
             $horarioCarbon = Carbon::createFromFormat('H:i', $horario);
             if ($horarioCarbon->equalTo($fechaHora)) {
                 $fechaHoraDisponible = true;

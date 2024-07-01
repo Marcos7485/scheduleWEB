@@ -33,10 +33,9 @@ class TurnosController extends Controller
         $user = Auth::user();
         $turnosHoy = $this->TurnosSrv->TurnosHoy($user->id); // Turnos de Hoy
         $this->TurnosSrv->FinalizarTurnosUser($user->id); // Finalizar turnos viejos
-
-        if (!($turnosHoy)->empty()) {
+        if (!$turnosHoy->isEmpty()) {
             $data = [
-                'turnos' => $this->TurnosSrv->TransformTurnos($turnosHoy),
+                'turnos' => $turnosHoy,
                 'periodo' => 'hoy'
             ];
             return view('turnos.turnosList', $data);
@@ -52,7 +51,7 @@ class TurnosController extends Controller
         $user = Auth::user();
         $turnosSemana = $this->TurnosSrv->TurnosDeSemana($user->id); // turnos de la semana
         $this->TurnosSrv->FinalizarTurnosUser($user->id); // Finalizar turnos viejos
-        if (!($turnosSemana)->empty()) {
+        if (!$turnosSemana->isEmpty()) {
             $data = [
                 'turnos' => $this->TurnosSrv->TransformTurnos($turnosSemana),
                 'periodo' => 'de esta semana'
@@ -70,7 +69,7 @@ class TurnosController extends Controller
         $user = Auth::user();
         $turnosSemanaProx = $this->TurnosSrv->TurnosNextWeek($user->id);
         $this->TurnosSrv->FinalizarTurnosUser($user->id);
-        if (!($turnosSemanaProx)->empty()) {
+        if (!$turnosSemanaProx->isEmpty()) {
             $data = [
                 'turnos' => $this->TurnosSrv->TransformTurnos($turnosSemanaProx),
                 'periodo' => 'de la semana proxima'
@@ -88,7 +87,7 @@ class TurnosController extends Controller
         $user = Auth::user();
         $turnosMes = $this->TurnosSrv->TurnosMes($user->id);
         $this->TurnosSrv->FinalizarTurnosUser($user->id);
-        if (!($turnosMes)->empty()) {
+        if (!$turnosMes->isEmpty()) {
             $data = [
                 'turnos' => $this->TurnosSrv->TransformTurnos($turnosMes),
                 'periodo' => 'del mes'
@@ -106,7 +105,8 @@ class TurnosController extends Controller
         $user = Auth::user();
         $turnosTodos = $this->TurnosSrv->TurnosAll($user->id);
         $this->TurnosSrv->FinalizarTurnosUser($user->id);
-        if (!($turnosTodos)->empty()) {
+        
+        if (!$turnosTodos->isEmpty()) {
             $data = [
                 'turnos' => $this->TurnosSrv->TransformTurnos($turnosTodos),
                 'periodo' => 'agendados'
@@ -156,7 +156,7 @@ class TurnosController extends Controller
         
         $turnoHash = TurnosHash::where('hash', $token)->first(); // obtiene la informacion del hash
 
-        if (empty($verif)) {
+        if ($verif->isEmpty()) {
             
             $data = [
                 'menu' => false
@@ -207,8 +207,6 @@ class TurnosController extends Controller
     }
 
 
-
-
     public function create(Request $request)
     {
         $user = Auth::user();
@@ -222,7 +220,7 @@ class TurnosController extends Controller
             ->where('idUser', $user->id)
             ->get();
 
-        if (empty($verificador)) {
+        if ($verificador->isEmpty()) {
             $cliente = $this->ClienteSrv->RegistrarCliente($request->telefono, $request->name);
             $this->TurnosSrv->TurnosSave($user->id, $cliente->id, $lapsos, $fechaHora);
 
@@ -254,7 +252,7 @@ class TurnosController extends Controller
 
         $tokenActivoVerif = $this->TurnosSrv->TurnoHashInfo($token);
 
-        if (empty($tokenActivoVerif)) {
+        if ($tokenActivoVerif->isEmpty()) {
             $data = [
                 'menu' => false,
             ];
