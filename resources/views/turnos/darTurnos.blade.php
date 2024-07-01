@@ -44,6 +44,7 @@
 
 
         <div>
+            <a href="{{ route('dashboard') }}" class="btn btn-success">volver</a>
             <a href="{{ Route('create-turno') }}" class="btn btn-info">Crear Turno<i class="fa-solid fa-pen-to-square"></i></a>
         </div>
     </div>

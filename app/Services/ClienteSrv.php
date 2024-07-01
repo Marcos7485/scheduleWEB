@@ -11,7 +11,8 @@ class ClienteSrv {
 
         $exist = Cliente::where('telefono', $telefono)->first();
 
-        if (empty($exist)) {
+        if ($exist == null) {
+         
             // No hay resultados que coincidan con el teléfono proporcionado
             $cliente = new Cliente;
             $cliente->nombre = $name;
@@ -19,9 +20,10 @@ class ClienteSrv {
             $cliente->frequency = 1;
             $cliente->save();
         } else {
+
             // Hay resultados que coinciden con el teléfono proporcionado
-            $exist[0]->frequency = $exist[0]->frequency + 1;
-            $exist[0]->save();
+            $exist->frequency = $exist->frequency + 1;
+            $exist->save();
         }
 
         return Cliente::where('telefono', $telefono)->first();
