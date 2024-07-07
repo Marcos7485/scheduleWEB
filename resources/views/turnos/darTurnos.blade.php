@@ -9,10 +9,6 @@
         </div>
 
         <div>
-            <button class="btn btn-light" id="generateButton"><i class="fa-solid fa-arrows-rotate"></i></button>
-        </div>
-
-        <div>
             <form action="{{ route('update-lapsos-turnos') }}" method="POST">
                 @csrf
                 <small>Turnos de (minutos): <select name="lapsos">
@@ -29,11 +25,11 @@
                         @endif
                     </select></small>
 
-                <button type="submit" class="btn btn-success">Guardar&nbsp;<i class="fa-solid fa-square-check"></i></button>
+                <button type="submit" class="btn btn-warning"><i class="fa-solid fa-circle-left"></i>&nbsp;<small>Establecer</small></button>
             </form>
         </div>
         <div>
-            <small>Turno establecido de {{$lapsos}} minutos</small>
+            <button class="btn btn-light" id="generateButton"><i class="fa-solid fa-arrows-rotate"></i><br><small>Turno establecido de {{$lapsos}} minutos</small></button>
         </div>
 
         <div class="card-link">

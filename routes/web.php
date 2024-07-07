@@ -27,6 +27,9 @@ Route::post('/createTurnoCliente', [TurnosController::class, 'createTurnoCliente
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [Main::class, 'dashboard'])->name('dashboard');
+    Route::get('/geral-link', [TurnosController::class, 'geralLink'])->name('geral-link');
+    
+    
 
     Route::view('/turnos', 'turnos.turnosMenu')->name('TurnosMenu');
     Route::get('/turnosHoy', [TurnosController::class, 'TurnosHoy'])->name('turnosHoy');
@@ -50,5 +53,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/update-disp-todas', [DisponibilidadController::class, 'updateTodas'])->name('update-disp-todas');
     Route::post('/update-lapsos', [DisponibilidadController::class, 'updateLapsos'])->name('update-lapsos');
     Route::post('/update-lapsos-turnos', [DisponibilidadController::class, 'updateLapsosTurnos'])->name('update-lapsos-turnos');
+    Route::post('/update-lapsos-global', [DisponibilidadController::class, 'updateLapsoGlobalHash'])->name('update-lapsos-global');
     
+
+
 });

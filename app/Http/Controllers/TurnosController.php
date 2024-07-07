@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GlobalHash;
 use App\Models\Turnos;
 use App\Models\TurnosHash;
 use App\Models\User;
@@ -34,7 +35,7 @@ class TurnosController extends Controller
         $turnosHoy = $this->TurnosSrv->TurnosHoy($user->id); // Turnos de Hoy
         $this->TurnosSrv->FinalizarTurnosUser($user->id); // Finalizar turnos viejos
 
-  
+
         if (!$turnosHoy->isEmpty()) {
             $data = [
                 'turnos' => $this->TurnosSrv->TransformTurnos($turnosHoy),
@@ -107,7 +108,7 @@ class TurnosController extends Controller
         $user = Auth::user();
         $turnosTodos = $this->TurnosSrv->TurnosAll($user->id);
         $this->TurnosSrv->FinalizarTurnosUser($user->id);
-        
+
         if (!$turnosTodos->isEmpty()) {
             $data = [
                 'turnos' => $this->TurnosSrv->TransformTurnos($turnosTodos),
@@ -155,17 +156,33 @@ class TurnosController extends Controller
     public function registrarTurno($token)
     {
         $verif = $this->TurnosSrv->TurnoHashInfo($token); // verifica si existe y sigue activo
-        
+
         $turnoHash = TurnosHash::where('hash', $token)->first(); // obtiene la informacion del hash
-    
-        if ($verif===null) {
-            
-            $data = [
-                'menu' => false
-            ];
-            return view('turnos.linkCaducado', $data);
+        $GlobalTokenActivoVerif = $this->TurnosSrv->GlobalHashInfo($token);
+
+        if ($verif === null) {
+            if ($GlobalTokenActivoVerif !== null) {
+
+                $user = User::where('id', $GlobalTokenActivoVerif->idUser)->first();
+                $nombreUser = $user->name;
+                $idUser = $user->id;
+                $data = [
+                    'menu' => false,
+                    'usuarioNombre' => $nombreUser,
+                    'usuarioId' => $idUser,
+                    'message' => '',
+                    'token' => $GlobalTokenActivoVerif->hash,
+                    'lapsos' => $GlobalTokenActivoVerif->lapso
+                ];
+                return view('turnos.crearTurno', $data);
+            } else {
+                $data = [
+                    'menu' => false
+                ];
+                return view('turnos.linkCaducado', $data);
+            }
         } else {
-           
+
             $user = User::where('id', $turnoHash->idUser)->first();
             $nombreUser = $user->name;
             $idUser = $user->id;
@@ -185,7 +202,7 @@ class TurnosController extends Controller
     public function crearTurnos()
     {
         $user = Auth::user();
-       
+
         $Disponibilidad = $this->DispSrv->DUsuarioId($user->id);
         $data = [
             'message' => "",
@@ -206,6 +223,9 @@ class TurnosController extends Controller
     public function getHorariosDisponiblesCliente(Request $request)
     {
         $turnoHashID = $this->TurnosSrv->TurnoHashInfo($request->query('token'));
+        if ($turnoHashID === null) {
+            $turnoHashID = $this->TurnosSrv->GlobalHashInfo($request->query('token'));
+        }
         return $this->TurnosSrv->TurnosDisponibles($request->query('usp'), $request->query('fecha'), $turnoHashID->lapso);
     }
 
@@ -252,25 +272,60 @@ class TurnosController extends Controller
 
         $userDate = User::where('id', $user)->get();
         $userName = $userDate[0]->name;
-        
+
         $tokenActivoVerif = $this->TurnosSrv->TurnoHashInfo($token);
+        $GlobalTokenActivoVerif = $this->TurnosSrv->GlobalHashInfo($token);
 
-        if ($tokenActivoVerif===null) {
-            $data = [
-                'menu' => false,
-            ];
 
-            return view('turnos.linkCaducado', $data);
+        if ($tokenActivoVerif === null) {
+            if ($GlobalTokenActivoVerif !== null) {
 
+                $fechaHora = Carbon::parse($fechaHoraString);
+
+                $verificador = $this->TurnosSrv->VerificadorDisponibilidad($user, $fechaHoraString);
+
+                if (!$verificador) {
+
+                    $Cliente = $this->ClienteSrv->RegistrarCliente($request->telefono, $request->name);
+                    $this->TurnosSrv->TurnosSave($user, $Cliente->id, $lapsos, $fechaHora);
+
+                    $data = [
+                        'fecha' => $request->fecha,
+                        'horario' => $request->horario,
+                        'cliente' => $request->name,
+                        'userName' => $userName,
+                        'menu' => false
+                    ];
+
+                    return view('turnos.turnoConfirmation', $data);
+                } else {
+
+                    $data = [
+                        'menu' => false,
+                        'usuarioNombre' => $userName,
+                        'usuarioId' => $user,
+                        'token' => $token,
+                        'lapsos' => $lapsos,
+                        'message' => "El turno seleccionado no se encuentra disponible"
+                    ];
+
+                    return view('turnos.crearTurno', $data);
+                }
+            } else {
+                $data = [
+                    'menu' => false,
+                ];
+
+                return view('turnos.linkCaducado', $data);
+            }
         } else {
 
-    
             $fechaHora = Carbon::parse($fechaHoraString);
 
             $verificador = $this->TurnosSrv->VerificadorDisponibilidad($user, $fechaHoraString);
-         
+
             if (!$verificador) {
-      
+
                 $Cliente = $this->ClienteSrv->RegistrarCliente($request->telefono, $request->name);
                 $this->TurnosSrv->TurnosSave($user, $Cliente->id, $lapsos, $fechaHora);
                 $this->TurnosSrv->TurnoHashUpdate($user, $Cliente->id, $fechaHora, $token);
@@ -298,5 +353,20 @@ class TurnosController extends Controller
                 return view('turnos.crearTurno', $data);
             }
         }
+    }
+
+    public function geralLink()
+    {
+
+        $user = Auth::user();
+        $linkHash = GlobalHash::where('idUser', $user->id)->first();
+        $link = route('registrar-turno', ['token' => $linkHash->hash]);
+
+        $data = [
+            'link' => $link,
+            'lapsos' => $linkHash->lapso
+        ];
+
+        return view('turnos.globalHash', $data);
     }
 }

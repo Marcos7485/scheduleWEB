@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('turnos_hash', function (Blueprint $table) {
             $table->id();
-            $table->integer('idTurno');
+            $table->integer('idTurno')->nullable();
             $table->integer('idUser');
             $table->string('hash');
+            $table->string('lapso');
             $table->tinyInteger('active');
             $table->timestamps();
         });

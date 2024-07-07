@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Cliente;
+use App\Models\GlobalHash;
 use App\Models\Turnos;
 use App\Models\TurnosHash;
 use App\Models\User;
@@ -154,6 +155,11 @@ class TurnosSrv
     public function TurnoHashInfo($token)
     {
         return TurnosHash::where('hash', $token)->where('active', 1)->first();
+    }
+
+    public function GlobalHashInfo($token)
+    {
+        return GlobalHash::where('hash', $token)->where('active', 1)->first();
     }
 
     public function TurnoHashUpdate($idUser, $idCliente, $fechaHora, $token)

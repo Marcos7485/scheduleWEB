@@ -5,19 +5,28 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginPostRequest;
 use App\Http\Requests\RegistroPostRequest;
 use App\Models\Disponibilidad;
+use App\Models\GlobalHash;
 use App\Models\User;
-use Carbon\Carbon;
+use App\Services\TurnosSrv;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    protected $TurnosSrv;
+
+    public function __construct(TurnosSrv $TurnosSrv)
+    {
+        $this->TurnosSrv = $TurnosSrv;
+    }
     public function registro(RegistroPostRequest $request)
     {
         $user = new User();
         $disponibilidad = new Disponibilidad();
+        $globalHash = new GlobalHash();
 
+        // User
         $user->idEmpresa = null;
         $user->name = $request->name;
         $user->email = $request->email;
@@ -31,6 +40,8 @@ class UserController extends Controller
 
         Auth::login($user);
 
+        // Disponibilidad 
+
         $disponibilidad->idUser = $user->id;
         $disponibilidad->lunes = json_encode("Cerrado");
         $disponibilidad->martes = json_encode("Cerrado");
@@ -43,6 +54,17 @@ class UserController extends Controller
         $disponibilidad->active = "1";
 
         $disponibilidad->save();
+
+        
+        // Hash Global
+        
+        $globalHash->idUser = $user->id;
+        $globalHash->hash = $this->TurnosSrv->TurnosHashGen();
+        $globalHash->lapso = '30';
+        $globalHash->active = "1";
+
+        $globalHash->save();
+
 
         return redirect(route('dashboard'));
     }

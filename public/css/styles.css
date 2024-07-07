@@ -298,28 +298,9 @@ header ul a {
 
 /* ///////////////////////////////////////////////////////////////////////////////////////// */
 
-.pageturnos {
-    background-color: #000000;
-    height: 70vh;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
 
 #turnos-hoy th {
     text-align: center;
-}
-
-#turnos-week th {
-    text-align: center;
-}
-
-.pageturnos table {
-    text-align: center;
-    box-shadow: -2px 2px 2px #7D99B2;
-    background-color: #C2E150;
-    border-radius: 20px;
-    color: #000000;
 }
 
 /* ///////////////////////////////////////////////////////////////////////////////////////// */
@@ -500,13 +481,6 @@ header ul a {
 
 
     /* //////////////////////////////////////////////////////////////////////// */
-    #turnos-hoycel thead tr th {
-        text-align: center;
-    }
-
-    #turnos-weekcel thead tr th {
-        text-align: center;
-    }
 
     .page_4 {
         background-color: #000000;
@@ -576,19 +550,6 @@ header ul a {
         font-size: 5vw;
     }
 
-
-    .pageturnos {
-        background-color: #000000;
-        height: 100vh;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-    }
-
-    .pageturnos h1 {
-        font-size: 4vw;
-    }
-
     .darturnospage {
         height: 70vh;
         width: 100%;
@@ -643,7 +604,7 @@ header ul a {
     /* ////////////////////////////////////////////////////////////////////////// */
 
 
-    .Disponibilidadform1 {
+    .Disponibilidadform1{
         text-align: center;
         height: 100vh;
         width: 100%;
@@ -652,6 +613,15 @@ header ul a {
     }
 
     .Disponibilidadform1 div {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1vw;
+    }
+
+    .form1 {
+        background-color: #000000;
+        height: 100vh;
+        width: 100%;
         display: flex;
         justify-content: center;
     }
@@ -697,17 +667,6 @@ header ul a {
         justify-content: center;
     }
 
-    .pageturnoscel h1 {
-        font-size: 4vw;
-    }
-
-    .pageturnoscel {
-        font-size: 3vw;
-        display: flex;
-        justify-content: center;
-        height: 85vh;
-        width: 100%;
-    }
 
 
 

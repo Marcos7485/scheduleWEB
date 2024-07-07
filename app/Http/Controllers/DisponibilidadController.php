@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Disponibilidad;
+use App\Models\GlobalHash;
 use App\Services\DispSrv;
 
 use Illuminate\Http\Request;
@@ -19,12 +20,12 @@ class DisponibilidadController extends Controller
 
     public function disp()
     {
-       
+
         $user = Auth::user();
         $Disponibilidad = $this->DispSrv->DUsuarioId($user->id);
 
-        
-        
+
+
         $data = [
             "info" => $Disponibilidad,
             "lunes" => json_decode($Disponibilidad->lunes),
@@ -169,7 +170,8 @@ class DisponibilidadController extends Controller
         return redirect(route('disponibilidad'));
     }
 
-    public function updateTodas(Request $request){
+    public function updateTodas(Request $request)
+    {
 
         $estadoTodas = $request->input('estadotodas');
 
@@ -204,10 +206,10 @@ class DisponibilidadController extends Controller
         );
 
         return redirect(route('disponibilidad'));
-
     }
 
-    public function updateLapsos(Request $request){
+    public function updateLapsos(Request $request)
+    {
 
         $duracion = $request->input('lapsos');
 
@@ -223,7 +225,9 @@ class DisponibilidadController extends Controller
         return redirect(route('disponibilidad'));
     }
 
-    public function updateLapsosTurnos(Request $request){
+
+    public function updateLapsosTurnos(Request $request)
+    {
 
         $duracion = $request->input('lapsos');
 
@@ -240,6 +244,23 @@ class DisponibilidadController extends Controller
     }
 
 
+    public function updateLapsoGlobalHash(Request $request)
+    {
+
+        $duracion = $request->input('lapsos');
+
+        $user = Auth::user();
+
+        GlobalHash::updateOrCreate(
+            ['idUser' => $user->id], // Condición para encontrar el registro existente
+            [
+                'lapso' => $duracion
+            ]
+        );
+        return redirect(route('geral-link'));
+    }
+
+
     public function dispoedit()
     {
 
@@ -252,4 +273,4 @@ class DisponibilidadController extends Controller
 
         return view('disponibilidad.form1', $data);
     }
-} 
+}

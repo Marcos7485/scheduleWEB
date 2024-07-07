@@ -23,6 +23,12 @@
                 <img src="">
             </div>
         </a>
+        <a href="{{ route('geral-link') }}">
+            <div>
+                <h1>Link de empresa</h1>
+                <img src="">
+            </div>
+        </a>
     </div>
 </div>
 @endsection
