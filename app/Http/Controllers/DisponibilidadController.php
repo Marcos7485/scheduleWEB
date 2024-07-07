@@ -210,7 +210,6 @@ class DisponibilidadController extends Controller
 
     public function updateLapsos(Request $request)
     {
-
         $duracion = $request->input('lapsos');
 
         $user = Auth::user();
@@ -228,7 +227,6 @@ class DisponibilidadController extends Controller
 
     public function updateLapsosTurnos(Request $request)
     {
-
         $duracion = $request->input('lapsos');
 
         $user = Auth::user();
@@ -246,7 +244,6 @@ class DisponibilidadController extends Controller
 
     public function updateLapsoGlobalHash(Request $request)
     {
-
         $duracion = $request->input('lapsos');
 
         $user = Auth::user();
@@ -263,7 +260,6 @@ class DisponibilidadController extends Controller
 
     public function dispoedit()
     {
-
         $user = Auth::user();
         $disponibilidad = Disponibilidad::where('idUser', $user->id)->get();
 

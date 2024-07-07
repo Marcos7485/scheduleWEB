@@ -802,6 +802,7 @@
             <select name="lapsos">
                 <option>30</option>
                 <option>60</option>
+                <option>90</option>
                 <option>120</option>
             </select>
             <div>
@@ -1634,6 +1635,7 @@
                             <select name="lapsos">
                                 <option>30</option>
                                 <option>60</option>
+                                <option>90</option>
                                 <option>120</option>
                             </select>
                         </td>

@@ -29,6 +29,8 @@ class TurnosSrv
             $finalizacion = $fechaHora->copy()->addMinutes(30);
         } elseif ($lapso == '60') {
             $finalizacion = $fechaHora->copy()->addMinutes(60);
+        } elseif ($lapso == '90') {
+            $finalizacion = $fechaHora->copy()->addMinutes(90);
         } elseif ($lapso == '120') {
             $finalizacion = $fechaHora->copy()->addMinutes(120);
         }
@@ -251,6 +253,19 @@ class TurnosSrv
                     break;
                 }
             }
+        } elseif ($lapsoTurno == '90') {
+            for ($i = 0; $i < $index; $i++) {
+                if (isset($lapsosDisponibles[$i + 1])) {
+                    $hora1 = Carbon::createFromFormat('H:i', $lapsosDisponibles[$i]);
+                    $hora2 = Carbon::createFromFormat('H:i', $lapsosDisponibles[$i + 2]);
+                    $diferenciaEnMinutos = $hora1->diffInMinutes($hora2);
+                    if ($diferenciaEnMinutos == 30) {
+                        $disponible[] = $hora1->format('H:i');
+                    }
+                } else {
+                    break;
+                }
+            }
         } elseif ($lapsoTurno == '120') {
             for ($i = 0; $i < $index; $i++) {
                 if (isset($lapsosDisponibles[$i + 3])) {
@@ -325,13 +340,13 @@ class TurnosSrv
     {
         $horariosOcupados = $this->TurnosOcupados($idUser, $fecha);
         $fechaHora = Carbon::parse($fecha);
-        $fechaHoraDisponible = false; 
-      
+        $fechaHoraDisponible = false;
+
 
         foreach ($horariosOcupados as $horario) {
-            $horarioCarbon = $fechaHora->format('H:i'); 
+            $horarioCarbon = $fechaHora->format('H:i');
 
-            if ($horario == $horarioCarbon) { 
+            if ($horario == $horarioCarbon) {
 
                 $fechaHoraDisponible = true;
                 break;
