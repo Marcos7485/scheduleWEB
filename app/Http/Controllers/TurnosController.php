@@ -33,9 +33,11 @@ class TurnosController extends Controller
         $user = Auth::user();
         $turnosHoy = $this->TurnosSrv->TurnosHoy($user->id); // Turnos de Hoy
         $this->TurnosSrv->FinalizarTurnosUser($user->id); // Finalizar turnos viejos
+
+  
         if (!$turnosHoy->isEmpty()) {
             $data = [
-                'turnos' => $turnosHoy,
+                'turnos' => $this->TurnosSrv->TransformTurnos($turnosHoy),
                 'periodo' => 'hoy'
             ];
             return view('turnos.turnosList', $data);
@@ -155,15 +157,15 @@ class TurnosController extends Controller
         $verif = $this->TurnosSrv->TurnoHashInfo($token); // verifica si existe y sigue activo
         
         $turnoHash = TurnosHash::where('hash', $token)->first(); // obtiene la informacion del hash
-
-        if ($verif->isEmpty()) {
+    
+        if ($verif===null) {
             
             $data = [
                 'menu' => false
             ];
             return view('turnos.linkCaducado', $data);
         } else {
-            
+           
             $user = User::where('id', $turnoHash->idUser)->first();
             $nombreUser = $user->name;
             $idUser = $user->id;
@@ -183,6 +185,7 @@ class TurnosController extends Controller
     public function crearTurnos()
     {
         $user = Auth::user();
+       
         $Disponibilidad = $this->DispSrv->DUsuarioId($user->id);
         $data = [
             'message' => "",
@@ -249,10 +252,10 @@ class TurnosController extends Controller
 
         $userDate = User::where('id', $user)->get();
         $userName = $userDate[0]->name;
-
+        
         $tokenActivoVerif = $this->TurnosSrv->TurnoHashInfo($token);
 
-        if ($tokenActivoVerif->isEmpty()) {
+        if ($tokenActivoVerif===null) {
             $data = [
                 'menu' => false,
             ];
@@ -261,13 +264,13 @@ class TurnosController extends Controller
 
         } else {
 
-            $turno = new Turnos();
+    
             $fechaHora = Carbon::parse($fechaHoraString);
 
-            $verificador = $this->TurnosSrv->VerificadorDisponibilidad($user, $request->fecha, $tokenActivoVerif->lapso, $fechaHoraString);
-
+            $verificador = $this->TurnosSrv->VerificadorDisponibilidad($user, $fechaHoraString);
+         
             if (!$verificador) {
-
+      
                 $Cliente = $this->ClienteSrv->RegistrarCliente($request->telefono, $request->name);
                 $this->TurnosSrv->TurnosSave($user, $Cliente->id, $lapsos, $fechaHora);
                 $this->TurnosSrv->TurnoHashUpdate($user, $Cliente->id, $fechaHora, $token);
@@ -287,6 +290,8 @@ class TurnosController extends Controller
                     'menu' => false,
                     'usuarioNombre' => $userName,
                     'usuarioId' => $user,
+                    'token' => $token,
+                    'lapsos' => $lapsos,
                     'message' => "El turno seleccionado no se encuentra disponible"
                 ];
 

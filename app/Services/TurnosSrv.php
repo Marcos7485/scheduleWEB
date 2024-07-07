@@ -20,7 +20,8 @@ class TurnosSrv
         $this->DispSrv = $DispSrv;
     }
 
-    public function TurnosSave($idUser ,$idCliente, $lapso, $fechaHora){
+    public function TurnosSave($idUser, $idCliente, $lapso, $fechaHora)
+    {
         $turno = new Turnos();
 
         if ($lapso == '30') {
@@ -155,29 +156,30 @@ class TurnosSrv
         return TurnosHash::where('hash', $token)->where('active', 1)->first();
     }
 
-    public function TurnoHashUpdate($idUser, $idCliente, $fechaHora, $token){
-        
+    public function TurnoHashUpdate($idUser, $idCliente, $fechaHora, $token)
+    {
+
         $TurnoInfo = Turnos::where('fechahora', $fechaHora)
-        ->where('idCliente', $idCliente)
-        ->where('idUser', $idUser)
-        ->where('active', 1)
-        ->get();
+            ->where('idCliente', $idCliente)
+            ->where('idUser', $idUser)
+            ->where('active', 1)
+            ->get();
 
 
-    TurnosHash::updateOrCreate(
-        ['hash' => $token], // Condición para encontrar el registro existente
-        [
-            'active' => 0,
-            'idTurno' => $TurnoInfo[0]->id
-        ]
-    );
+        TurnosHash::updateOrCreate(
+            ['hash' => $token], // Condición para encontrar el registro existente
+            [
+                'active' => 0,
+                'idTurno' => $TurnoInfo[0]->id
+            ]
+        );
     }
 
     public function TurnosDisponibles($idUser, $fecha, $lapsoTurno)
     {
         Carbon::setLocale('es');
         $fechaCarbon = Carbon::parse($fecha);
-        
+
         $nombreDiaSemana = $fechaCarbon->isoFormat('dddd');
         $acentos = ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'];
         $sinAcentos = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
@@ -205,7 +207,7 @@ class TurnosSrv
             $lapsos[] = $horainicio->format('H:i');
             $horainicio->addMinutes(30);
         }
-       
+
         $turnosOcupados = Turnos::whereDate('fechahora', $fechaCarbon->toDateString())
             ->where('idUser', $idUser)
             ->get();
@@ -224,7 +226,7 @@ class TurnosSrv
         $lapsosDisponibles = array_diff($lapsos, $ocupado);
         $lapsosDisponibles = array_values($lapsosDisponibles);
 
-        
+
         $disponible = [];
         $index = count($lapsosDisponibles);
 
@@ -259,12 +261,13 @@ class TurnosSrv
         }
 
         return $disponible;
-    } 
+    }
 
-    public function TurnosOcupados($idUser, $fecha){
+    public function TurnosOcupados($idUser, $fecha)
+    {
         Carbon::setLocale('es');
         $fechaCarbon = Carbon::parse($fecha);
-        
+
         $nombreDiaSemana = $fechaCarbon->isoFormat('dddd');
         $acentos = ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'];
         $sinAcentos = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
@@ -292,7 +295,7 @@ class TurnosSrv
             $lapsos[] = $horainicio->format('H:i');
             $horainicio->addMinutes(30);
         }
-       
+
         $turnosOcupados = Turnos::whereDate('fechahora', $fechaCarbon->toDateString())
             ->where('idUser', $idUser)
             ->get();
@@ -316,16 +319,19 @@ class TurnosSrv
     {
         $horariosOcupados = $this->TurnosOcupados($idUser, $fecha);
         $fechaHora = Carbon::parse($fecha);
-        $fechaHoraDisponible = false;
+        $fechaHoraDisponible = false; 
+      
 
         foreach ($horariosOcupados as $horario) {
-            $horarioCarbon = Carbon::createFromFormat('H:i', $horario);
-            if ($horarioCarbon->equalTo($fechaHora)) {
+            $horarioCarbon = $fechaHora->format('H:i'); 
+
+            if ($horario == $horarioCarbon) { 
+
                 $fechaHoraDisponible = true;
                 break;
             }
         }
 
         return $fechaHoraDisponible;
-    } 
+    }
 }
