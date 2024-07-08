@@ -241,6 +241,7 @@ class TurnosSrv
         if ($lapsoTurno == '30') {
             $disponible = $lapsosDisponibles;
         } elseif ($lapsoTurno == '60') {
+            
             for ($i = 0; $i < $index; $i++) {
                 if (isset($lapsosDisponibles[$i + 1])) {
                     $hora1 = Carbon::createFromFormat('H:i', $lapsosDisponibles[$i]);
@@ -254,12 +255,13 @@ class TurnosSrv
                 }
             }
         } elseif ($lapsoTurno == '90') {
+            
             for ($i = 0; $i < $index; $i++) {
-                if (isset($lapsosDisponibles[$i + 1])) {
+                if (isset($lapsosDisponibles[$i + 2])) {
                     $hora1 = Carbon::createFromFormat('H:i', $lapsosDisponibles[$i]);
                     $hora2 = Carbon::createFromFormat('H:i', $lapsosDisponibles[$i + 2]);
                     $diferenciaEnMinutos = $hora1->diffInMinutes($hora2);
-                    if ($diferenciaEnMinutos == 30) {
+                    if ($diferenciaEnMinutos == 60) {
                         $disponible[] = $hora1->format('H:i');
                     }
                 } else {
@@ -283,6 +285,7 @@ class TurnosSrv
 
         return $disponible;
     }
+
 
     public function TurnosOcupados($idUser, $fecha)
     {

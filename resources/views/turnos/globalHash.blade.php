@@ -15,13 +15,20 @@
                         <option>{{$lapsos}}</option>
                         @if ($lapsos == '30')
                         <option>60</option>
+                        <option>90</option>
                         <option>120</option>
                         @elseif ($lapsos == '60')
                         <option>30</option>
+                        <option>90</option>
+                        <option>120</option>
+                        @elseif ($lapsos == '90')
+                        <option>30</option>
+                        <option>60</option>
                         <option>120</option>
                         @elseif ($lapsos == '120')
                         <option>30</option>
                         <option>60</option>
+                        <option>90</option>
                         @endif
                     </select></small>
 

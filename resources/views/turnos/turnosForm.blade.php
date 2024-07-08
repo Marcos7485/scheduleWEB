@@ -67,6 +67,7 @@
                horarioSelect.disabled = false;
             })
             .catch(error => {
+               console.log(error);
                console.error('Error:', error);
                horarioSelect.disabled = true;
                horarioSelect.innerHTML = '<option value="">No disponible</option>';

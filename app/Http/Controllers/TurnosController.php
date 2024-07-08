@@ -155,9 +155,9 @@ class TurnosController extends Controller
 
     public function registrarTurno($token)
     {
-        $verif = $this->TurnosSrv->TurnoHashInfo($token); // verifica si existe y sigue activo
+        $verif = $this->TurnosSrv->TurnoHashInfo($token);
 
-        $turnoHash = TurnosHash::where('hash', $token)->first(); // obtiene la informacion del hash
+        $turnoHash = TurnosHash::where('hash', $token)->first();
         $GlobalTokenActivoVerif = $this->TurnosSrv->GlobalHashInfo($token);
 
         if ($verif === null) {
