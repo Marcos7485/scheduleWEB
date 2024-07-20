@@ -14,12 +14,14 @@ return new class extends Migration
         Schema::create('empresa', function (Blueprint $table) {
             $table->id();
             $table->integer('idDisponibilidad');
-            $table->string('nombre');
-            $table->string('cuit');
-            $table->string('domicilio');
-            $table->string('telefono');
+            $table->string('nombre')->nullable();
+            $table->string('cuit')->nullable();
+            $table->string('domicilio')->nullable();
+            $table->string('telefono')->nullable();
+            $table->string('img')->nullable();
             $table->tinyInteger('active')->default(1);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\DisponibilidadController;
+use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\Main;
 use App\Http\Controllers\TurnosController;
 use App\Http\Controllers\UserController;
+use App\Models\Empresa;
 use Illuminate\Support\Facades\Route;
 
 
@@ -28,8 +30,6 @@ Route::post('/createTurnoCliente', [TurnosController::class, 'createTurnoCliente
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [Main::class, 'dashboard'])->name('dashboard');
     Route::get('/geral-link', [TurnosController::class, 'geralLink'])->name('geral-link');
-    
-    
 
     Route::view('/turnos', 'turnos.turnosMenu')->name('TurnosMenu');
     Route::get('/turnosHoy', [TurnosController::class, 'TurnosHoy'])->name('turnosHoy');
@@ -55,4 +55,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/update-lapsos-turnos', [DisponibilidadController::class, 'updateLapsosTurnos'])->name('update-lapsos-turnos');
     Route::post('/update-lapsos-global', [DisponibilidadController::class, 'updateLapsoGlobalHash'])->name('update-lapsos-global');
 
+    
+    Route::get('/personalizar', [EmpresaController::class, 'empresa'])->name('personalizar');
 });

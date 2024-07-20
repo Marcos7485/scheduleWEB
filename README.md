@@ -24,12 +24,16 @@ Archivo de las traducciones al español, junto a la modificacion del archivo .en
 
 - Autenticacion de registro de usuario, el telegram.
 
+- Menu premium:
+    - Personalizar perfil para personalizar links con imagen de empresa.
+    - Link de empresa.
+    - Perfil de empresa.
 
-- Colocar cambio de duracion de turnos en la solapa de Darturnos.
-- Link general para crear turno.
-- Agregar hora y media en el turno.
-
-
+- Link de empresa para elegir barbero.
+- Boton limpiar finalizados.
+- Dar la opcion de modificar y borrar turnos al usuario.
+- Dia y hora orden de turnos.
+- Poder sacar turnos de horarios que no pasaron.
 
 
 
@@ -41,3 +45,5 @@ Archivo de las traducciones al español, junto a la modificacion del archivo .en
 adm@adm.com
 
 321321
+
+

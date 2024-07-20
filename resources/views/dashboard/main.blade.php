@@ -8,25 +8,26 @@
         <a href="{{ route('TurnosMenu') }}">
             <div>
                 <h1>Turnos</h1>
-                <img src="">
             </div>
         </a>
         <a href="{{ route('darTurnos') }}">
             <div>
                 <h1>Dar Turnos</h1>
-                <img src="">
             </div>
         </a>
         <a href="{{ route('disponibilidad') }}">
             <div>
                 <h1>Disponibilidad</h1>
-                <img src="">
             </div>
         </a>
         <a href="{{ route('geral-link') }}">
             <div>
                 <h1>Link de empresa</h1>
-                <img src="">
+            </div>
+        </a>
+        <a href="{{ route('personalizar') }}">
+            <div>
+                <h1>Mi empresa</h1>
             </div>
         </a>
     </div>

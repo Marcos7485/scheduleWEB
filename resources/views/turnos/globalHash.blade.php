@@ -5,6 +5,9 @@
 <div class="darturnospage text-center">
     <div class="darPageAll">
         <div>
+            <h1>Link de empresa</h1>
+        </div>
+        <div>
             <small id="idmensaje" style="color: green;"></small>
         </div>
 
@@ -32,7 +35,7 @@
                         @endif
                     </select></small>
 
-                <button type="submit" class="btn btn-warning"><i class="fa-solid fa-circle-left"></i>&nbsp;<small>Establecer</small></button>
+                <button type="submit" id="EstablecerId" class="btn btn-warning" onclick="messageGen()"><i class="fa-solid fa-circle-left"></i>&nbsp;<small>Establecer</small></button>
             </form>
         </div>
         <div>
@@ -65,6 +68,16 @@
         }).catch(function(error) {
             console.error("Error copying text: ", error);
         });
+    }
+
+    function messageGen() {
+        const mensajeElement = document.getElementById('EstablecerId');
+        mensajeElement.innerHTML = 'Establecido <i class="fas fa-check-circle"></i>';
+
+
+        setTimeout(() => {
+            mensajeElement.innerHTML = '';
+        }, 2000);
     }
 </script>
 @endsection

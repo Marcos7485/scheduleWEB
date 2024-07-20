@@ -373,6 +373,10 @@ header ul a {
     justify-content: center;
 }
 
+.turnos-list{
+    text-align: center;
+}
+
 .message{
     font-size: var(--fontsize);
     transform: translateY(20vh);
@@ -525,9 +529,6 @@ header ul a {
     }
 
     /* //////////////////////////////////////////////////////////////////////// */
-
-
-
     .dashboard-menu-turnos a {
         text-decoration: none;
 
