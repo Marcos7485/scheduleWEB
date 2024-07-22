@@ -46,31 +46,31 @@ class TurnosSrv
 
     public function TurnosAll($id)
     {
-        return Turnos::where('idUser', $id)->get();
+        return Turnos::where('idUser', $id)->orderBy('fechahora')->get();
     }
 
     public function TurnosHoy($id)
     {
         $dates = $this->DispSrv->Dates();
-        return Turnos::whereDate('fechahora', $dates['hoy'])->where('idUser', $id)->get();
+        return Turnos::whereDate('fechahora', $dates['hoy'])->where('idUser', $id)->orderBy('fechahora')->get();
     }
 
     public function TurnosDeSemana($id)
     {
         $dates = $this->DispSrv->Dates();
-        return Turnos::whereBetween('fechahora', [$dates['inicioSemana'], $dates['finSemana']])->where('idUser', $id)->get();
+        return Turnos::whereBetween('fechahora', [$dates['inicioSemana'], $dates['finSemana']])->where('idUser', $id)->orderBy('fechahora')->get();
     }
 
     public function TurnosNextWeek($id)
     {
         $dates = $this->DispSrv->Dates();
-        return Turnos::whereBetween('fechahora', [$dates['inicioSemanaProx'], $dates['finSemanaProx']])->where('idUser', $id)->get();
+        return Turnos::whereBetween('fechahora', [$dates['inicioSemanaProx'], $dates['finSemanaProx']])->where('idUser', $id)->orderBy('fechahora')->get();
     }
 
     public function TurnosMes($id)
     {
         $dates = $this->DispSrv->Dates();
-        return Turnos::whereBetween('fechahora', [$dates['inicioMes'], $dates['finMes']])->where('idUser', $id)->get();
+        return Turnos::whereBetween('fechahora', [$dates['inicioMes'], $dates['finMes']])->where('idUser', $id)->orderBy('fechahora')->get();
     }
 
     public function FinalizarTurnosUser($id)

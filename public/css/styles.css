@@ -366,22 +366,44 @@ header ul a {
 }
 
 /* CODIGO NUEVO /////////////////////////////////////////////////////////////////////////////////////*/
-.turnoslist{
+.turnoslist {
     height: 70vh;
     width: 100%;
     display: flex;
     justify-content: center;
 }
 
-.turnos-list{
+.turnos-list {
     text-align: center;
 }
 
-.message{
+.message {
     font-size: var(--fontsize);
     transform: translateY(20vh);
     text-align: center;
 }
+
+.modificarTurnos {
+    height: 90vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#deleteModal .modal-content {
+    background-color: var(--color-Black);
+    color: var(--color-Pear);
+}
+
+#deleteModal .modal-header {
+    background-color: var(--color-Black);
+    color: var(--color-Pear);
+}
+
+#deleteModal .btn-close {
+    filter: invert(100%);
+}
+
 
 /* FINAL CODIGO NUEVO ///////////////////////////////////////////////////////////////////////////// */
 @media (max-width: 800px) {
@@ -605,7 +627,7 @@ header ul a {
     /* ////////////////////////////////////////////////////////////////////////// */
 
 
-    .Disponibilidadform1{
+    .Disponibilidadform1 {
         text-align: center;
         height: 100vh;
         width: 100%;

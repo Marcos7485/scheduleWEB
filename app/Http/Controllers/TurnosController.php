@@ -369,4 +369,28 @@ class TurnosController extends Controller
 
         return view('turnos.globalHash', $data);
     }
+
+    public function modificarTurnos(){
+        $user = Auth::user();
+        $turnosTodos = $this->TurnosSrv->TurnosAll($user->id);
+        $this->TurnosSrv->FinalizarTurnosUser($user->id);
+
+        if (!$turnosTodos->isEmpty()) {
+            $data = [
+                'turnos' => $this->TurnosSrv->TransformTurnos($turnosTodos),
+                'periodo' => 'agendados'
+            ];
+            return view('turnos.modificarTurnos', $data);
+        } else {
+            $data = ['message' => 'No hay turnos agendados'];
+            return view('turnos.modificarTurnos', $data);
+        }
+    }
+
+    public function destroy($id){
+        $turno = Turnos::findOrFail($id);
+        $turno->delete(); 
+
+        return redirect()->route('modificar-turnos')->with('success', 'Turno eliminado correctamente');
+    }
 }

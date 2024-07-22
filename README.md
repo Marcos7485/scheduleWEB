@@ -31,9 +31,9 @@ Archivo de las traducciones al español, junto a la modificacion del archivo .en
 
 - Link de empresa para elegir barbero.
 - Boton limpiar finalizados.
-- Dar la opcion de modificar y borrar turnos al usuario.
-- Dia y hora orden de turnos.
+- Dar la opcion de modificar, cancelar, borrar turnos al usuario.
 - Poder sacar turnos de horarios que no pasaron.
+
 
 
 

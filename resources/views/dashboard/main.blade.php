@@ -15,19 +15,19 @@
                 <h1>Dar Turnos</h1>
             </div>
         </a>
-        <a href="{{ route('disponibilidad') }}">
-            <div>
-                <h1>Disponibilidad</h1>
-            </div>
-        </a>
         <a href="{{ route('geral-link') }}">
             <div>
                 <h1>Link de empresa</h1>
             </div>
         </a>
-        <a href="{{ route('personalizar') }}">
+        <a href="{{ route('modificar-turnos') }}">
             <div>
-                <h1>Mi empresa</h1>
+                <h1>Cancelar Turnos</h1>
+            </div>
+        </a>
+        <a href="{{ route('disponibilidad') }}">
+            <div>
+                <h1>Disponibilidad</h1>
             </div>
         </a>
     </div>

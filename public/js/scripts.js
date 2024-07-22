@@ -69,6 +69,7 @@ $(document).ready(function () {
 });
 
 
+
 function mostrarOcultarInput(selectorId, inputId1, inputId2, inputId3, inputId4) {
     var selector = document.getElementsByName(selectorId)[0]; // Obtener el primer elemento con el nombre especificado
     var input1 = document.getElementsByName(inputId1)[0]; // Obtener el primer elemento con el nombre especificado

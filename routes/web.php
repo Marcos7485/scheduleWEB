@@ -1,11 +1,11 @@
 <?php
 
 use App\Http\Controllers\DisponibilidadController;
-use App\Http\Controllers\EmpresaController;
+// use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\Main;
 use App\Http\Controllers\TurnosController;
 use App\Http\Controllers\UserController;
-use App\Models\Empresa;
+// use App\Models\Empresa;
 use Illuminate\Support\Facades\Route;
 
 
@@ -40,12 +40,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/darTurnos', [TurnosController::class, 'darTurnos'])->name('darTurnos');
 
     Route::get('/crearTurnos', [TurnosController::class, 'crearTurnos'])->name('create-turno');
+    Route::get('/modificarTurnos', [TurnosController::class, 'modificarTurnos'])->name('modificar-turnos');
 
     Route::post('/createup', [TurnosController::class, 'create'])->name('turnos-create');
     Route::get('/api/horarios', [TurnosController::class, 'getHorariosDisponibles']);
     Route::post('/api/hash', [TurnosController::class, 'generateTurnosHash']);
-    
 
+    Route::delete('/turnos/{id}', [TurnosController::class, 'destroy'])->name('turnos.destroy');
 
     Route::get('/disponibilidad', [DisponibilidadController::class, 'disp'])->name('disponibilidad');
     Route::get('/edicion-horario', [DisponibilidadController::class, 'dispoedit'])->name('disp-horaria-edit');
@@ -55,6 +56,5 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/update-lapsos-turnos', [DisponibilidadController::class, 'updateLapsosTurnos'])->name('update-lapsos-turnos');
     Route::post('/update-lapsos-global', [DisponibilidadController::class, 'updateLapsoGlobalHash'])->name('update-lapsos-global');
 
-    
-    Route::get('/personalizar', [EmpresaController::class, 'empresa'])->name('personalizar');
+    // Route::get('/personalizar', [EmpresaController::class, 'empresa'])->name('personalizar');
 });
