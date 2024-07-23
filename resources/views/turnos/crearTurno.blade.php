@@ -45,6 +45,8 @@
    const usuarioIdInput = document.getElementById('usuarioId'); // Cambio de nombre aquí
    const tokenIdInput = document.getElementById('tokenId'); // Cambio de nombre aquí
 
+   const today = new Date().toISOString().split('T')[0];
+   document.getElementById('fecha').setAttribute('min', today);
    fechaInput.addEventListener('change', function() {
       const fecha = fechaInput.value;
       const usuarioId = usuarioIdInput.value; // Cambio de nombre aquí

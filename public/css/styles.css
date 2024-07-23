@@ -383,6 +383,10 @@ header ul a {
     text-align: center;
 }
 
+.turnos-delete {
+    text-align: center;
+}
+
 .modificarTurnos {
     height: 90vh;
     width: 100%;

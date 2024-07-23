@@ -21,7 +21,7 @@
             <tbody>
                 @for ($i = 0; $i < count($turnos); $i++) <tr>
                     @if($periodo != 'hoy')
-                    <th>{{$turnos[$i]['fecha']}}</th>
+                    <td>{{$turnos[$i]['fecha']}}</td>
                     @endif
                     <td>{{$turnos[$i]['hora']}}</td>
                     <td>{{$turnos[$i]['cliente']->nombre}}</td>

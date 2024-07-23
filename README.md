@@ -24,15 +24,8 @@ Archivo de las traducciones al español, junto a la modificacion del archivo .en
 
 - Autenticacion de registro de usuario, el telegram.
 
-- Menu premium:
-    - Personalizar perfil para personalizar links con imagen de empresa.
-    - Link de empresa.
-    - Perfil de empresa.
 
 - Link de empresa para elegir barbero.
-- Boton limpiar finalizados.
-- Dar la opcion de modificar, cancelar, borrar turnos al usuario.
-- Poder sacar turnos de horarios que no pasaron.
 
 
 

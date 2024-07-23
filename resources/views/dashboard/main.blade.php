@@ -17,7 +17,7 @@
         </a>
         <a href="{{ route('geral-link') }}">
             <div>
-                <h1>Link de empresa</h1>
+                <h1>Link general</h1>
             </div>
         </a>
         <a href="{{ route('modificar-turnos') }}">
