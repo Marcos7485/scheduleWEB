@@ -15,10 +15,9 @@ class Empresa extends Model
     protected $table = 'empresa';
 
     protected $fillable = [
-        'idDisponibilidad',
+        'idUser',
         'nombre',
-        'cuit',
-        'domicilio',
+        'image',
         'telefono',
         'active'
     ];

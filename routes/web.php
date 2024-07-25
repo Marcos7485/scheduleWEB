@@ -1,11 +1,11 @@
 <?php
 
 use App\Http\Controllers\DisponibilidadController;
-// use App\Http\Controllers\EmpresaController;
+use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\Main;
+use App\Http\Controllers\TrabajadoresController;
 use App\Http\Controllers\TurnosController;
 use App\Http\Controllers\UserController;
-// use App\Models\Empresa;
 use Illuminate\Support\Facades\Route;
 
 
@@ -56,5 +56,15 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/update-lapsos-turnos', [DisponibilidadController::class, 'updateLapsosTurnos'])->name('update-lapsos-turnos');
     Route::post('/update-lapsos-global', [DisponibilidadController::class, 'updateLapsoGlobalHash'])->name('update-lapsos-global');
 
-    // Route::get('/personalizar', [EmpresaController::class, 'empresa'])->name('personalizar');
+    Route::get('/empresa', [EmpresaController::class, 'empresa'])->name('empresa');
+    Route::get('/crear', function () {return view('empresa.form');})->name('empresaForm');
+    Route::post('/crearEmpresa', [EmpresaController::class, 'crearEmpresa'])->name('crearEmpresa');
+    Route::get('/deleteEmpresa', [EmpresaController::class, 'destroy'])->name('Empresa.destroy');
+    Route::post('/empresa/update-image', [EmpresaController::class, 'updateImage'])->name('empresa.updateImage');
+
+
+    Route::get('/trabajadores', [TrabajadoresController::class, 'menu'])->name('trabajadores');
+    Route::get('/create', function () {return view('trabajadores.form');})->name('formTrabajador');
+    Route::post('/crearTrabajador', [TrabajadoresController::class, 'crearTrabajador'])->name('crearTrabajador');
+    Route::get('/details/{id}', [TrabajadoresController::class, 'details'])->name('trabajador.details');
 });

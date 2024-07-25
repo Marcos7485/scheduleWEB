@@ -30,6 +30,11 @@
                 <h1>Disponibilidad</h1>
             </div>
         </a>
+        <a href="{{ route('empresa') }}">
+            <div>
+                <h1>Mi Empresa</h1>
+            </div>
+        </a>
     </div>
 </div>
 @endsection

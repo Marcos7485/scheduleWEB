@@ -3,7 +3,7 @@
 
 @section('content')
 
-<div class="page_5 show">
+<div class="page_5 custom-show">
     <div>
         <h1>Horario de atención</h1>
         <table id="disp-horaria">
@@ -148,7 +148,7 @@
 
 
 
-<div class="DisponibilidadTable hide">
+<div class="DisponibilidadTable custom-hide">
     <div>
         <h1>Horario de atención</h1>
         <table>

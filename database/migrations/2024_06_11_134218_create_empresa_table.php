@@ -13,12 +13,10 @@ return new class extends Migration
     {
         Schema::create('empresa', function (Blueprint $table) {
             $table->id();
-            $table->integer('idDisponibilidad');
+            $table->integer('idUser');
             $table->string('nombre')->nullable();
-            $table->string('cuit')->nullable();
-            $table->string('domicilio')->nullable();
+            $table->string('image')->nullable();
             $table->string('telefono')->nullable();
-            $table->string('img')->nullable();
             $table->tinyInteger('active')->default(1);
             $table->timestamps();
             $table->softDeletes();

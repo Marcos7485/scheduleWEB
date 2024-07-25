@@ -5,7 +5,7 @@
 <div class="text-center tituloPagina">
     <h1>Editar Horario de atención</h1>
 </div>
-<div class="form1 show">
+<div class="form1 custom-show">
     <div>
         <form action="{{ route('update-disp') }}" method="POST">
             @csrf
@@ -813,7 +813,7 @@
 </div>
 
 
-<div class="Disponibilidadform1 hide">
+<div class="Disponibilidadform1 custom-hide">
     <div>
         <form action="{{ route('update-disp') }}" method="POST">
             @csrf

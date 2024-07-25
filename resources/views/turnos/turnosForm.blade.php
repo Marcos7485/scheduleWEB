@@ -50,8 +50,14 @@
 <script>
    const fechaInput = document.getElementById('fecha');
    const horarioSelect = document.getElementById('horario');
-   const today = new Date().toISOString().split('T')[0];
+
+   const now = new Date();
+   const offset = -3 * 60;
+   const adjustedDate = new Date(now.getTime() + (offset * 60 * 1000));
+   const today = adjustedDate.toISOString().split('T')[0];
    document.getElementById('fecha').setAttribute('min', today);
+
+
    fechaInput.addEventListener('change', function() {
       const fecha = fechaInput.value;
       if (fecha) {
