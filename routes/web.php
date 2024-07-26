@@ -67,4 +67,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/create', function () {return view('trabajadores.form');})->name('formTrabajador');
     Route::post('/crearTrabajador', [TrabajadoresController::class, 'crearTrabajador'])->name('crearTrabajador');
     Route::get('/details/{id}', [TrabajadoresController::class, 'details'])->name('trabajador.details');
+    Route::post('/trabajador/update-image', [TrabajadoresController::class, 'updateImage'])->name('trabajador.updateImage');
+    Route::post('/trabajador/update-background', [TrabajadoresController::class, 'updateBackground'])->name('trabajador.updateBackground');
+    Route::get('/deleteTrabajador/{id}', [TrabajadoresController::class, 'destroy'])->name('trabajador.destroy');
+
+
 });

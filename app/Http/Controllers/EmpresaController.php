@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CrearEmpresaRequest;
 use App\Http\Requests\UpdateImageEmpresa;
 use App\Models\Empresa;
+use App\Models\Trabajadores;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -47,9 +48,11 @@ class EmpresaController extends Controller
     {
         $user = Auth::user();
         $empresa = Empresa::where('idUser', $user->id)->firstOrFail();
+        Trabajadores::where('idEmpresa', $empresa->id)->update(['active' => 0]);
+        Trabajadores::where('idEmpresa', $empresa->id)->delete();
         $empresa->delete();
         if ($empresa->image) {
-            Storage::disk('public/empresas/images')->delete($empresa->image);
+            Storage::disk('public')->delete($empresa->image);
         }
         $empresa = Empresa::where('idUser', $user->id)->first();
         $data = ['empresa' => $empresa];
@@ -66,7 +69,7 @@ class EmpresaController extends Controller
         }
 
         // Subir la nueva imagen
-        $imagePath = $request->file('image')->store('images', 'public');
+        $imagePath = $request->file('image')->store('empresas.images', 'public');
         $empresa->image = $imagePath;
         $empresa->save();
 

@@ -1,13 +1,3 @@
-@php
-use Carbon\Carbon;
-
-Carbon::setLocale('es');
-$diahoy = Carbon::now()->translatedFormat('l'); // 'l' representa el día completo de la semana
-$numerohoy = Carbon::now()->format('d');
-$month = Carbon::now()->format('m'); // 'F' para el nombre completo del mes
-$year = Carbon::now()->format('Y');
-
-@endphp
 <!DOCTYPE html>
 <html lang="en">
 

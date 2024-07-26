@@ -23,9 +23,8 @@ Archivo de las traducciones al español, junto a la modificacion del archivo .en
 - Recordatorios por Telegram.
 
 - Autenticacion de registro de usuario, el telegram.
+- verificador de telefono al registrar turno cliente.
 
-
-- Link de empresa para elegir barbero.
 
 
 

@@ -485,19 +485,47 @@ header ul a {
 .trabajadores-menu a div {
     display: flex;
     justify-content: center;
-    background: linear-gradient(to bottom right, #e73232, #860101);
+    background: linear-gradient(to bottom right, #7D99B2, #2d72ad);
     clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
     border-radius: 20px;
     color: #000000;
     width: 20vw;
     cursor: pointer;
     transform: translateY(0vh);
-    margin-bottom: 2vw;
+    margin-bottom: 1vw;
+}
+
+.trabajadores-menu button{
+    clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 0% 100%);
+    border-radius: 10px;
+}
+
+.lineTrabajador {
+    display: flex;
+    align-items: center;
+}
+
+.lineTrabajador a {
+    text-decoration: none; 
 }
 
 .trabajadores-menu div h1 {
     font-size: 2vw;
     margin-top: 5px;
+}
+
+#deleteTrabajador .modal-content {
+    background-color: var(--color-Black);
+    color: var(--color-Pear);
+}
+
+#deleteTrabajador .modal-header {
+    background-color: var(--color-Black);
+    color: var(--color-Pear);
+}
+
+#deleteTrabajador .btn-close {
+    filter: invert(100%);
 }
 
 .formTrabajadores {
@@ -515,7 +543,8 @@ header ul a {
     margin-top: 15px;
 }
 
-/* //////////////////////////////////////////////////////////////////////////////////////////////// */
+/* //////////////////////////////DETAILS//////////////////////////////////////////////////////////// */
+
 
 /* FINAL CODIGO NUEVO ///////////////////////////////////////////////////////////////////////////// */
 @media (max-width: 800px) {
