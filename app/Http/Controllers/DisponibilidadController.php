@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Disponibilidad;
 use App\Models\GlobalHash;
 use App\Services\DispSrv;
-
+use App\Services\TrabSrv;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,8 +24,6 @@ class DisponibilidadController extends Controller
         $user = Auth::user();
         $Disponibilidad = $this->DispSrv->DUsuarioId($user->id);
 
-
-
         $data = [
             "info" => $Disponibilidad,
             "lunes" => json_decode($Disponibilidad->lunes),
@@ -40,6 +38,7 @@ class DisponibilidadController extends Controller
 
         return view('dashboard.disp', $data);
     }
+
 
     public function update(Request $request)
     {

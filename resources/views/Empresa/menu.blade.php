@@ -29,6 +29,11 @@
                 <h1>Trabajadores</h1>
             </div>
         </a>
+        <a href="{{ route('trabajador.disp') }}">
+            <div>
+                <h1>Disponibilidad</h1>
+            </div>
+        </a>
         <a href="{{ route('darTurnos') }}">
             <div>
                 <h1>Link Empresa</h1>

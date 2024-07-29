@@ -5,19 +5,29 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CrearEmpresaRequest;
 use App\Http\Requests\UpdateImageEmpresa;
 use App\Models\Empresa;
+use App\Models\EmpresaDispo;
+use App\Models\GlobalHash;
 use App\Models\Trabajadores;
+use App\Services\TurnosSrv;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class EmpresaController extends Controller
 {
+    protected $TurnosSrv;
+
+    public function __construct(TurnosSrv $TurnosSrv)
+    {
+        $this->TurnosSrv = $TurnosSrv;
+    }
+
     public function empresa()
     {
 
         $user = Auth::user();
 
-        $empresa = Empresa::where('idUser', $user->id)->first();
+        $empresa = Empresa::where('idUser', $user->id)->where('active', 1)->first();
 
         $data = ['empresa' => $empresa];
 
@@ -28,6 +38,7 @@ class EmpresaController extends Controller
     {
 
         $user = Auth::user();
+        $globalHash = new GlobalHash();
         $imagePath = $request->file('image')->store('empresas.images', 'public');
 
         Empresa::create([
@@ -37,7 +48,14 @@ class EmpresaController extends Controller
             'telefono' => $request->telefono
         ]);
 
-        $empresa = Empresa::where('idUser', $user->id)->first();
+        $empresa = Empresa::where('idUser', $user->id)->where('active', 1)->first();
+
+        $globalHash->idEmpresa = $empresa->id;
+        $globalHash->hash = $this->TurnosSrv->TurnosHashGen();
+        $globalHash->lapso = '30';
+        $globalHash->active = "1";
+
+        $globalHash->save();
 
         $data = ['empresa' => $empresa];
 
@@ -48,8 +66,26 @@ class EmpresaController extends Controller
     {
         $user = Auth::user();
         $empresa = Empresa::where('idUser', $user->id)->firstOrFail();
-        Trabajadores::where('idEmpresa', $empresa->id)->update(['active' => 0]);
-        Trabajadores::where('idEmpresa', $empresa->id)->delete();
+        EmpresaDispo::where('idEmpresa', $empresa->id)->delete();
+        GlobalHash::where('idEmpresa', $empresa->id)->delete();
+
+        $trabajadores = Trabajadores::where('idEmpresa', $empresa->id)->get();
+
+        foreach ($trabajadores as $trabajador) {
+            if ($trabajador->idEmpresa == $empresa->id) {
+                $trabajador->delete();
+                if ($trabajador->image) {
+                    Storage::disk('public')->delete($trabajador->image);
+                }
+
+                if ($trabajador->background) {
+                    Storage::disk('public')->delete($trabajador->background);
+                }
+            }
+        }
+
+        $empresa->active = 0;
+        $empresa->save();
         $empresa->delete();
         if ($empresa->image) {
             Storage::disk('public')->delete($empresa->image);
@@ -59,7 +95,8 @@ class EmpresaController extends Controller
         return redirect()->route('empresa', $data)->with('info', 'Empresa eliminada correctamente');
     }
 
-    public function updateImage(UpdateImageEmpresa $request){
+    public function updateImage(UpdateImageEmpresa $request)
+    {
 
         $empresa = Empresa::findOrFail($request->empresa_id);
 

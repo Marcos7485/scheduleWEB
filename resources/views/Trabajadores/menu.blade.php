@@ -9,6 +9,9 @@
             {{ session('info') }}
         </div>
         @endif
+        <div>
+            <h1>Trabajadores</h1>
+        </div>
         @foreach($trabajadores as $trabajador)
         <div class="lineTrabajador">
             <a href="{{ route('trabajador.details', $trabajador->id) }}">

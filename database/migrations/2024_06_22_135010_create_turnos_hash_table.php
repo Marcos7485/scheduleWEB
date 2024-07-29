@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('idUser');
             $table->string('hash');
             $table->string('lapso');
-            $table->tinyInteger('active');
+            $table->tinyInteger('active')->default(1);
             $table->timestamps();
         });
     }

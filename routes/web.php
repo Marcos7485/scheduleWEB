@@ -2,10 +2,13 @@
 
 use App\Http\Controllers\DisponibilidadController;
 use App\Http\Controllers\EmpresaController;
+use App\Http\Controllers\EmpresaDisponibilidad;
 use App\Http\Controllers\Main;
 use App\Http\Controllers\TrabajadoresController;
 use App\Http\Controllers\TurnosController;
 use App\Http\Controllers\UserController;
+use App\Models\Disponibilidad;
+use App\Models\EmpresaDispo;
 use Illuminate\Support\Facades\Route;
 
 
@@ -70,6 +73,14 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/trabajador/update-image', [TrabajadoresController::class, 'updateImage'])->name('trabajador.updateImage');
     Route::post('/trabajador/update-background', [TrabajadoresController::class, 'updateBackground'])->name('trabajador.updateBackground');
     Route::get('/deleteTrabajador/{id}', [TrabajadoresController::class, 'destroy'])->name('trabajador.destroy');
+    Route::get('/trabajador/disponibilidad', [TrabajadoresController::class, 'DispTrabajador'])->name('trabajador.disp');
 
+    Route::get('/TabajadorDispo/{id}', [EmpresaDisponibilidad::class, 'TrabajadorDispo'])->name('trabajador.disponibilidad');
+    Route::get('/trabajador/edicion-horario/{id}', [EmpresaDisponibilidad::class, 'dispoedit'])->name('trabajador.disp-horaria-edit');
+    Route::post('/trabajador/update-disp', [EmpresaDisponibilidad::class, 'update'])->name('trabajador.update-disp');
+    Route::post('/trabajador/update-disp-todas', [EmpresaDisponibilidad::class, 'updateTodas'])->name('trabajador.update-disp-todas');
+    Route::post('/trabajador/update-lapsos', [EmpresaDisponibilidad::class, 'updateLapsos'])->name('trabajador.update-lapsos');
+
+    
 
 });

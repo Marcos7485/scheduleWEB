@@ -26,7 +26,6 @@ class UserController extends Controller
         $disponibilidad = new Disponibilidad();
         $globalHash = new GlobalHash();
 
-        // User
         $user->idEmpresa = null;
         $user->name = $request->name;
         $user->email = $request->email;
@@ -35,12 +34,9 @@ class UserController extends Controller
         $user->email_verified_at = null;
         $user->password = Hash::make($request->password);
         $user->active = "1";
-
         $user->save();
-
+        
         Auth::login($user);
-
-        // Disponibilidad 
 
         $disponibilidad->idUser = $user->id;
         $disponibilidad->lunes = json_encode("Cerrado");
@@ -54,9 +50,6 @@ class UserController extends Controller
         $disponibilidad->active = "1";
 
         $disponibilidad->save();
-
-        
-        // Hash Global
         
         $globalHash->idUser = $user->id;
         $globalHash->hash = $this->TurnosSrv->TurnosHashGen();
@@ -64,7 +57,6 @@ class UserController extends Controller
         $globalHash->active = "1";
 
         $globalHash->save();
-
 
         return redirect(route('dashboard'));
     }

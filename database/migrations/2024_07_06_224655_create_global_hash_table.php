@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('globalHash', function (Blueprint $table) {
             $table->id();
-            $table->integer('idUser');
+            $table->integer('idUser')->nullable();
+            $table->integer('idEmpresa')->nullable();
             $table->string('hash');
             $table->string('lapso')->nullable();
-            $table->tinyInteger('active');
+            $table->tinyInteger('active')->default(1);
             $table->timestamps();
             $table->softDeletes();
         });

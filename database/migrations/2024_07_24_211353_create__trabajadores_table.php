@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('trabajadores', function (Blueprint $table) {
             $table->id();
             $table->integer('idEmpresa');
-            $table->string('image');
-            $table->string('background');
+            $table->string('image')->nullable();
+            $table->string('background')->nullable();
             $table->string('nombre');
             $table->string('telefono');
-            $table->string('frase');
-            $table->integer('selected');
-            $table->tinyInteger('active');
+            $table->string('frase')->nullable();
+            $table->integer('selected')->nullable();
+            $table->tinyInteger('active')->default(1);
             $table->timestamps();
             $table->softDeletes();
         });

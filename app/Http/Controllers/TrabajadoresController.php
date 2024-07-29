@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CrearTrabajador;
 use App\Http\Requests\UpdateImageProf;
 use App\Models\Empresa;
+use App\Models\EmpresaDispo;
 use App\Models\Trabajadores;
 use App\Services\TrabSrv;
 use COM;
@@ -37,6 +38,8 @@ class TrabajadoresController extends Controller
         $user = Auth::user();
         $empresa = Empresa::where('idUser', $user->id)->first();
         $trabajador = new Trabajadores();
+        $horario = new EmpresaDispo();
+
         $trabajador->idEmpresa = $empresa->id;
         $trabajador->nombre = $request->nombre;
         $trabajador->telefono = $request->telefono;
@@ -58,6 +61,21 @@ class TrabajadoresController extends Controller
         $trabajador->selected = 0;
         $trabajador->active = '1';
         $trabajador->save();
+
+        
+        $horario->idEmpresa = $empresa->id;
+        $horario->idTrabajador = $trabajador->id;
+        $horario->lunes = json_encode("Cerrado");
+        $horario->martes = json_encode("Cerrado");
+        $horario->miercoles = json_encode("Cerrado");
+        $horario->jueves = json_encode("Cerrado");
+        $horario->viernes = json_encode("Cerrado");
+        $horario->sabado = json_encode("Cerrado");
+        $horario->domingo = json_encode("Cerrado");
+        $horario->lapsos = "30";
+        $horario->active = "1";
+
+        $horario->save();
 
 
         $trabajadores = Trabajadores::where('idEmpresa', $empresa->id)->get();
@@ -114,10 +132,10 @@ class TrabajadoresController extends Controller
         $user = Auth::user();
         $empresa = Empresa::where('idUser', $user->id)->firstOrFail();
         $trabajador = Trabajadores::where('id', $id)->firstOrFail();
+        EmpresaDispo::where('idTrabajador', $trabajador->id)->delete();
+
         if ($trabajador->idEmpresa == $empresa->id) {
             $trabajador->delete();
-            $trabajador->active = 0;
-            $trabajador->save();
             if ($trabajador->image) {
                 Storage::disk('public')->delete($trabajador->image);
             }
@@ -128,5 +146,11 @@ class TrabajadoresController extends Controller
 
             return redirect()->route('trabajadores')->with('info', 'Trabajador eliminado correctamente');
         }
+    }
+
+    public function DispTrabajador(){
+        $user = Auth::user();
+        $info = $this->TrabSrv->TrabajadoresUser($user->id);
+        return view('trabajadores.dispoMenu', $info);
     }
 }
