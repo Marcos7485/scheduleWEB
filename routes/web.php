@@ -28,6 +28,9 @@ Route::get('/registrarTurno/{token}', [TurnosController::class, 'registrarTurno'
 Route::get('/api/horarioscliente/', [TurnosController::class, 'getHorariosDisponiblesCliente']);
 Route::post('/createTurnoCliente', [TurnosController::class, 'createTurnoCliente'])->name('turnos-createCliente');
 
+Route::get('/registrarTurnoEmpresa/{empresa}/{id}', [EmpresaController::class, 'registrarTurnoEmpresa'])->name('registrarTurnoEmpresa');
+Route::get('/api/horariosclienteEmpresa/', [TurnosController::class, 'getHorariosDisponiblesClienteEmpresa']);
+Route::post('/createTurnoCliente', [TurnosController::class, 'createTurnoClienteEmpresa'])->name('turnos-createClienteEmpresa');
 
 
 Route::middleware(['auth'])->group(function () {
@@ -80,7 +83,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/trabajador/update-disp', [EmpresaDisponibilidad::class, 'update'])->name('trabajador.update-disp');
     Route::post('/trabajador/update-disp-todas', [EmpresaDisponibilidad::class, 'updateTodas'])->name('trabajador.update-disp-todas');
     Route::post('/trabajador/update-lapsos', [EmpresaDisponibilidad::class, 'updateLapsos'])->name('trabajador.update-lapsos');
-
-    
+    Route::get('/empresa/linkEmpresa', [EmpresaDisponibilidad::class, 'linkEmpresa'])->name('linkEmpresa');
 
 });

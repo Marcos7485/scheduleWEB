@@ -112,4 +112,22 @@ class EmpresaController extends Controller
 
         return redirect()->route('empresa')->with('info', 'Imagen actualizada correctamente');
     }
+
+    public function registrarTurnoEmpresa($token, $id){
+        $GlobalHash = GlobalHash::where('hash', $token)->where('active', 1)->first();
+
+        $empresa = Empresa::where('id', $GlobalHash->idEmpresa)->where('active', 1)->first();
+        $trabajador = Trabajadores::where('id', $id)->where('idEmpresa', $empresa->id)->where('active', 1)->first();
+        
+
+        $data = [
+            'empresa' => $empresa,
+            'trabajador' => $trabajador,
+            'token' => $token,
+            'lapsos' => $GlobalHash->lapso,
+            'message' => '',
+        ];
+
+        return view('trabajadores.crearTurno', $data);
+    }
 }

@@ -11,16 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('turnos', function (Blueprint $table) {
+        Schema::create('empresaDispo', function (Blueprint $table) {
             $table->id();
-            $table->integer('idCliente');
-            $table->integer('idUser')->nullable();
+            $table->integer('idEmpresa')->nullable();
             $table->integer('idTrabajador')->nullable();
-            $table->datetime('fechahora'); // Columna de fecha
-            $table->datetime('finalizacion');
-            $table->string('status');
+            $table->string('lunes');
+            $table->string('martes');
+            $table->string('miercoles');
+            $table->string('jueves');
+            $table->string('viernes');
+            $table->string('sabado');
+            $table->string('domingo');
+            $table->string('lapsos')->nullable();
             $table->tinyInteger('active')->default(1);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -29,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('turnos');
+        Schema::dropIfExists('empresaDispo');
     }
 };

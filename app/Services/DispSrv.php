@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Disponibilidad;
+use App\Models\EmpresaDispo;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
@@ -12,6 +13,12 @@ class DispSrv
     public function DUsuarioId($id)
     {
         return Disponibilidad::where('idUser', $id)->first();
+    }
+
+    
+    public function DtrabajadorId($id)
+    {
+        return EmpresaDispo::where('idTrabajador', $id)->where('active', 1)->first();
     }
 
     public function Dates()

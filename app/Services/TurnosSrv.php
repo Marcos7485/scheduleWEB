@@ -44,6 +44,29 @@ class TurnosSrv
         $turno->save();
     }
 
+    public function TurnosSaveTrabajador($idTrabajador, $idCliente, $lapso, $fechaHora)
+    {
+        $turno = new Turnos();
+
+        if ($lapso == '30') {
+            $finalizacion = $fechaHora->copy()->addMinutes(30);
+        } elseif ($lapso == '60') {
+            $finalizacion = $fechaHora->copy()->addMinutes(60);
+        } elseif ($lapso == '90') {
+            $finalizacion = $fechaHora->copy()->addMinutes(90);
+        } elseif ($lapso == '120') {
+            $finalizacion = $fechaHora->copy()->addMinutes(120);
+        }
+
+        $turno->idCliente = $idCliente;
+        $turno->idTrabajador = $idTrabajador;
+        $turno->fechahora = $fechaHora;
+        $turno->finalizacion = $finalizacion;
+        $turno->status = 'PENDIENTE';
+        $turno->active = 1;
+        $turno->save();
+    }
+
     public function TurnosAll($id)
     {
         return Turnos::where('idUser', $id)->orderBy('fechahora')->get();
@@ -287,6 +310,110 @@ class TurnosSrv
     }
 
 
+    public function TurnosDisponiblesEmpresa($idTrabajador, $fecha, $lapsoTurno)
+    {
+        Carbon::setLocale('es');
+        $fechaCarbon = Carbon::parse($fecha);
+
+        $nombreDiaSemana = $fechaCarbon->isoFormat('dddd');
+        $acentos = ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'];
+        $sinAcentos = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
+        $nombreDiaSinAcentos = str_replace($acentos, $sinAcentos, $nombreDiaSemana);
+        $Disponibilidad = $this->DispSrv->DtrabajadorId($idTrabajador);
+
+        if (!$Disponibilidad) {
+            Log::error("Disponibilidad no encontrada para el trabajador");
+            return [];
+        }
+
+        $horarioDelDia = $Disponibilidad->$nombreDiaSinAcentos;
+        $horariosDisponibles = json_decode($horarioDelDia);
+
+        if (!$horariosDisponibles) {
+            Log::error("Horarios no disponibles para el día: $nombreDiaSinAcentos");
+            return [];
+        }
+
+        $horainicio = Carbon::parse($horariosDisponibles[0] . ":" . $horariosDisponibles[1]);
+        $horafin = Carbon::parse($horariosDisponibles[2] . ":" . $horariosDisponibles[3]);
+
+        $lapsos = [];
+        while ($horainicio < $horafin) {
+            $lapsos[] = $horainicio->format('H:i');
+            $horainicio->addMinutes(30);
+        }
+
+        $turnosOcupados = Turnos::whereDate('fechahora', $fechaCarbon->toDateString())
+            ->where('idTrabajador', $idTrabajador)
+            ->get();
+
+        $ocupado = [];
+
+        for ($i = 0; $i < count($turnosOcupados); $i++) {
+            $a = Carbon::parse($turnosOcupados[$i]->fechahora);
+            $b = Carbon::parse($turnosOcupados[$i]->finalizacion);
+
+            while ($a < $b) {
+                array_push($ocupado, $a->format('H:i'));
+                $a->addMinutes(30);
+            }
+        }
+        $lapsosDisponibles = array_diff($lapsos, $ocupado);
+        $lapsosDisponibles = array_values($lapsosDisponibles);
+
+
+        $disponible = [];
+        $index = count($lapsosDisponibles);
+
+        if ($lapsoTurno == '30') {
+            $disponible = $lapsosDisponibles;
+        } elseif ($lapsoTurno == '60') {
+            
+            for ($i = 0; $i < $index; $i++) {
+                if (isset($lapsosDisponibles[$i + 1])) {
+                    $hora1 = Carbon::createFromFormat('H:i', $lapsosDisponibles[$i]);
+                    $hora2 = Carbon::createFromFormat('H:i', $lapsosDisponibles[$i + 1]);
+                    $diferenciaEnMinutos = $hora1->diffInMinutes($hora2);
+                    if ($diferenciaEnMinutos == 30) {
+                        $disponible[] = $hora1->format('H:i');
+                    }
+                } else {
+                    break;
+                }
+            }
+        } elseif ($lapsoTurno == '90') {
+            
+            for ($i = 0; $i < $index; $i++) {
+                if (isset($lapsosDisponibles[$i + 2])) {
+                    $hora1 = Carbon::createFromFormat('H:i', $lapsosDisponibles[$i]);
+                    $hora2 = Carbon::createFromFormat('H:i', $lapsosDisponibles[$i + 2]);
+                    $diferenciaEnMinutos = $hora1->diffInMinutes($hora2);
+                    if ($diferenciaEnMinutos == 60) {
+                        $disponible[] = $hora1->format('H:i');
+                    }
+                } else {
+                    break;
+                }
+            }
+        } elseif ($lapsoTurno == '120') {
+            for ($i = 0; $i < $index; $i++) {
+                if (isset($lapsosDisponibles[$i + 3])) {
+                    $hora1 = Carbon::createFromFormat('H:i', $lapsosDisponibles[$i]);
+                    $hora2 = Carbon::createFromFormat('H:i', $lapsosDisponibles[$i + 3]);
+                    $diferenciaEnMinutos = $hora1->diffInMinutes($hora2);
+                    if ($diferenciaEnMinutos == 90) {
+                        $disponible[] = $hora1->format('H:i');
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
+
+        return $disponible;
+    }
+
+
     public function TurnosOcupados($idUser, $fecha)
     {
         Carbon::setLocale('es');
@@ -338,10 +465,82 @@ class TurnosSrv
         return array_values($ocupado);
     }
 
+    public function TurnosOcupadosEmpresa($idTrabajador, $fecha)
+    {
+        Carbon::setLocale('es');
+        $fechaCarbon = Carbon::parse($fecha);
+
+        $nombreDiaSemana = $fechaCarbon->isoFormat('dddd');
+        $acentos = ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'];
+        $sinAcentos = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
+        $nombreDiaSinAcentos = str_replace($acentos, $sinAcentos, $nombreDiaSemana);
+        $Disponibilidad = $this->DispSrv->DtrabajadorId($idTrabajador);
+
+        if (!$Disponibilidad) {
+            Log::error("Disponibilidad no encontrada para el trabajador");
+            return [];
+        }
+
+        $horarioDelDia = $Disponibilidad->$nombreDiaSinAcentos;
+        $horariosDisponibles = json_decode($horarioDelDia);
+
+        if (!$horariosDisponibles) {
+            Log::error("Horarios no disponibles para el día: $nombreDiaSinAcentos");
+            return [];
+        }
+
+        $horainicio = Carbon::parse($horariosDisponibles[0] . ":" . $horariosDisponibles[1]);
+        $horafin = Carbon::parse($horariosDisponibles[2] . ":" . $horariosDisponibles[3]);
+
+        $lapsos = [];
+        while ($horainicio < $horafin) {
+            $lapsos[] = $horainicio->format('H:i');
+            $horainicio->addMinutes(30);
+        }
+
+        $turnosOcupados = Turnos::whereDate('fechahora', $fechaCarbon->toDateString())
+            ->where('idTrabajador', $idTrabajador)
+            ->get();
+
+        $ocupado = [];
+
+        for ($i = 0; $i < count($turnosOcupados); $i++) {
+            $a = Carbon::parse($turnosOcupados[$i]->fechahora);
+            $b = Carbon::parse($turnosOcupados[$i]->finalizacion);
+
+            while ($a < $b) {
+                array_push($ocupado, $a->format('H:i'));
+                $a->addMinutes(30);
+            }
+        }
+        return array_values($ocupado);
+    }
+
+
 
     public function VerificadorDisponibilidad($idUser, $fecha)
     {
         $horariosOcupados = $this->TurnosOcupados($idUser, $fecha);
+        $fechaHora = Carbon::parse($fecha);
+        $fechaHoraDisponible = false;
+
+
+        foreach ($horariosOcupados as $horario) {
+            $horarioCarbon = $fechaHora->format('H:i');
+
+            if ($horario == $horarioCarbon) {
+
+                $fechaHoraDisponible = true;
+                break;
+            }
+        }
+
+        return $fechaHoraDisponible;
+    }
+
+    public function VerificadorDisponibilidadEmpresa($idTrabajador, $fecha)
+    {
+        $horariosOcupados = $this->TurnosOcupadosEmpresa($idTrabajador, $fecha);
         $fechaHora = Carbon::parse($fecha);
         $fechaHoraDisponible = false;
 

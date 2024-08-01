@@ -34,7 +34,7 @@
                 <h1>Disponibilidad</h1>
             </div>
         </a>
-        <a href="{{ route('darTurnos') }}">
+        <a href="{{ route('linkEmpresa') }}">
             <div>
                 <h1>Link Empresa</h1>
             </div>

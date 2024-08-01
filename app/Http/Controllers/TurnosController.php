@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Empresa;
 use App\Models\GlobalHash;
+use App\Models\Trabajadores;
 use App\Models\Turnos;
 use App\Models\TurnosHash;
 use App\Models\User;
@@ -163,18 +165,32 @@ class TurnosController extends Controller
         if ($verif === null) {
             if ($GlobalTokenActivoVerif !== null) {
 
-                $user = User::where('id', $GlobalTokenActivoVerif->idUser)->first();
-                $nombreUser = $user->name;
-                $idUser = $user->id;
-                $data = [
-                    'menu' => false,
-                    'usuarioNombre' => $nombreUser,
-                    'usuarioId' => $idUser,
-                    'message' => '',
-                    'token' => $GlobalTokenActivoVerif->hash,
-                    'lapsos' => $GlobalTokenActivoVerif->lapso
-                ];
-                return view('turnos.crearTurno', $data);
+                if ($GlobalTokenActivoVerif->idUser !== null) {
+                    $user = User::where('id', $GlobalTokenActivoVerif->idUser)->first();
+                    $nombreUser = $user->name;
+                    $idUser = $user->id;
+                    $data = [
+                        'menu' => false,
+                        'usuarioNombre' => $nombreUser,
+                        'usuarioId' => $idUser,
+                        'message' => '',
+                        'token' => $GlobalTokenActivoVerif->hash,
+                        'lapsos' => $GlobalTokenActivoVerif->lapso
+                    ];
+                    return view('turnos.crearTurno', $data);
+                } else {
+
+                    $trabajadores = Trabajadores::where('idEmpresa', $GlobalTokenActivoVerif->idEmpresa)->get();
+                    $empresa = Empresa::where('id', $GlobalTokenActivoVerif->idEmpresa)->where('active', 1)->first();
+
+                    $data = [
+                        'empresa' => $empresa,
+                        'trabajadores' => $trabajadores,
+                        'token' => $token,
+                    ];
+
+                    return view('trabajadores.crearTurnoMenu', $data);
+                }
             } else {
                 $data = [
                     'menu' => false
@@ -228,6 +244,13 @@ class TurnosController extends Controller
         }
         return $this->TurnosSrv->TurnosDisponibles($request->query('usp'), $request->query('fecha'), $turnoHashID->lapso);
     }
+
+    public function getHorariosDisponiblesClienteEmpresa(Request $request)
+    {
+        $turnoHashID = $this->TurnosSrv->GlobalHashInfo($request->query('token'));
+        return $this->TurnosSrv->TurnosDisponiblesEmpresa($request->query('usp'), $request->query('fecha'), $turnoHashID->lapso);
+    }
+
 
 
     public function create(Request $request)
@@ -355,6 +378,63 @@ class TurnosController extends Controller
         }
     }
 
+    public function createTurnoClienteEmpresa(Request $request)
+    {
+        $trabajador = $request->trId;
+        $token = $request->token;
+        $lapsos = $request->lapsos;
+
+        $fechaHoraString = $request->fecha . ' ' . $request->horario . ':00';
+
+        $userDate = Trabajadores::where('id', $trabajador)->first();
+        $userName = $userDate->nombre;
+
+
+        $GlobalTokenActivoVerif = $this->TurnosSrv->GlobalHashInfo($token);
+
+
+        if ($GlobalTokenActivoVerif !== null) {
+
+            $fechaHora = Carbon::parse($fechaHoraString);
+
+            $verificador = $this->TurnosSrv->VerificadorDisponibilidadEmpresa($trabajador, $fechaHoraString);
+
+            if (!$verificador) {
+
+                $Cliente = $this->ClienteSrv->RegistrarClienteEmpresa($request->telefono, $request->name, $GlobalTokenActivoVerif->idEmpresa);
+                $this->TurnosSrv->TurnosSaveTrabajador($trabajador, $Cliente->id, $lapsos, $fechaHora);
+
+                $data = [
+                    'fecha' => $request->fecha,
+                    'horario' => $request->horario,
+                    'cliente' => $request->name,
+                    'userName' => $userName,
+                    'menu' => false
+                ];
+//Revisar los views finales
+                return view('turnos.turnoConfirmation', $data);
+            } else {
+
+                $data = [
+                    'menu' => false,
+                    'usuarioNombre' => $userName,
+                    'trabajadorId' => $trabajador,
+                    'token' => $token,
+                    'lapsos' => $lapsos,
+                    'message' => "El turno seleccionado no se encuentra disponible"
+                ];
+
+                return view('turnos.crearTurno', $data);
+            }
+        } else {
+            $data = [
+                'menu' => false,
+            ];
+
+            return view('turnos.linkCaducado', $data);
+        }
+    }
+
     public function geralLink()
     {
 
@@ -370,7 +450,8 @@ class TurnosController extends Controller
         return view('turnos.globalHash', $data);
     }
 
-    public function modificarTurnos(){
+    public function modificarTurnos()
+    {
         $user = Auth::user();
         $turnosTodos = $this->TurnosSrv->TurnosAll($user->id);
         $this->TurnosSrv->FinalizarTurnosUser($user->id);
@@ -387,9 +468,10 @@ class TurnosController extends Controller
         }
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         $turno = Turnos::findOrFail($id);
-        $turno->delete(); 
+        $turno->delete();
 
         return redirect()->route('modificar-turnos')->with('success', 'Turno eliminado correctamente');
     }
