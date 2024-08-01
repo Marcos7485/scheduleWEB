@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CrearEmpresaRequest;
 use App\Http\Requests\UpdateImageEmpresa;
+use App\Models\Accesos;
 use App\Models\Empresa;
 use App\Models\EmpresaDispo;
 use App\Models\GlobalHash;
@@ -36,7 +37,6 @@ class EmpresaController extends Controller
 
     public function crearEmpresa(CrearEmpresaRequest $request)
     {
-
         $user = Auth::user();
         $globalHash = new GlobalHash();
         $imagePath = $request->file('image')->store('empresas.images', 'public');
@@ -68,6 +68,7 @@ class EmpresaController extends Controller
         $empresa = Empresa::where('idUser', $user->id)->firstOrFail();
         EmpresaDispo::where('idEmpresa', $empresa->id)->delete();
         GlobalHash::where('idEmpresa', $empresa->id)->delete();
+        Accesos::where('idEmpresa', $empresa->id)->delete();
 
         $trabajadores = Trabajadores::where('idEmpresa', $empresa->id)->get();
 

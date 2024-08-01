@@ -228,9 +228,26 @@ class EmpresaDisponibilidad extends Controller
 
         $data = [
             'link' => $link,
+            'lapsos' => $linkHash->lapso,
+            'empresa' => $empresa
         ];
 
         return view('trabajadores.linkEmpresa', $data);
+    }
+
+    public function updateLapsosTurnosEmpresa(Request $request)
+    {
+        $duracion = $request->input('lapsos');
+        $empresaId = $request->empresaId;
+
+        GlobalHash::updateOrCreate(
+            ['idEmpresa' => $empresaId], // Condición para encontrar el registro existente
+            [
+                'lapso' => $duracion
+            ]
+        );
+
+        return redirect(route('linkEmpresa'));
     }
 
 }

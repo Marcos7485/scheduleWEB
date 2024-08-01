@@ -136,9 +136,6 @@
                 </tr>
             </tbody>
         </table>
-        <div>
-            <h1>Turnos de cada: {{ $lapsos }} minutos.</h1>
-        </div>
         <div class="text-center">
             <a href="{{ route('trabajador.disp') }}" class="btn btn-success">volver</a>
             <a href="{{ route('trabajador.disp-horaria-edit', ['id' => $info->idTrabajador]) }}"><button class="btn btn-warning">Modificar &nbsp;<i class="fa-solid fa-pen-to-square"></i></button></a>

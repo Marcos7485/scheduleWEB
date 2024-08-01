@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccesosController;
 use App\Http\Controllers\DisponibilidadController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\EmpresaDisponibilidad;
@@ -7,6 +8,7 @@ use App\Http\Controllers\Main;
 use App\Http\Controllers\TrabajadoresController;
 use App\Http\Controllers\TurnosController;
 use App\Http\Controllers\UserController;
+use App\Models\Accesos;
 use App\Models\Disponibilidad;
 use App\Models\EmpresaDispo;
 use Illuminate\Support\Facades\Route;
@@ -84,5 +86,20 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/trabajador/update-disp-todas', [EmpresaDisponibilidad::class, 'updateTodas'])->name('trabajador.update-disp-todas');
     Route::post('/trabajador/update-lapsos', [EmpresaDisponibilidad::class, 'updateLapsos'])->name('trabajador.update-lapsos');
     Route::get('/empresa/linkEmpresa', [EmpresaDisponibilidad::class, 'linkEmpresa'])->name('linkEmpresa');
+    Route::post('/update-lapsos-turnosEmpresa', [EmpresaDisponibilidad::class, 'updateLapsosTurnosEmpresa'])->name('update-lapsos-turnosEmpresa');
+
+    Route::view('/turnosEmpresa', 'empresa.turnosMenu')->name('TurnosMenuEmpresa');
+    Route::get('/turnosHoyEmpresa', [TurnosController::class, 'TurnosHoyEmpresa'])->name('turnosHoyEmpresa');
+    Route::get('/turnosWeekEmpresa', [TurnosController::class, 'TurnosWeekEmpresa'])->name('turnosWeekEmpresa');
+    Route::get('/turnosNextWeekEmpresa', [TurnosController::class, 'TurnosNextWeekEmpresa'])->name('turnosNextWeekEmpresa');
+    Route::get('/turnosMonthEmpresa', [TurnosController::class, 'TurnosMonthEmpresa'])->name('turnosMonthEmpresa');
+    Route::get('/turnosAllEmpresa', [TurnosController::class, 'TurnosAllEmpresa'])->name('turnosAllEmpresa');
+    Route::get('/modificarTurnosEmpresa', [TurnosController::class, 'modificarTurnosEmpresa'])->name('modificar-turnosEmpresa');
+    Route::delete('/turnosdel/{id}', [TurnosController::class, 'destroyEmpresa'])->name('turnos.destroyEmpresa');
+
+    Route::get('/accesos', [AccesosController::class, 'accesos'])->name('accesos');
+    Route::get('/trabajadorAcceso/{id}', [AccesosController::class, 'TrabajadorAcceso'])->name('trabajador.acceso');
+    Route::get('/trabajadoresDashboard/{token}', [AccesosController::class, 'dashboard'])->name('TrabajadorDashboard');
+    Route::post('/dashboardLogin', [AccesosController::class, 'dashboardTrabajador'])->name('dashboardLogin.Access');
 
 });

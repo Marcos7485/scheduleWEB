@@ -39,6 +39,21 @@
                 <h1>Link Empresa</h1>
             </div>
         </a>
+        <a href="{{ route('TurnosMenuEmpresa') }}">
+            <div>
+                <h1>Turnos</h1>
+            </div>
+        </a>
+        <a href="{{ route('modificar-turnosEmpresa') }}">
+            <div>
+                <h1>Cancelar Turnos</h1>
+            </div>
+        </a>
+        <a href="{{ route('accesos') }}">
+            <div>
+                <h1>Accesos</h1>
+            </div>
+        </a>
         <a href="{{ route('dashboard') }}" class="btn btn-success">volver</a>
         <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteEmpresa" data-action="{{ route('Empresa.destroy') }}">Eliminar Empresa</a>
 

@@ -10,27 +10,23 @@
             <thead>
                 <tr>
                     @if($periodo != 'hoy')
-                    <th>Dia</th>
+                    <th>fecha</th>
                     @endif
+                    <th>Dia</th>
                     <th>Hora</th>
                     <th>Cliente</th>
                     <th>Contacto</th>
-                    <th>Estado</th>
                 </tr>
             </thead>
             <tbody>
-                @for ($i = 0; $i < count($turnos); $i++) <tr>
+                @for ($i = 0; $i < count($turnos); $i++) <tr style="{{ $turnos[$i]['status'] == 'FINALIZADO' ? 'background-color:brown;' : '' }}">
                     @if($periodo != 'hoy')
                     <td>{{$turnos[$i]['fecha']}}</td>
                     @endif
+                    <td>{{$turnos[$i]['diaDeLaSemana']}}</td>
                     <td>{{$turnos[$i]['hora']}}</td>
                     <td>{{$turnos[$i]['cliente']->nombre}}</td>
                     <td><a href="https://wa.me/54{{ $turnos[$i]['cliente']->telefono }}" style="text-decoration: none;"><i class="fa-brands fa-whatsapp"></i></a></td>
-                    @if ($turnos[$i]['status'] == 'PENDIENTE')
-                    <td style="color:green;">{{$turnos[$i]['status']}}</td>
-                    @else
-                    <td style="color:red">{{$turnos[$i]['status']}}</td>
-                    @endif
                     </tr>
                     @endfor
             </tbody>

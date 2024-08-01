@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Cliente;
 use App\Models\GlobalHash;
+use App\Models\Trabajadores;
 use App\Models\Turnos;
 use App\Models\TurnosHash;
 use App\Models\User;
@@ -65,11 +66,28 @@ class TurnosSrv
         $turno->status = 'PENDIENTE';
         $turno->active = 1;
         $turno->save();
+
+        Trabajadores::where('id', $idTrabajador)
+            ->where('active', 1)
+            ->increment('selected');
     }
 
     public function TurnosAll($id)
     {
         return Turnos::where('idUser', $id)->orderBy('fechahora')->get();
+    }
+
+    public function TurnosAllEmpresa($id)
+    {
+        $trabajadores = Trabajadores::where('idEmpresa', $id)->where('active', 1)->get();
+        // Extrae los IDs de los trabajadores
+        $trabajadoresIds = $trabajadores->pluck('id')->toArray();
+        
+        $turnos = Turnos::whereIn('idTrabajador', $trabajadoresIds)
+            ->orderBy('fechahora')
+            ->get();
+
+        return $turnos;
     }
 
     public function TurnosHoy($id)
@@ -78,10 +96,39 @@ class TurnosSrv
         return Turnos::whereDate('fechahora', $dates['hoy'])->where('idUser', $id)->orderBy('fechahora')->get();
     }
 
+    public function TurnosHoyEmpresa($id)
+    {
+        $dates = $this->DispSrv->Dates();
+        $trabajadores = Trabajadores::where('idEmpresa', $id)->where('active', 1)->get();
+        // Extrae los IDs de los trabajadores
+        $trabajadoresIds = $trabajadores->pluck('id')->toArray();
+        $turnos = Turnos::whereDate('fechahora', $dates['hoy'])
+            ->whereIn('idTrabajador', $trabajadoresIds)
+            ->orderBy('fechahora')
+            ->get();
+
+        return $turnos;
+    }
+
     public function TurnosDeSemana($id)
     {
         $dates = $this->DispSrv->Dates();
         return Turnos::whereBetween('fechahora', [$dates['inicioSemana'], $dates['finSemana']])->where('idUser', $id)->orderBy('fechahora')->get();
+    }
+
+    public function TurnosDeSemanaEmpresa($id)
+    {
+        $dates = $this->DispSrv->Dates();
+        $trabajadores = Trabajadores::where('idEmpresa', $id)->where('active', 1)->get();
+        // Extrae los IDs de los trabajadores
+        $trabajadoresIds = $trabajadores->pluck('id')->toArray();
+
+        $turnos = Turnos::whereBetween('fechahora', [$dates['inicioSemana'], $dates['finSemana']])
+        ->whereIn('idTrabajador', $trabajadoresIds)
+        ->orderBy('fechahora')
+        ->get();
+
+        return $turnos;
     }
 
     public function TurnosNextWeek($id)
@@ -90,10 +137,41 @@ class TurnosSrv
         return Turnos::whereBetween('fechahora', [$dates['inicioSemanaProx'], $dates['finSemanaProx']])->where('idUser', $id)->orderBy('fechahora')->get();
     }
 
+    public function TurnosNextWeekEmpresa($id)
+    {
+        $dates = $this->DispSrv->Dates();
+
+        $trabajadores = Trabajadores::where('idEmpresa', $id)->where('active', 1)->get();
+        // Extrae los IDs de los trabajadores
+        $trabajadoresIds = $trabajadores->pluck('id')->toArray();
+
+        $turnos = Turnos::whereBetween('fechahora', [$dates['inicioSemanaProx'], $dates['finSemanaProx']])
+        ->whereIn('idTrabajador', $trabajadoresIds)
+        ->orderBy('fechahora')
+        ->get();
+
+        return $turnos;
+    }
+
     public function TurnosMes($id)
     {
         $dates = $this->DispSrv->Dates();
         return Turnos::whereBetween('fechahora', [$dates['inicioMes'], $dates['finMes']])->where('idUser', $id)->orderBy('fechahora')->get();
+    }
+
+    public function TurnosMesEmpresa($id)
+    {
+        $dates = $this->DispSrv->Dates();
+        $trabajadores = Trabajadores::where('idEmpresa', $id)->where('active', 1)->get();
+        // Extrae los IDs de los trabajadores
+        $trabajadoresIds = $trabajadores->pluck('id')->toArray();
+
+        $turnos = Turnos::whereBetween('fechahora', [$dates['inicioMes'], $dates['finMes']])
+        ->whereIn('idTrabajador', $trabajadoresIds)
+        ->orderBy('fechahora')
+        ->get();
+
+        return $turnos;
     }
 
     public function FinalizarTurnosUser($id)
@@ -113,9 +191,31 @@ class TurnosSrv
         }
     }
 
+    public function FinalizarTurnosEmpresa($id)
+    { //editar
+        $dates = $this->DispSrv->Dates();
+        $trabajadores = Trabajadores::where('idEmpresa', $id)
+            ->where('active', 1)
+            ->get();
+
+        $trabajadoresIds = $trabajadores->pluck('id')->toArray();
+
+        // Obtén los turnos que coinciden con los IDs de los trabajadores
+        $turnos = Turnos::whereIn('idTrabajador', $trabajadoresIds)
+            ->where('fechahora', '<', $dates['datetimenow'])
+            ->get();
+
+        // Actualiza el estado de los turnos antiguos
+        foreach ($turnos as $turno) {
+            $turno->active = 0;
+            $turno->status = 'FINALIZADO';
+            $turno->save();
+        }
+    }
+
     public function TransformTurnos($turnos)
     {
-
+        Carbon::setLocale('es'); // Configura Carbon para usar el español
         $index = count($turnos); // Obtener el número de elementos en $turnos
 
         $turnosResult = []; // Inicializar un nuevo arreglo para almacenar los turnos transformados
@@ -124,12 +224,19 @@ class TurnosSrv
         for ($i = 0; $i < $index; $i++) {
             // Parsear las fechas y horas utilizando Carbon
             $fecha = Carbon::parse($turnos[$i]->fechahora)->format('d/m');
+            $diaDeLaSemana = Carbon::parse($turnos[$i]->fechahora)->isoFormat('dddd');
+
             $hora = Carbon::parse($turnos[$i]->fechahora)->format('H:i');
             $finalizacion = Carbon::parse($turnos[$i]->finalizacion)->format('H:i');
 
             // Obtener el cliente y usuario asociados a este turno
             $cliente = Cliente::where('id', $turnos[$i]['idCliente'])->first();
-            $user = User::where('id', $turnos[$i]->idUser)->first();
+            if($turnos[$i]->idUser !== null){
+               $user = User::where('id', $turnos[$i]->idUser)->first(); 
+            }else{
+               $user = Trabajadores::where('id', $turnos[$i]->idTrabajador)->first(); 
+            }
+            
 
             // Construir el arreglo de sesión (sesion)
             $sesion = [
@@ -137,6 +244,7 @@ class TurnosSrv
                 'cliente' => $cliente,
                 'usuario' => $user,
                 'fecha' => $fecha,
+                'diaDeLaSemana' => $diaDeLaSemana, 
                 'hora' => $hora,
                 'final' => $finalizacion,
                 'status' => $turnos[$i]->status,
@@ -264,7 +372,7 @@ class TurnosSrv
         if ($lapsoTurno == '30') {
             $disponible = $lapsosDisponibles;
         } elseif ($lapsoTurno == '60') {
-            
+
             for ($i = 0; $i < $index; $i++) {
                 if (isset($lapsosDisponibles[$i + 1])) {
                     $hora1 = Carbon::createFromFormat('H:i', $lapsosDisponibles[$i]);
@@ -278,7 +386,7 @@ class TurnosSrv
                 }
             }
         } elseif ($lapsoTurno == '90') {
-            
+
             for ($i = 0; $i < $index; $i++) {
                 if (isset($lapsosDisponibles[$i + 2])) {
                     $hora1 = Carbon::createFromFormat('H:i', $lapsosDisponibles[$i]);
@@ -368,7 +476,7 @@ class TurnosSrv
         if ($lapsoTurno == '30') {
             $disponible = $lapsosDisponibles;
         } elseif ($lapsoTurno == '60') {
-            
+
             for ($i = 0; $i < $index; $i++) {
                 if (isset($lapsosDisponibles[$i + 1])) {
                     $hora1 = Carbon::createFromFormat('H:i', $lapsosDisponibles[$i]);
@@ -382,7 +490,7 @@ class TurnosSrv
                 }
             }
         } elseif ($lapsoTurno == '90') {
-            
+
             for ($i = 0; $i < $index; $i++) {
                 if (isset($lapsosDisponibles[$i + 2])) {
                     $hora1 = Carbon::createFromFormat('H:i', $lapsosDisponibles[$i]);

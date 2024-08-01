@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CrearTrabajador;
 use App\Http\Requests\UpdateImageProf;
+use App\Models\Accesos;
 use App\Models\Empresa;
 use App\Models\EmpresaDispo;
 use App\Models\Trabajadores;
+use App\Services\AccesoSrv;
 use App\Services\TrabSrv;
+use App\Services\TurnosSrv;
 use COM;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,10 +19,14 @@ use Illuminate\Support\Facades\Storage;
 class TrabajadoresController extends Controller
 {
     protected $TrabSrv;
+    protected $TurnosSrv;
+    protected $AccesoSrv;
 
-    public function __construct(TrabSrv $TrabSrv)
+    public function __construct(TrabSrv $TrabSrv, TurnosSrv $TurnosSrv, AccesoSrv $AccesoSrv)
     {
         $this->TrabSrv = $TrabSrv;
+        $this->TurnosSrv = $TurnosSrv;
+        $this->AccesoSrv = $AccesoSrv;
     }
 
     public function menu()
@@ -62,6 +69,14 @@ class TrabajadoresController extends Controller
         $trabajador->active = '1';
         $trabajador->save();
 
+        $acceso = new Accesos();
+
+        $acceso->idEmpresa = $empresa->id;
+        $acceso->idTrabajador = $trabajador->id;
+        $acceso->hash = $this->TurnosSrv->TurnosHashGen();
+        $acceso->password = $this->AccesoSrv->PasswordGen();
+        $acceso->active = 1;
+        $acceso->save();
         
         $horario->idEmpresa = $empresa->id;
         $horario->idTrabajador = $trabajador->id;
@@ -133,6 +148,7 @@ class TrabajadoresController extends Controller
         $empresa = Empresa::where('idUser', $user->id)->firstOrFail();
         $trabajador = Trabajadores::where('id', $id)->firstOrFail();
         EmpresaDispo::where('idTrabajador', $trabajador->id)->delete();
+        Accesos::where('idTrabajador', $trabajador->id)->delete();
 
         if ($trabajador->idEmpresa == $empresa->id) {
             $trabajador->delete();

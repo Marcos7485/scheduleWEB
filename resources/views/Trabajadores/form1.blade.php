@@ -795,23 +795,7 @@
                 </tbody>
             </table>
         </form>
-    </div>
-    <div>
-        <form action="{{ route('trabajador.update-lapsos') }}" method="POST">
-            @csrf
-            <label for="lapsos">Turnos de (minutos): </label>
-            <select name="lapsos">
-                <option>30</option>
-                <option>60</option>
-                <option>90</option>
-                <option>120</option>
-            </select>
-            <div>
-                <input type="hidden" name="idTrabajador" value="{{ $info->idTrabajador }}">
-                <button type="submit" class="btn btn-success">Guardar&nbsp;<i class="fa-solid fa-square-check"></i></button>
-            </div>
-        </form>
-    </div>
+    </div> 
 </div>
 
 
@@ -1608,39 +1592,6 @@
                             <select name="todasclmin">
                                 <option>00</option>
                                 <option>30</option>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="hidden" name="idTrabajador" value="{{ $info->idTrabajador }}">
-                            <button type="submit" class="btn btn-success">Guardar&nbsp;<i class="fa-solid fa-square-check"></i></button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </form>
-    </div>
-    <div>
-        <form action="{{ route('trabajador.update-lapsos') }}" method="POST">
-            @csrf
-            <table class="DisponibilidadTodasForm">
-
-                <thead>
-                    <tr>
-                        <th>
-                            Turnos de (minutos):
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <select name="lapsos">
-                                <option>30</option>
-                                <option>60</option>
-                                <option>90</option>
-                                <option>120</option>
-                            </select>
                         </td>
                     </tr>
                     <tr>
