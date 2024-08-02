@@ -32,10 +32,17 @@ Route::post('/createTurnoCliente', [TurnosController::class, 'createTurnoCliente
 
 Route::get('/registrarTurnoEmpresa/{empresa}/{id}', [EmpresaController::class, 'registrarTurnoEmpresa'])->name('registrarTurnoEmpresa');
 Route::get('/api/horariosclienteEmpresa/', [TurnosController::class, 'getHorariosDisponiblesClienteEmpresa']);
-Route::post('/createTurnoCliente', [TurnosController::class, 'createTurnoClienteEmpresa'])->name('turnos-createClienteEmpresa');
+Route::post('/createTurnoClienteEmpresa', [TurnosController::class, 'createTurnoClienteEmpresa'])->name('turnos-createClienteEmpresa');
 
 Route::get('/trabajadoresDashboard/{token}', [AccesosController::class, 'dashboard'])->name('TrabajadorDashboard');
 Route::post('/dashboardLogin', [AccesosController::class, 'dashboardTrabajador'])->name('dashboardLogin.Access');
+
+
+Route::get('/turnosHoyTrabajador/{id}', [TurnosController::class, 'TurnosHoyTrabajador'])->name('turnosHoyTrabajador');
+Route::get('/turnosWeekTrabajador/{id}', [TurnosController::class, 'TurnosWeekTrabajador'])->name('turnosWeekTrabajador');
+Route::get('/turnosNextWeekTrabajador/{id}', [TurnosController::class, 'TurnosNextWeekTrabajador'])->name('turnosNextWeekTrabajador');
+Route::get('/turnosMonthTrabajador/{id}', [TurnosController::class, 'TurnosMonthTrabajador'])->name('turnosMonthTrabajador');
+Route::get('/turnosAllTrabajador/{id}', [TurnosController::class, 'TurnosAllTrabajador'])->name('turnosAllTrabajador');
 
 
 Route::middleware(['auth'])->group(function () {

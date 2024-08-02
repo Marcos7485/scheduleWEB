@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.mainSinMenu')
 @section('title', 'Agenda Web')
 
 @section('content')

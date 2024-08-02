@@ -71,6 +71,27 @@ class TurnosController extends Controller
         }
     }
 
+    public function TurnosHoyTrabajador($id)
+    {
+        // SEguir
+        $trabajador = Trabajadores::where('id', $id)->where('active', 1)->first();
+        $empresa = Empresa::where('id', $trabajador->idEmpresa)->where('active', 1)->first();
+        $this->TurnosSrv->FinalizarTurnosEmpresa($empresa->id); // Finalizar turnos viejos
+        $turnosHoy = $this->TurnosSrv->TurnosHoyTrabajador($trabajador->id); // Turnos de Hoy
+
+
+        if (!$turnosHoy->isEmpty()) {
+            $data = [
+                'turnos' => $this->TurnosSrv->TransformTurnos($turnosHoy),
+                'periodo' => 'hoy'
+            ];
+            return view('accesos.turnosList', $data);
+        } else {
+            $data = ['message' => 'No hay turnos agendados'];
+            return view('accesos.turnosList', $data);
+        }
+    }
+
 
     public function TurnosWeek()
     {
@@ -109,6 +130,25 @@ class TurnosController extends Controller
         }
     }
 
+    public function TurnosWeekTrabajador($id)
+    {
+        $trabajador = Trabajadores::where('id', $id)->where('active', 1)->first();
+        $empresa = Empresa::where('id', $trabajador->idEmpresa)->where('active', 1)->first();
+        $this->TurnosSrv->FinalizarTurnosEmpresa($empresa->id); // Finalizar turnos viejos
+        $turnosSemana = $this->TurnosSrv->TurnosDeSemanaTrabajador($trabajador->id); // turnos de la semana
+        
+        if (!$turnosSemana->isEmpty()) {
+            $data = [
+                'turnos' => $this->TurnosSrv->TransformTurnos($turnosSemana),
+                'periodo' => 'de esta semana'
+            ];
+            return view('accesos.turnosList', $data);
+        } else {
+            $data = ['message' => 'No hay turnos agendados'];
+            return view('accesos.turnosList', $data);
+        }
+    }
+
 
     public function TurnosNextWeek()
     {
@@ -144,6 +184,25 @@ class TurnosController extends Controller
         } else {
             $data = ['message' => 'No hay turnos agendados'];
             return view('empresa.turnosList', $data);
+        }
+    }
+
+    public function TurnosNextWeekTrabajador($id)
+    {
+        $trabajador = Trabajadores::where('id', $id)->where('active', 1)->first();
+        $empresa = Empresa::where('id', $trabajador->idEmpresa)->where('active', 1)->first();
+        $this->TurnosSrv->FinalizarTurnosEmpresa($empresa->id); // Finalizar turnos viejos
+        $turnosSemanaProx = $this->TurnosSrv->TurnosNextWeekTrabajador($trabajador->id); // turnos de la semana
+
+        if (!$turnosSemanaProx->isEmpty()) {
+            $data = [
+                'turnos' => $this->TurnosSrv->TransformTurnos($turnosSemanaProx),
+                'periodo' => 'de la semana proxima'
+            ];
+            return view('accesos.turnosList', $data);
+        } else {
+            $data = ['message' => 'No hay turnos agendados'];
+            return view('accesos.turnosList', $data);
         }
     }
 
@@ -186,6 +245,26 @@ class TurnosController extends Controller
         }
     }
 
+    public function TurnosMonthTrabajador($id)
+    {
+        $trabajador = Trabajadores::where('id', $id)->where('active', 1)->first();
+        $empresa = Empresa::where('id', $trabajador->idEmpresa)->where('active', 1)->first();
+        $this->TurnosSrv->FinalizarTurnosEmpresa($empresa->id); // Finalizar turnos viejos
+        $turnosMes = $this->TurnosSrv->TurnosMesTrabajador($trabajador->id);
+
+        if (!$turnosMes->isEmpty()) {
+            $data = [
+                'turnos' => $this->TurnosSrv->TransformTurnos($turnosMes),
+                'periodo' => 'del mes'
+            ];
+            return view('accesos.turnosList', $data);
+        } else {
+            $data = ['message' => 'No hay turnos agendados'];
+            return view('accesos.turnosList', $data);
+        }
+    }
+
+
     public function TurnosAll()
     {
         $user = Auth::user();
@@ -221,6 +300,25 @@ class TurnosController extends Controller
         } else {
             $data = ['message' => 'No hay turnos agendados'];
             return view('empresa.turnosList', $data);
+        }
+    }
+
+    public function TurnosAllTrabajador($id)
+    {
+        $trabajador = Trabajadores::where('id', $id)->where('active', 1)->first();
+        $empresa = Empresa::where('id', $trabajador->idEmpresa)->where('active', 1)->first();
+        $this->TurnosSrv->FinalizarTurnosEmpresa($empresa->id); // Finalizar turnos viejos
+        $turnosTodos = $this->TurnosSrv->TurnosAllTrabajador($trabajador->id);
+        
+        if (!$turnosTodos->isEmpty()) {
+            $data = [
+                'turnos' => $this->TurnosSrv->TransformTurnos($turnosTodos),
+                'periodo' => 'agendados'
+            ];
+            return view('accesos.turnosList', $data);
+        } else {
+            $data = ['message' => 'No hay turnos agendados'];
+            return view('accesos.turnosList', $data);
         }
     }
 

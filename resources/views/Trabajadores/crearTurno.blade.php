@@ -142,6 +142,9 @@
                 <div class="turnosForm">
                     <form method="POST" action="{{ route('turnos-createClienteEmpresa') }}">
                         @csrf
+                        <div>
+                            <p>{{$trabajador->frase}}</p>
+                        </div>
                         <div class="mb-3">
                             <input type="hidden" value="{{ $trabajador->id }}" id="trabajadorId" name="trId">
                             <input type="hidden" value="{{ $token }}" id="tokenId" name="token">
