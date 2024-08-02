@@ -34,6 +34,9 @@ Route::get('/registrarTurnoEmpresa/{empresa}/{id}', [EmpresaController::class, '
 Route::get('/api/horariosclienteEmpresa/', [TurnosController::class, 'getHorariosDisponiblesClienteEmpresa']);
 Route::post('/createTurnoCliente', [TurnosController::class, 'createTurnoClienteEmpresa'])->name('turnos-createClienteEmpresa');
 
+Route::get('/trabajadoresDashboard/{token}', [AccesosController::class, 'dashboard'])->name('TrabajadorDashboard');
+Route::post('/dashboardLogin', [AccesosController::class, 'dashboardTrabajador'])->name('dashboardLogin.Access');
+
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [Main::class, 'dashboard'])->name('dashboard');
@@ -99,7 +102,5 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/accesos', [AccesosController::class, 'accesos'])->name('accesos');
     Route::get('/trabajadorAcceso/{id}', [AccesosController::class, 'TrabajadorAcceso'])->name('trabajador.acceso');
-    Route::get('/trabajadoresDashboard/{token}', [AccesosController::class, 'dashboard'])->name('TrabajadorDashboard');
-    Route::post('/dashboardLogin', [AccesosController::class, 'dashboardTrabajador'])->name('dashboardLogin.Access');
 
 });
