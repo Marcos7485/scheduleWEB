@@ -3,54 +3,54 @@
 
 @section('content')
 <div class="darturnospage text-center">
-    <div class="darPageAll">
-        <div>
-            <small id="idmensaje" style="color: green;"></small>
-        </div>
 
-        <div>
-            <form action="{{ route('update-lapsos-turnos') }}" method="POST">
-                @csrf
-                <small>Turnos de (minutos): <select name="lapsos">
-                        <option>{{$lapsos}}</option>
-                        @if ($lapsos == '30')
-                        <option>60</option>
-                        <option>90</option>
-                        <option>120</option>
-                        @elseif ($lapsos == '60')
-                        <option>30</option>
-                        <option>90</option>
-                        <option>120</option>
-                        @elseif ($lapsos == '90')
-                        <option>30</option>
-                        <option>60</option>
-                        <option>120</option>
-                        @elseif ($lapsos == '120')
-                        <option>30</option>
-                        <option>60</option>
-                        <option>90</option>
-                        @endif
-                    </select></small>
+    <div>
+        <small id="idmensaje" style="color: green;"></small>
+    </div>
 
-                <button type="submit" class="btn btn-warning"><i class="fa-solid fa-circle-left"></i>&nbsp;<small>Establecer</small></button>
-            </form>
-        </div>
-        <div>
-            <button class="btn btn-light" id="generateButton"><i class="fa-solid fa-arrows-rotate"></i><br><small>Turno establecido de {{$lapsos}} minutos</small></button>
-        </div>
+    <div>
+        <form action="{{ route('update-lapsos-turnos') }}" method="POST">
+            @csrf
+            <small>Turnos de (minutos): <select name="lapsos">
+                    <option>{{$lapsos}}</option>
+                    @if ($lapsos == '30')
+                    <option>60</option>
+                    <option>90</option>
+                    <option>120</option>
+                    @elseif ($lapsos == '60')
+                    <option>30</option>
+                    <option>90</option>
+                    <option>120</option>
+                    @elseif ($lapsos == '90')
+                    <option>30</option>
+                    <option>60</option>
+                    <option>120</option>
+                    @elseif ($lapsos == '120')
+                    <option>30</option>
+                    <option>60</option>
+                    <option>90</option>
+                    @endif
+                </select></small>
 
-        <div class="card-link">
-            <div class="input-text">
-                <input type="text" id="linkInput" value="{{ $link }}" style="padding: 5px;" disabled><button class="btn btn-info" onclick="copyToClipboard()"><i class="fa-solid fa-copy"></i></button>
-            </div>
-        </div>
+            <button type="submit" class="btn btn-warning"><i class="fa-solid fa-circle-left"></i>&nbsp;<small>Establecer</small></button>
+        </form>
+    </div>
+    <div>
+        <button class="btn btn-light" id="generateButton"><i class="fa-solid fa-arrows-rotate"></i><br><small>Turno establecido de {{$lapsos}} minutos</small></button>
+    </div>
 
-
-        <div>
-            <a href="{{ route('dashboard') }}" class="btn btn-success">volver</a>
-            <a href="{{ Route('create-turno') }}" class="btn btn-info">Crear Turno<i class="fa-solid fa-pen-to-square"></i></a>
+    <div class="card-link">
+        <div class="input-text">
+            <input type="text" id="linkInput" value="{{ $link }}" style="padding: 5px;" disabled><button class="btn btn-info" onclick="copyToClipboard()"><i class="fa-solid fa-copy"></i></button>
         </div>
     </div>
+
+
+    <div>
+        <a href="{{ route('dashboard') }}" class="btn btn-success">volver</a>
+        <a href="{{ Route('create-turno') }}" class="btn btn-info">Crear Turno<i class="fa-solid fa-pen-to-square"></i></a>
+    </div>
+
 </div>
 
 

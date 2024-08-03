@@ -32,7 +32,6 @@
             </select>
          </div>
          <div class="mb-3">
-            <a href="{{ route('dashboard') }}" class="btn btn-success">volver</a>
             <button type="submit" class="btn btn-warning">Agendar</button>
          </div>
       </form>

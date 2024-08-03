@@ -232,9 +232,7 @@ class TurnosSrv
     {
         $dates = $this->DispSrv->Dates();
 
-        $turnos = Turnos::whereDate('fechahora', $dates['hoy'])
-            ->where('idUser', $id)
-            ->get();
+        $turnos = Turnos::where('idUser', $id)->where('status', 'PENDIENTE')->get();
 
         foreach ($turnos as $turno) {
             if ($turno->fechahora < $dates['datetimenow']) {

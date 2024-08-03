@@ -3,32 +3,32 @@
 
 @section('content')
 <div class="accesospage text-center">
-    <div class="darPageAll">
-        <small id="idmensaje" style="color: green;"></small>
-        <div>
-            <h1>Acceso web:</h1>
-        </div>
 
-        <div class="card-link">
-            <div class="input-text">
-                <input type="text" id="linkInput" value="{{ $link }}" style="padding: 5px;" disabled><button class="btn btn-info" onclick="copyToClipboard()"><i class="fa-solid fa-copy"></i></button>
-            </div>
-        </div>
+    <small id="idmensaje" style="color: green;"></small>
 
-        <div>
-            <h1>Password:</h1>
-        </div>
+    <h1>Acceso web:</h1>
 
-        <div class="card-link">
-            <div class="input-text">
-                <input type="text" id="passwordInput" value="{{ $password }}" style="padding: 5px;" disabled><button class="btn btn-info" onclick="copyToClipboardPassword()"><i class="fa-solid fa-copy"></i></button>
-            </div>
-        </div>
 
-        <div>
-            <a href="{{ route('accesos') }}" class="btn btn-success">volver</a>
+    <div class="card-link">
+        <div class="input-text">
+            <input type="text" id="linkInput" value="{{ $link }}" style="padding: 5px;" disabled><button class="btn btn-info" onclick="copyToClipboard()"><i class="fa-solid fa-copy"></i></button>
         </div>
     </div>
+
+    <div>
+        <h1>Password:</h1>
+    </div>
+
+    <div class="card-link">
+        <div class="input-text">
+            <input type="text" id="passwordInput" value="{{ $password }}" style="padding: 5px;" disabled><button class="btn btn-info" onclick="copyToClipboardPassword()"><i class="fa-solid fa-copy"></i></button>
+        </div>
+    </div>
+
+    <div>
+        <a href="{{ route('accesos') }}" class="btn btn-success">volver</a>
+    </div>
+
 </div>
 
 

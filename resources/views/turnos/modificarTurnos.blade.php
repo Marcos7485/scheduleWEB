@@ -17,20 +17,14 @@
           <th>Dia</th>
           <th>Hora</th>
           <th>Cliente</th>
-          <th>Estado</th>
           <th>Cancelar</th>
         </tr>
       </thead>
       <tbody>
-        @for ($i = 0; $i < count($turnos); $i++) <tr>
+        @for ($i = 0; $i < count($turnos); $i++) <tr style="{{ $turnos[$i]['status'] == 'FINALIZADO' ? 'background-color:brown;' : '' }}">
           <td>{{$turnos[$i]['fecha']}}</td>
           <td>{{$turnos[$i]['hora']}}</td>
           <td>{{$turnos[$i]['cliente']->nombre}}</td>
-          @if ($turnos[$i]['status'] == 'PENDIENTE')
-          <td style="color:green;">{{$turnos[$i]['status']}}</td>
-          @else
-          <td style="color:red">{{$turnos[$i]['status']}}</td>
-          @endif
           <td>
             <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-action="{{ route('turnos.destroy', $turnos[$i]['id']) }}">
               <i class="fa-solid fa-circle-xmark"></i>

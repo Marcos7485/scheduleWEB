@@ -33,7 +33,6 @@
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
-
             background-image: url('{{ Storage::url($trabajador->background) }}');
             background-color: #000000;
             background-size: cover;
@@ -41,11 +40,16 @@
             background-repeat: no-repeat;
         }
 
+
+        html {
+            background-color: #000000;
+            font-size: 62.5%;
+        }
+
         .container-fluid {
             color: #FFFFFF;
             overflow: hidden;
             font-family: "Nunito", light;
-            min-height: 100vh;
         }
 
         .banner {
@@ -53,14 +57,15 @@
         }
 
         .imgProf {
-            width: 10vw;
+            width: 12rem;
             border-radius: 50%;
-            margin-top: 2vh;
-            margin-bottom: 2vh;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
         }
 
         #drs-icon {
-            width: 1.5vw;
+            width: 2.25rem;
+            margin-top: .3rem;
         }
 
         #footer {
@@ -68,10 +73,9 @@
             position: fixed;
             bottom: 0;
             background-color: rgba(0, 0, 0, 0.5);
-            /* Fondo negro con 50% de opacidad */
             z-index: 1000;
             width: 100%;
-            height: 4vh;
+            height: 3rem;
         }
 
         #footer a {
@@ -80,42 +84,51 @@
         }
 
         .pageDetails {
-            height: 100vh;
+            height: 51rem;
             width: 100%;
             display: flex;
             justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .pageDetails p{
+            font-size: 1.3rem;
+        }
+
+        .pageDetails input{
+            font-size: 1.3rem;
+        }
+
+        .pageDetails a{
+            font-size: 1.3rem;
+        }
+
+        .pageDetails button{
+            font-size: 1.3rem;
+        }
+
+        .pageDetails h1{
+            font-size: 2.6rem;
         }
 
         .turnosForm div p {
             background: linear-gradient(to bottom right, #7D99B2, #2d72ad);
-            padding: 2px;
-            border-radius: 10px;
+            padding: .2rem;
+            border-radius: 1rem;
         }
 
         .turnosForm div h1 {
             background: linear-gradient(to bottom right, #7D99B2, #2d72ad);
-            padding: 2px;
-            border-radius: 10px;
+            padding: .2rem;
+            border-radius: 1rem;
         }
 
         .turnosForm div label {
             background: linear-gradient(to bottom right, #7D99B2, #2d72ad);
-            padding: 2px;
-            border-radius: 10px;
+            padding: .2rem;
+            border-radius: 1rem;
         }
 
-        @media (max-width: 800px) {
-            .imgProf {
-                width: 20vh;
-                border-radius: 50%;
-                margin-top: 2vh;
-                margin-bottom: 2vh;
-            }
-
-            #drs-icon {
-                width: 2.5vh;
-            }
-        }
     </style>
 </head>
 

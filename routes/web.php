@@ -37,12 +37,12 @@ Route::post('/createTurnoClienteEmpresa', [TurnosController::class, 'createTurno
 Route::get('/trabajadoresDashboard/{token}', [AccesosController::class, 'dashboard'])->name('TrabajadorDashboard');
 Route::post('/dashboardLogin', [AccesosController::class, 'dashboardTrabajador'])->name('dashboardLogin.Access');
 
-
-Route::get('/turnosHoyTrabajador/{id}', [TurnosController::class, 'TurnosHoyTrabajador'])->name('turnosHoyTrabajador');
-Route::get('/turnosWeekTrabajador/{id}', [TurnosController::class, 'TurnosWeekTrabajador'])->name('turnosWeekTrabajador');
-Route::get('/turnosNextWeekTrabajador/{id}', [TurnosController::class, 'TurnosNextWeekTrabajador'])->name('turnosNextWeekTrabajador');
-Route::get('/turnosMonthTrabajador/{id}', [TurnosController::class, 'TurnosMonthTrabajador'])->name('turnosMonthTrabajador');
-Route::get('/turnosAllTrabajador/{id}', [TurnosController::class, 'TurnosAllTrabajador'])->name('turnosAllTrabajador');
+Route::get('/MenudeTurnosTrabajador/{id}/{hash}', [AccesosController::class, 'MenuTurnosTrabajador'])->name('TurnosMenuTrabajador');
+Route::get('/turnosHoyTrabajador/{id}/{hash}', [TurnosController::class, 'TurnosHoyTrabajador'])->name('turnosHoyTrabajador');
+Route::get('/turnosWeekTrabajador/{id}/{hash}', [TurnosController::class, 'TurnosWeekTrabajador'])->name('turnosWeekTrabajador');
+Route::get('/turnosNextWeekTrabajador/{id}/{hash}', [TurnosController::class, 'TurnosNextWeekTrabajador'])->name('turnosNextWeekTrabajador');
+Route::get('/turnosMonthTrabajador/{id}/{hash}', [TurnosController::class, 'TurnosMonthTrabajador'])->name('turnosMonthTrabajador');
+Route::get('/turnosAllTrabajador/{id}/{hash}', [TurnosController::class, 'TurnosAllTrabajador'])->name('turnosAllTrabajador');
 
 
 Route::middleware(['auth'])->group(function () {

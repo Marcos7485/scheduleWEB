@@ -1,14 +1,14 @@
-$(document).ready(function () {
-    $('#disp-horaria').DataTable({
-        paging: false,
-        searching: false,
-        ordering: false,
-        language: {
-            info: "",
-            infoEmpty: "",
-        }
-    });
-});
+// $(document).ready(function () {
+//     $('#disp-horaria').DataTable({
+//         paging: false,
+//         searching: false,
+//         ordering: false,
+//         language: {
+//             info: "",
+//             infoEmpty: "",
+//         }
+//     });
+// });
 
 $(document).ready(function () {
     $('#turnos-delete').DataTable({

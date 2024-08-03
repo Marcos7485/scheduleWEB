@@ -4,9 +4,9 @@
 @section('content')
 <div class="page_trabajadores text-center">
     <div class="trabajadores-menu">
-        <div>
-            <h1>Accesos</h1>
-        </div>
+
+        <h1>Accesos</h1>
+
         @foreach($trabajadores as $trabajador)
         <div class="lineTrabajador">
             <a href="{{ route('trabajador.acceso', $trabajador->id) }}">

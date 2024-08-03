@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 
 :root {
-    --fontsize: 2vw;
-    --fontsizeCel: 5vw;
+    --fontsize: 2.6rem;
+    --fontsizeCel: 6.5rem;
     --color-AirBlue: #7D99B2;
     --color-Pear: #C2E150;
     --color-Black: #000000;
@@ -25,6 +25,7 @@ body {
 
 html {
     background-color: #000000;
+    font-size: 62.5%;
 }
 
 .container-fluid {
@@ -34,15 +35,6 @@ html {
     font-family: "Nunito", light;
 }
 
-.custom-show {
-    display: block !important;
-}
-
-.custom-hide {
-    display: none !important;
-}
-
-
 /* ////////////////////////////////////////////////////////////////////////////// */
 
 .banner {
@@ -50,11 +42,12 @@ html {
 }
 
 .banner img {
-    width: 10vw;
+    width: 15rem;
 }
 
 #drs-icon {
-    width: 1.5vw;
+    width: 2.25rem;
+    margin-top: .3rem;
 }
 
 #footer {
@@ -64,7 +57,7 @@ html {
     background-color: #000000;
     z-index: 1000;
     width: 100%;
-    height: 4vh;
+    height: 3.5rem;
 }
 
 #footer a {
@@ -81,8 +74,9 @@ html {
 
 header ul a {
     text-decoration: none;
-    padding-right: 20px;
+    padding-right: 2rem;
     color: #C2E150;
+    font-size: 1.5rem;
 }
 
 /* ////////////////////////////////////////////////////////////////////////////// */
@@ -90,7 +84,7 @@ header ul a {
 
 .page_1 {
     background-color: #000000;
-    height: 70vh;
+    height: 45rem;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -103,22 +97,22 @@ header ul a {
 .card-welcome {
     box-shadow: 2px 2px 1px #7D99B2;
     background-color: #C2E150;
-    border-radius: 20px;
+    border-radius: 2rem;
     color: #000000;
-    height: 20vh;
-    width: 20vw;
+    height: 12rem;
+    width: 25rem;
     cursor: pointer;
-    transform: translateY(20vh);
+    transform: translateY(12rem);
 }
 
 .card-welcome:active {
     box-shadow: 0 0 0px #7D99B2;
     /* Reducir sombra al hacer clic */
-    transform: translate(.2vw, 21vh);
+    transform: translate(.5rem, 12rem);
 }
 
 #agenda-design {
-    width: 5vw;
+    width: 7.5rem;
 }
 
 
@@ -126,42 +120,63 @@ header ul a {
 
 .page_2 {
     background-color: #000000;
-    height: 75vh;
+    height: 45rem;
     width: 100%;
     display: flex;
     justify-content: center;
+    font-size: 1.5rem;
+}
+
+.page_2 input {
+    font-size: 1.5rem;
+}
+
+.page_2 button {
+    font-size: 1.5rem;
 }
 
 .card-login {
-    height: 20vh;
-    width: 20vw;
-    transform: translateY(10vh);
+    height: 33rem;
+    width: 26rem;
+    transform: translateY(8rem);
 }
 
 /* //////////////////////////////////////////////////////////////////////////////////////////////*/
 
 .page_3 {
     background-color: #000000;
-    height: 95vh;
+    height: 57rem;
     width: 100%;
     display: flex;
     justify-content: center;
+    font-size: 1.5rem;
+}
+
+.page_3 input{
+    font-size: 1.5rem;
+}
+
+.page_3 button{
+    font-size: 1.5rem;
 }
 
 .card-register {
-    height: 20vh;
-    width: 20vw;
-    transform: translateY(00vh);
+    height: 20rem;
+    width: 26rem;
 }
 
 /* //////////////////////////////////////////////////////////////////////////////////////////////*/
 
 .page_4 {
     background-color: #000000;
-    height: 90vh;
+    height: 45rem;
     width: 100%;
     display: flex;
     justify-content: center;
+}
+
+.page_4 p {
+    font-size: var(--fontsize);
 }
 
 .dashboard-menu a {
@@ -173,35 +188,46 @@ header ul a {
     justify-content: center;
     background: linear-gradient(to bottom right, #C2E150, #506017);
     clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
-    border-radius: 20px;
+    border-radius: 2rem;
     color: #000000;
-    width: 20vw;
+    width: 30rem;
     cursor: pointer;
-    transform: translateY(0vh);
-    margin-bottom: 2vw;
+    margin-bottom: 1.5rem;
 }
 
 .dashboard-menu div h1 {
-    font-size: 2vw;
-    margin-top: 5px;
+    font-size: var(--fontsize);
+    margin-top: .5rem;
 }
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
 .page_5 {
     background-color: #000000;
-    height: 70vh;
+    height: 47rem;
     width: 100%;
-    display: flex;
+    display: flex !important;
     justify-content: center;
+    font-size: 1.5rem;
+}
+
+.page_5 a {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+}
+
+.page_5 button {
+    font-size: 1.5rem;
+    margin-top: 1rem;
 }
 
 .page_5 table {
     text-align: center;
     box-shadow: -2px 2px 2px #7D99B2;
     background-color: #C2E150;
-    border-radius: 20px;
+    border-radius: 2rem;
     color: #000000;
+    height: 16rem;
 }
 
 .page_5 table thead tr th {
@@ -210,7 +236,9 @@ header ul a {
 
 .page_5 h1 {
     text-align: center;
-    font-size: 2vw;
+    font-size: var(--fontsize);
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 /* //////////////////////////////////////////////////////////////////////////////////////////////// */
@@ -218,46 +246,59 @@ header ul a {
 
 .form1 {
     background-color: #000000;
-    height: 100vh;
+    height: 48rem;
     width: 100%;
     display: flex;
-    justify-content: center;
+    font-size: 1.5rem;
+    flex-direction: column;
+}
+
+.form1 a {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+}
+
+.form1 button {
+    font-size: 1.5rem;
+    margin-top: 1rem;
 }
 
 .form1 div {
     display: flex;
     justify-content: center;
-    margin-bottom: 1vw;
+    margin-bottom: .5rem;
 }
+
 
 #disp-horaria {
     text-align: center;
-    box-shadow: -2px 2px 2px #7D99B2;
+    box-shadow: -.2rem .2rem .2rem #7D99B2;
     background-color: #C2E150;
-    border-radius: 20px;
+    border-radius: 2rem;
     color: #000000;
-    width: 50vw;
+    width: 85rem;
+    height: 12rem;
 }
 
 #disp-horaria-todas {
     text-align: center;
-    box-shadow: -2px 2px 2px white;
-    margin-top: 7px;
-    margin-left: 5px;
+    box-shadow: -.2rem .2rem .2rem white;
+    margin-top: .7rem;
+    margin-left: .5rem;
     background-color: #7D99B2;
     color: #000000;
-    margin-bottom: 1vw;
+    margin-bottom: 1rem;
 }
 
 #disp-horaria-todas td select {
     display: inline-block;
-    margin-right: 5px;
-    margin-bottom: 5px;
+    margin-right: .5rem;
+    margin-bottom: .5rem;
 }
 
 .form1 table td select {
     display: inline-block;
-    margin-right: 5px;
+    margin-right: .5rem;
 }
 
 .form1 table thead tr th {
@@ -266,7 +307,7 @@ header ul a {
 
 .tituloPagina {
     text-align: center;
-    font-size: 2vw;
+    font-size: var(--fontsize);
 }
 
 /* //////////////////////////////////////////////////////////////////////////////////////////////////////// */
@@ -280,17 +321,24 @@ header ul a {
     justify-content: center;
     background: linear-gradient(to bottom right, #7D99B2, #2d72ad);
     clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
-    border-radius: 20px;
+    border-radius: 2rem;
     color: #000000;
-    width: 20vw;
+    width: 30rem;
     cursor: pointer;
-    transform: translateY(0vh);
-    margin-bottom: 2vw;
+    margin-bottom: 2rem;
+}
+
+.dashboard-menu-turnos p {
+    font-size: var(--fontsize);
+}
+
+.dashboard-menu-turnos a {
+    font-size: 1.5rem;
 }
 
 .dashboard-menu-turnos div h1 {
-    font-size: 2vw;
-    margin-top: 5px;
+    font-size: var(--fontsize);
+    margin-top: .5rem;
 }
 
 /* ///////////////////////////////////////////////////////////////////////////////////////// */
@@ -303,71 +351,107 @@ header ul a {
 /* ///////////////////////////////////////////////////////////////////////////////////////// */
 
 .darturnospage {
-    height: 50vh;
+    height: 46rem;
     width: 100%;
     align-items: center;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.darturnospage button {
+    font-size: 1.5rem;
+}
+
+.darturnospage a {
+    font-size: 1.5rem;
 }
 
 .darturnospage div {
-    margin-bottom: 1vw;
+    margin-bottom: 1rem;
 }
 
-.input-text {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 10vh;
+.input-text input {
+    margin-bottom: 5rem;
+    width: 20rem;
 }
 
 .card-link {
-    padding: 1vw;
-    height: 10vh;
-    width: 20vw;
+    padding: 1.5rem;
+    height: 6rem;
+    width: 30rem;
     text-align: center;
-    box-shadow: -2px 2px 2px #7D99B2;
+    box-shadow: -.2rem .2rem .2rem #7D99B2;
     background-color: #C2E150;
-    border-radius: 20px;
+    border-radius: 2rem;
     color: #000000;
 }
 
 
 .Page_10 {
-    height: 70vh;
+    height: 45rem;
     width: 100%;
-    align-items: center;
     display: flex;
     justify-content: center;
+    font-size: 1.5rem;
 }
 
-.turnosForm {
-    margin-top: -10vh;
+.Page_10 div input {
+    font-size: 1.5rem;
+}
+
+.Page_10 a {
+    font-size: 1.5rem;
+}
+
+.Page_10 button {
+    font-size: 1.5rem;
 }
 
 /* /////////////////////////////////////////////////////////////////////////// */
 
 .LinkCaducado {
-    height: 50vh;
+    height: 46rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
 .createClienteTurno {
-    height: 80vh;
+    height: 46rem;
     width: 100%;
-    align-items: center;
     display: flex;
     justify-content: center;
+    font-size: 1.5rem;
+}
+
+.createClienteTurno div {
+    margin-top: 1rem;
+}
+
+.createClienteTurno a {
+    font-size: 1.5rem;
+}
+
+.createClienteTurno input {
+    font-size: 1.5rem;
+}
+
+.createClienteTurno button {
+    font-size: 1.5rem;
 }
 
 /* CODIGO NUEVO /////////////////////////////////////////////////////////////////////////////////////*/
 .turnoslist {
-    height: 70vh;
+    height: 45rem;
     width: 100%;
     display: flex;
     justify-content: center;
+    font-size: 1.5rem;
+}
+
+.turnoslist a {
+    font-size: 1.5rem;
 }
 
 .turnos-list {
@@ -376,7 +460,7 @@ header ul a {
 
 .message {
     font-size: var(--fontsize);
-    transform: translateY(20vh);
+    transform: translateY(5rem);
     text-align: center;
 }
 
@@ -385,12 +469,20 @@ header ul a {
 }
 
 .modificarTurnos {
-    height: 90vh;
+    height: 45rem;
     width: 100%;
     display: flex;
     justify-content: center;
+    font-size: 1.5rem;
 }
 
+.modificarTurnos h1 {
+    font-size: var(--fontsize);
+}
+
+.modificarTurnos a {
+    font-size: 1.5rem;
+}
 
 #deleteModal .modal-content {
     background-color: var(--color-Black);
@@ -410,7 +502,7 @@ header ul a {
 
 .page_empresa {
     background-color: #000000;
-    height: 120vh;
+    height: 62rem;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -418,6 +510,11 @@ header ul a {
 
 .empresa-menu a {
     text-decoration: none;
+    font-size: 1.5rem;
+}
+
+.empresa-menu p {
+    font-size: var(--fontsize);
 }
 
 .empresa-menu a div {
@@ -425,17 +522,16 @@ header ul a {
     justify-content: center;
     background: linear-gradient(to bottom right, #C2E150, #506017);
     clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
-    border-radius: 20px;
+    border-radius: 2rem;
     color: #000000;
-    width: 20vw;
+    width: 30rem;
     cursor: pointer;
-    transform: translateY(0vh);
-    margin-bottom: 2vw;
+    margin-bottom: 1.5rem;
 }
 
 .empresa-menu div h1 {
-    font-size: 2vw;
-    margin-top: 5px;
+    font-size: var(--fontsize);
+    margin-top: .5rem;
 }
 
 .formEmpresa {
@@ -446,9 +542,9 @@ header ul a {
     justify-content: center;
 }
 
-.empresaImgMenu{
-    width: 100px;
-    margin-bottom: 15px;
+.empresaImgMenu {
+    width: 10rem;
+    margin-bottom: 1.5rem;
 }
 
 
@@ -472,14 +568,30 @@ header ul a {
 
 .page_trabajadores {
     background-color: #000000;
-    height: 70vh;
+    height: 45rem;
     width: 100%;
     display: flex;
     justify-content: center;
 }
 
+.page_trabajadores h1 {
+    font-size: var(--fontsize);
+}
+
+.page_trabajadores a {
+    font-size: 1.5rem;
+}
+
+.page_trabajadores button {
+    font-size: 2rem;
+}
+
 .trabajadores-menu a {
     text-decoration: none;
+}
+
+.trabajadores-menu a div h1 {
+    font-size: var(--fontsize);
 }
 
 .trabajadores-menu a div {
@@ -487,17 +599,19 @@ header ul a {
     justify-content: center;
     background: linear-gradient(to bottom right, #7D99B2, #2d72ad);
     clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
-    border-radius: 20px;
+    border-radius: 2rem;
     color: #000000;
-    width: 20vw;
+    width: 30rem;
+    height: 4.5rem;
     cursor: pointer;
-    transform: translateY(0vh);
-    margin-bottom: 1vw;
+    margin-bottom: 1rem;
 }
 
-.trabajadores-menu button{
-    clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 0% 100%);
-    border-radius: 10px;
+.trabajadores-menu button {
+    clip-path: polygon(70% 0%, 100% 0%, 100% 100%, 0% 100%);
+    border-radius: 1rem;
+    width: 4rem;
+    margin-left: -2rem;
 }
 
 .lineTrabajador {
@@ -506,7 +620,7 @@ header ul a {
 }
 
 .lineTrabajador a {
-    text-decoration: none; 
+    text-decoration: none;
 }
 
 .trabajadores-menu div h1 {
@@ -530,336 +644,79 @@ header ul a {
 
 .formTrabajadores {
     background-color: #000000;
-    height: 150vh;
+    height: 70rem;
     width: 100%;
     display: flex;
     justify-content: center;
 }
 
-#backgroundPreview{
-    width: 100px;
+.formTrabajadores {
+    font-size: 1.5rem;
+}
+
+.formTrabajadores input {
+    font-size: 1.5rem;
+}
+
+.formTrabajadores a {
+    font-size: 1.5rem;
+}
+
+.formTrabajadores button {
+    font-size: 1.5rem;
+}
+
+#backgroundPreview {
+    width: 10rem;
     display: none;
     margin: auto;
-    margin-top: 15px;
+    margin-top: 1.5rem;
 }
 
 /* //////////////////////////////DETAILS//////////////////////////////////////////////////////////// */
 
 .accesospage {
-    height: 65vh;
+    height: 46rem;
     width: 100%;
     align-items: center;
     display: flex;
     flex-direction: column;
-    justify-content: center;
 }
+
 .accesospage h1 {
-    font-size: 2vw;
+    font-size: var(--fontsize);
+}
+
+.accesospage a {
+    font-size: 1.5rem;
 }
 
 .accesospage div {
-    margin-bottom: 1vw;
+    margin-bottom: 1rem;
 }
 
 /* //////////////////////////////////////////////////////////////////////////////////////////////// */
 
 .dashboardTrabajador {
-    height: 50vh;
+    height: 46rem;
     width: 100%;
     align-items: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    font-size: var(--fontsize);
 }
 
-.dashboardTrabajador img{
-    width: 100px;
+.dashboardTrabajador button {
+    font-size: 1.5rem;
+}
+
+.dashboardTrabajador input {
+    font-size: 1.5rem;
+}
+
+.dashboardTrabajador img {
+    width: 10rem;
 }
 
 /* FINAL CODIGO NUEVO ///////////////////////////////////////////////////////////////////////////// */
-@media (max-width: 800px) {
-
-    .custom-show {
-        display: none !important;
-    }
-
-    .custom-hide {
-        display: block !important;
-    }
-
-
-    .banner img {
-        width: 40vw;
-    }
-
-    #drs-icon {
-        width: 5vw;
-    }
-
-    #footer {
-        text-align: center;
-        position: fixed;
-        bottom: 0;
-        background-color: #000000;
-        z-index: 1000;
-        width: 100%;
-        height: 4vh;
-    }
-
-    #footer a {
-        text-decoration: none;
-        color: #7D99B2;
-    }
-
-    /* ///////////////////////////////////////////////////////////////////////// */
-
-
-    .page_1 {
-        background-color: #000000;
-        height: 100vh;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-    }
-
-    .card-welcome {
-        box-shadow: 2px 2px 1px #7D99B2;
-        background-color: #C2E150;
-        border-radius: 20px;
-        color: #000000;
-        height: 20vh;
-        width: 50vw;
-        cursor: pointer;
-        transform: translateY(20vh);
-    }
-
-    .card-welcome:active {
-        box-shadow: 0 0 0px #7D99B2;
-        /* Reducir sombra al hacer clic */
-        transform: translate(.2vw, 21vh);
-    }
-
-    #agenda-design {
-        width: 20vw;
-    }
-
-    /* //////////////////////////////////////////////////////////////////////// */
-
-    .page_2 {
-        background-color: #000000;
-        height: 100vh;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-    }
-
-    .card-login {
-        height: 50vh;
-        width: 80vw;
-        transform: translateY(10vh);
-    }
-
-    /* //////////////////////////////////////////////////////////////////////// */
-
-
-    .page_3 {
-        background-color: #000000;
-        height: 100vh;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-    }
-
-    .card-register {
-        height: 50vh;
-        width: 80vw;
-        transform: translateY(00vh);
-    }
-
-
-    /* //////////////////////////////////////////////////////////////////////// */
-
-    .page_4 {
-        background-color: #000000;
-        height: 100vh;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-    }
-
-    .dashboard-menu a {
-        text-decoration: none;
-
-    }
-
-    .dashboard-menu div {
-        display: flex;
-        justify-content: center;
-        box-shadow: 2px 2px 1px #7D99B2;
-        background-color: #C2E150;
-        border-radius: 20px;
-        color: #000000;
-        width: 60vw;
-        cursor: pointer;
-        transform: translateY(0vh);
-        margin-bottom: 5vw;
-    }
-
-    .dashboard-menu div h1 {
-        font-size: 5vw;
-    }
-
-    /* //////////////////////////////////////////////////////////////////////// */
-
-
-    .page_5 {
-        height: 100vh;
-        width: 100%;
-    }
-
-    .page_5 h1 {
-        font-size: 5vw;
-    }
-
-    /* //////////////////////////////////////////////////////////////////////// */
-    .dashboard-menu-turnos a {
-        text-decoration: none;
-
-    }
-
-    .dashboard-menu-turnos div {
-        display: flex;
-        justify-content: center;
-        box-shadow: 2px 2px 1px #FFFFFF;
-        background-color: #7D99B2;
-        border-radius: 20px;
-        color: #000000;
-        width: 60vw;
-        cursor: pointer;
-        transform: translateY(0vh);
-        margin-bottom: 5vw;
-    }
-
-    .dashboard-menu-turnos div h1 {
-        font-size: 5vw;
-    }
-
-    .darturnospage {
-        height: 70vh;
-        width: 100%;
-        align-items: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    .darPageAll {
-        margin-top: -20vh;
-    }
-
-    .darturnospage div {
-        margin-bottom: 1vh;
-    }
-
-    .input-text {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 0vh;
-    }
-
-    .card-link {
-        padding: 5vw;
-        height: 10vh;
-        width: 80vw;
-        text-align: center;
-        box-shadow: -2px 2px 2px #7D99B2;
-        background-color: #C2E150;
-        border-radius: 20px;
-        color: #000000;
-    }
-
-    .DisponibilidadTable {
-        text-align: center;
-        display: flex;
-        justify-content: center;
-        height: 70vh;
-        width: 100%;
-    }
-
-    .DisponibilidadTable2 {
-        text-align: center;
-
-    }
-
-    .buttonsCel {
-        margin-top: 5vh;
-    }
-
-    /* ////////////////////////////////////////////////////////////////////////// */
-
-
-    .Disponibilidadform1 {
-        text-align: center;
-        height: 100vh;
-        width: 100%;
-        font-size: 3vw;
-        justify-content: center;
-    }
-
-    .Disponibilidadform1 div {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 1vw;
-    }
-
-    .form1 {
-        background-color: #000000;
-        height: 100vh;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-    }
-
-    .DisponibilidadTodasForm {
-        text-align: center;
-        box-shadow: -2px 2px 2px white;
-        margin-top: 7px;
-        margin-left: 5px;
-        background-color: #7D99B2;
-        color: #000000;
-        margin-bottom: 1vw;
-    }
-
-    .DisponibilidadTodasForm td select {
-        display: inline-block;
-        margin-right: 5px;
-        /* Espacio opcional entre los selectores */
-        margin-bottom: 5px;
-        /* Espacio opcional entre los selectores */
-    }
-
-    .LinkCaducado {
-        height: 50vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    .createClienteTurno {
-        height: 70vh;
-        width: 100%;
-        align-items: center;
-        display: flex;
-        justify-content: center;
-    }
-
-    .Page_10 {
-        height: 70vh;
-        width: 100%;
-        align-items: center;
-        display: flex;
-        justify-content: center;
-    }
-
-
-}

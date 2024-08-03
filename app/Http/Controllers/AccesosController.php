@@ -12,22 +12,44 @@ use Illuminate\Support\Facades\Auth;
 class AccesosController extends Controller
 {
 
-    public function dashboardTrabajador(TrabajadorLoginRequest $request){
+    public function dashboardTrabajador(TrabajadorLoginRequest $request)
+    {
         $acceso = Accesos::where('password', $request->password)->where('active', 1)->first();
         $trabajador = Trabajadores::where('id', $acceso->idTrabajador)->where('active', 1)->first();
         $empresa = Empresa::where('id', $trabajador->idEmpresa)->where('active', 1)->first();
         $data = [
             'trabajador' => $trabajador,
-            'empresa' => $empresa
+            'empresa' => $empresa,
+            'password' => $request->password
         ];
-        
+
         return view('accesos.turnosMenu', $data);
     }
 
-    public function dashboard($token){
+    public function MenuTurnosTrabajador($id, $hash)
+    {
+        $acceso = Accesos::where('password', $hash)->where('active', 1)->first();
+        $trabajador = Trabajadores::where('id', $id)->where('active', 1)->first();
+        $empresa = Empresa::where('id', $trabajador->idEmpresa)->where('active', 1)->first();
+
+        $data = [
+            'trabajador' => $trabajador,
+            'empresa' => $empresa,
+            'password' => $hash
+        ];
+
+        if ($acceso->idTrabajador == $id) {
+            return view('accesos.turnosMenu', $data);
+        } else {
+            return view('accesos.denegado');
+        }
+    }
+
+    public function dashboard($token)
+    {
         $tokenVerif = Accesos::where('hash', $token)->where('active', 1)->first();
 
-        if($tokenVerif !== null){
+        if ($tokenVerif !== null) {
             $empresa = Empresa::where('id', $tokenVerif->idEmpresa)->where('active', 1)->first();
 
             $data = [
@@ -40,10 +62,11 @@ class AccesosController extends Controller
         }
     }
 
-    public function TrabajadorAcceso($id){
+    public function TrabajadorAcceso($id)
+    {
         $acceso = Accesos::where('idTrabajador', $id)->where('active', 1)->first();
         $link = route('TrabajadorDashboard', ['token' => $acceso->hash]);
-        
+
         $data = [
             'password' => $acceso->password,
             'link' => $link
@@ -52,7 +75,8 @@ class AccesosController extends Controller
         return view('empresa.accesoid', $data);
     }
 
-    public function accesos(){
+    public function accesos()
+    {
         $user = Auth::user();
         $empresa = Empresa::where('idUser', $user->id)->where('active', 1)->first();
         $trabajadores = Trabajadores::where('idEmpresa', $empresa->id)->where('active', 1)->get();
@@ -63,6 +87,4 @@ class AccesosController extends Controller
 
         return view('empresa.accesos', $data);
     }
-
-
 }
