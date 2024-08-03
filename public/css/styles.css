@@ -246,7 +246,7 @@ header ul a {
 
 .form1 {
     background-color: #000000;
-    height: 48rem;
+    height: 65rem;
     width: 100%;
     display: flex;
     font-size: 1.5rem;
@@ -719,4 +719,61 @@ header ul a {
     width: 10rem;
 }
 
+
+
+
+.movies {
+    padding: 0 0 2rem 0;
+}
+
+.swiper {
+    width: 35rem;
+}
+
+.swiper-slide {
+    border: solid var(--color-AirBlue);
+    border-radius: 2rem;
+    width: 35rem;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.swiper-slide p {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.swiper-slide button {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+
 /* FINAL CODIGO NUEVO ///////////////////////////////////////////////////////////////////////////// */
+
+
+/* 
+.movies {
+    padding: 8vw 0 150px 0;
+}
+
+.swiper {
+    width: 35vw;
+}
+
+.swiper-slide {
+    background-position: center;
+    background-size: cover;
+    width: 250px;
+}
+
+.swiper-slide img {
+    display: block;
+    width: 100%;
+} */

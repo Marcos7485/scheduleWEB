@@ -10,6 +10,48 @@
 //     });
 // });
 
+
+var swiper = new Swiper(".mySwiper", {
+    effect: "coverflow",
+    grabCursor: true,
+    centeredSlides: true,
+    slidesPerView: "2",
+    coverflowEffect: {
+        rotate: 45,
+        strech: 0,
+        depth: 300,
+        modifier: 1,
+        slideShadows: true,
+    },
+    loop: true,
+    navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+    },
+});
+
+var swiper = new Swiper(".doubSwiper", {
+    effect: "coverflow",
+    grabCursor: true,
+    centeredSlides: false,  // Cambiado a false para no centrar los slides
+    slidesPerView: 2,       // Mostrar 2 slides
+    spaceBetween: 10,       // Espacio entre slides
+    coverflowEffect: {
+        rotate: 45,
+        stretch: 0,
+        depth: 300,
+        modifier: 1,
+        slideShadows: true,
+    },
+    loop: true,
+    loopAdditionalSlides: 2,  // Añadir slides adicionales al loop para evitar el espacio negro
+    navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+    },
+});
+
+
 $(document).ready(function () {
     $('#turnos-delete').DataTable({
         paging: true,
