@@ -4,7 +4,7 @@
 @section('content')
 <div class="dashboardTrabajador text-center">
     <div>
-        <img src="{{ Storage::url($empresa->image) }}" alt="{{ $empresa->nombre }}">
+        <img src="{{ asset('storage/' . $empresa->image) }}" alt="{{ $empresa->nombre }}">
     </div>
     <div>
         <form method="POST" action="{{ route('dashboardLogin.Access') }}">

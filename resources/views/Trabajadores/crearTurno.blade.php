@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{$empresa->nombre}}</title>
-    <link rel="icon" href="{{ Storage::url($empresa->image) }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('storage/' . $empresa->image) }}" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -34,7 +34,7 @@
             -ms-user-select: none;
             user-select: none;
 
-            background-image: url('{{ Storage::url($trabajador->background) }}');
+            background-image: url("{{ asset('storage/' . $trabajador->background) }}");
             background-color: #000000;
             background-size: cover;
             background-position: center;
@@ -84,7 +84,7 @@
         }
 
         .pageDetails {
-            height: 51rem;
+            height: 58rem;
             width: 100%;
             display: flex;
             justify-content: center;
@@ -141,9 +141,9 @@
                     <input type="file" id="fileInput" name="image" class="hidden-file-input" accept="image/*" style="display:none;">
                     <input type="hidden" name="trabajador_id" value="{{ $trabajador->id }}">
                     @if($trabajador->image != null)
-                    <img src="{{ Storage::url($trabajador->image) }}" alt="Imagen de {{ $trabajador->nombre }}" class="imgProf" onclick="document.getElementById('fileInput').click();">
+                    <img src="{{ asset('storage/' . $trabajador->image) }}" alt="Imagen de {{ $trabajador->nombre }}" class="imgProf" onclick="document.getElementById('fileInput').click();">
                     @else
-                    <img src="{{ Storage::url($empresa->image) }}" alt="Imagen de {{ $trabajador->nombre }}" class="imgProf" onclick="document.getElementById('fileInput').click();">
+                    <img src="{{ asset('storage/' . $empresa->image) }}" alt="Imagen de {{ $trabajador->nombre }}" class="imgProf" onclick="document.getElementById('fileInput').click();">
                     @endif
                 </form>
             </div>

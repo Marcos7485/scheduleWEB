@@ -21,7 +21,7 @@
             @csrf
             <input type="file" id="fileInput" name="image" class="hidden-file-input" accept="image/*" style="display:none;">
             <input type="hidden" name="empresa_id" value="{{ $empresa->id }}">
-            <img src="{{ Storage::url($empresa->image) }}" alt="Imagen de {{ $empresa->nombre }}" class="empresaImgMenu" onclick="document.getElementById('fileInput').click();">
+            <img src="{{ asset('storage/' . $empresa->image) }}" alt="Imagen de {{ $empresa->nombre }}" class="empresaImgMenu" onclick="document.getElementById('fileInput').click();">
         </form>
         <p>{{ $empresa->nombre }}</p>
         <a href="{{ route('trabajadores') }}">

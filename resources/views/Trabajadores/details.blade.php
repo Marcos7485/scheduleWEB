@@ -33,7 +33,7 @@
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
-            background-image: url('{{ Storage::url($trabajador->background) }}');
+            background-image: url("{{  asset('storage/' . $trabajador->background) }}");
             background-color: #000000;
             background-size: cover;
             background-position: center;
@@ -84,7 +84,7 @@
         }
 
         .pageDetails {
-            height: 51rem;
+            height: 58rem;
             width: 100%;
             display: flex;
             justify-content: center;
@@ -142,9 +142,9 @@
                     <input type="file" id="fileInput" name="image" class="hidden-file-input" accept="image/*" style="display:none;">
                     <input type="hidden" name="trabajador_id" value="{{ $trabajador->id }}">
                     @if($trabajador->image != null)
-                    <img src="{{ Storage::url($trabajador->image) }}" alt="Imagen de {{ $trabajador->nombre }}" class="imgProf" onclick="document.getElementById('fileInput').click();">
+                    <img src="{{ asset('storage/' . $trabajador->image) }}" alt="Imagen de {{ $trabajador->nombre }}" class="imgProf" onclick="document.getElementById('fileInput').click();">
                     @else
-                    <img src="{{ Storage::url($empresa->image) }}" alt="Imagen de {{ $trabajador->nombre }}" class="imgProf" onclick="document.getElementById('fileInput').click();">
+                    <img src="{{ asset('storage/' . $empresa->image) }}" alt="Imagen de {{ $trabajador->nombre }}" class="imgProf" onclick="document.getElementById('fileInput').click();">
                     @endif
                 </form>
             </div>

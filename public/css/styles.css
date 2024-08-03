@@ -536,10 +536,19 @@ header ul a {
 
 .formEmpresa {
     background-color: #000000;
-    height: 75vh;
+    height: 45rem;
     width: 100%;
     display: flex;
     justify-content: center;
+    font-size: 1.5rem;
+}
+
+.formEmpresa input{
+    font-size: 1.5rem;
+}
+
+.formEmpresa button{
+    font-size: 1.5rem;
 }
 
 .empresaImgMenu {
