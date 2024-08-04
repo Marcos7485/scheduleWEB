@@ -36,6 +36,22 @@
                 <small>Premium</small>
             </div>
         </a>
+        <a href="{{ route('clientes') }}">
+            <div>
+                <h1>Mis Clientes</h1>
+                <p>Plus++</p>
+            </div>
+        </a>
+        <a href="{{ route('empresa') }}">
+            <div>
+                <h1>Servicios</h1>
+            </div>
+        </a>
+        <a href="{{ route('empresa') }}">
+            <div>
+                <h1><i class="fa-solid fa-gears"></i></h1>
+            </div>
+        </a>
     </div>
 </div>
 @endsection

@@ -1,54 +1,36 @@
-<?php 
+<?php
 
 
 namespace App\Services;
 
 use App\Models\Cliente;
 
-class ClienteSrv {
+class ClienteSrv
+{
 
-    public function RegistrarCliente($telefono, $name){
+    public function RegistrarCliente($telefono, $name)
+    {
+        $cliente = new Cliente;
+        $cliente->nombre = $name;
+        $cliente->telefono = $telefono;
+        $cliente->frequency = 1;
+        $cliente->save();
 
-        $exist = Cliente::where('telefono', $telefono)->first();
-
-        if ($exist == null) {
-         
-            // No hay resultados que coincidan con el teléfono proporcionado
-            $cliente = new Cliente;
-            $cliente->nombre = $name;
-            $cliente->telefono = $telefono;
-            $cliente->frequency = 1;
-            $cliente->save();
-        } else {
-
-            // Hay resultados que coinciden con el teléfono proporcionado
-            $exist->frequency = $exist->frequency + 1;
-            $exist->save();
-        }
-
-        return Cliente::where('telefono', $telefono)->first();
+        return $cliente;
     }
 
-    public function RegistrarClienteEmpresa($telefono, $name, $idEmpresa){
+    public function RegistrarClienteEmpresa($telefono, $name, $idEmpresa)
+    {
 
-        $exist = Cliente::where('telefono', $telefono)->where('idEmpresa', $idEmpresa)->first();
+        $cliente = new Cliente;
+        $cliente->idEmpresa = $idEmpresa;
+        $cliente->nombre = $name;
+        $cliente->telefono = $telefono;
+        $cliente->frequency = 1;
+        $cliente->save();
 
-        if ($exist == null) {
-         
-            // No hay resultados que coincidan con el teléfono proporcionado
-            $cliente = new Cliente;
-            $cliente->idEmpresa = $idEmpresa;
-            $cliente->nombre = $name;
-            $cliente->telefono = $telefono;
-            $cliente->frequency = 1;
-            $cliente->save();
-        } else {
-
-            // Hay resultados que coinciden con el teléfono proporcionado
-            $exist->frequency = $exist->frequency + 1;
-            $exist->save();
-        }
-
-        return Cliente::where('telefono', $telefono)->where('idEmpresa', $idEmpresa)->first();
+        return $cliente;
     }
+
+    
 }

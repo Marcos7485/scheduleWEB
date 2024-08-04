@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CrearTurnoClienteRequest;
 use App\Models\Accesos;
 use App\Models\Empresa;
 use App\Models\GlobalHash;
@@ -542,7 +543,7 @@ class TurnosController extends Controller
     }
 
 
-    public function createTurnoCliente(Request $request)
+    public function createTurnoCliente(CrearTurnoClienteRequest $request)
     {
         $user = $request->usId;
         $token = $request->token;

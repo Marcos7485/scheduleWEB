@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccesosController;
+use App\Http\Controllers\ClientesController;
 use App\Http\Controllers\DisponibilidadController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\EmpresaDisponibilidad;
@@ -21,6 +22,12 @@ Route::get('/secretline', [TurnosController::class, 'secretline']);
 Route::get('/', [Main::class, 'welcome'])->name('welcome');
 Route::get('/registro', [Main::class, 'registro'])->name('registro');
 Route::get('/login', [Main::class, 'login'])->name('login');
+
+Route::get('/cliente', [ClientesController::class, 'welcome'])->name('welcome.cliente');
+Route::get('/cliente/registrarse', [ClientesController::class, 'registroView'])->name('registroView.cliente');
+Route::post('/cliente/validar-registro', [ClientesController::class, 'registro'])->name('validar-registroCliente');
+Route::get('/cliente/login', [ClientesController::class, 'loginView'])->name('login.cliente');
+Route::post('/cliente/inicia-sesion', [ClientesController::class, 'login'])->name('inicia-sesion.cliente');
 
 
 Route::post('/validar-registro', [UserController::class, 'registro'])->name('validar-registro');
@@ -74,6 +81,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/update-lapsos-turnos', [DisponibilidadController::class, 'updateLapsosTurnos'])->name('update-lapsos-turnos');
     Route::post('/update-lapsos-global', [DisponibilidadController::class, 'updateLapsoGlobalHash'])->name('update-lapsos-global');
 
+    // Premium
+
     Route::get('/empresa', [EmpresaController::class, 'empresa'])->name('empresa');
     Route::get('/crear', function () {return view('empresa.form');})->name('empresaForm');
     Route::post('/crearEmpresa', [EmpresaController::class, 'crearEmpresa'])->name('crearEmpresa');
@@ -110,4 +119,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/accesos', [AccesosController::class, 'accesos'])->name('accesos');
     Route::get('/trabajadorAcceso/{id}', [AccesosController::class, 'TrabajadorAcceso'])->name('trabajador.acceso');
 
+
+    // Clientes Plus++
+    Route::get('/clientes', [ClientesController::class, 'menu'])->name('clientes');
+
+
+    Route::get('/cliente/dashboard', [ClientesController::class, 'dashboard'])->name('dashboard.cliente');
 });

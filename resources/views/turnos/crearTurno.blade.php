@@ -20,6 +20,9 @@
          <div class="mb-3">
             <label for="telefonoInput" class="form-label">Telefono</label>
             <input type="text" class="form-control" id="telefonoInput" name="telefono" required autocomplete="off">
+            @error('telefono')
+            <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
          </div>
          <div class="mb-3">
             <label for="fecha">Selecciona una fecha:</label><br>
@@ -49,7 +52,7 @@
    const adjustedDate = new Date(now.getTime() + (offset * 60 * 1000));
    const today = adjustedDate.toISOString().split('T')[0];
    document.getElementById('fecha').setAttribute('min', today);
-   
+
    fechaInput.addEventListener('change', function() {
       const fecha = fechaInput.value;
       const usuarioId = usuarioIdInput.value; // Cambio de nombre aquí
