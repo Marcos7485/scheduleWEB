@@ -65,10 +65,10 @@ class TurnosController extends Controller
                 'turnos' => $this->TurnosSrv->TransformTurnos($turnosHoy),
                 'periodo' => 'hoy'
             ];
-            return view('Empresa.turnosList', $data);
+            return view('empresa.turnosList', $data);
         } else {
             $data = ['message' => 'No hay turnos agendados'];
-            return view('Empresa.turnosList', $data);
+            return view('empresa.turnosList', $data);
         }
     }
 
