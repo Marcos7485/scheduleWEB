@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Pacifico&display=swap');
 
 :root {
     --fontsize: 2.6rem;
@@ -21,6 +22,7 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    
 }
 
 html {
@@ -34,7 +36,6 @@ html {
     overflow: hidden;
     font-family: "Nunito", light;
 }
-
 /* ////////////////////////////////////////////////////////////////////////////// */
 
 .banner {
@@ -198,6 +199,15 @@ header ul a {
 .dashboard-menu div h1 {
     font-size: var(--fontsize);
     margin-top: .5rem;
+}
+
+.dashboard-menu a div small{
+    position: absolute;
+    font-size: 1.5rem;
+    transform: translateX(10rem);
+    font-family: "Pacifico", cursive;
+    color: brown;
+    text-shadow: 2px 2px 2px var(--color-AirBlue);
 }
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////////// */

@@ -66,3 +66,5 @@ if (!file_exists($link)) {
 
 
 lo ejecute con el link de la pagina y listo.
+
+no olvidar que el llamado de la imagen ahora es: src="{{ asset('storage/' . $trabajador->image) }}"

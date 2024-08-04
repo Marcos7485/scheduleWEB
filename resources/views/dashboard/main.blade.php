@@ -33,6 +33,7 @@
         <a href="{{ route('empresa') }}">
             <div>
                 <h1>Mi Empresa</h1>
+                <small>Premium</small>
             </div>
         </a>
     </div>
