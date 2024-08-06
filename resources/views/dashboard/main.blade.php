@@ -36,12 +36,12 @@
                 <small>Premium</small>
             </div>
         </a>
-        <a href="{{ route('empresa') }}">
+        <a href="{{ route('suscripcion') }}">
             <div>
-                <h1>Mi plan</h1>
+                <h1>Suscripción</h1>
             </div>
         </a>
-        <a href="{{ route('empresa') }}">
+        <a href="{{ route('config') }}">
             <div>
                 <h1><i class="fa-solid fa-gears"></i></h1>
             </div>

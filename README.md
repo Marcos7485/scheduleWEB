@@ -41,7 +41,7 @@ adm@adm.com
 
 # ERRORS:
 
-Storage: en el host no aparecian las imagenes,
+Storage: en el host no aparecian las imagenes, y el link ya existia.
 lo solucione borrando la carpeta storage dentro del public_html, luego crear un archivo create_symlink.php, en la carpeta public_html, con los siguientes codigos:
 
 <?php

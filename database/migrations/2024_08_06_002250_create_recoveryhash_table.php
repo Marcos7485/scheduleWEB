@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('plano_active', function (Blueprint $table) {
+        Schema::create('recoveryhash', function (Blueprint $table) {
             $table->id();
-            $table->integer('idUser');
-            $table->integer('idPlano');
-            $table->integer('idPurchase');
+            $table->int('idUser');
+            $table->string('hash');
             $table->tinyInteger('active')->default(1);
             $table->timestamps();
         });
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('plano_active');
+        Schema::dropIfExists('recoveryhash');
     }
 };

@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\AccesosController;
 use App\Http\Controllers\ClientesController;
+use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\DisponibilidadController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\EmpresaDisponibilidad;
 use App\Http\Controllers\Main;
+use App\Http\Controllers\PlanesController;
 use App\Http\Controllers\TrabajadoresController;
 use App\Http\Controllers\TurnosController;
 use App\Http\Controllers\UserController;
@@ -118,4 +120,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/accesos', [AccesosController::class, 'accesos'])->name('accesos');
     Route::get('/trabajadorAcceso/{id}', [AccesosController::class, 'TrabajadorAcceso'])->name('trabajador.acceso');
+
+    // suscripcion
+   Route::get('/suscripcion', [PlanesController::class, 'suscripcion'])->name('suscripcion');
+
+   // configuration
+   Route::get('/config', [ConfigurationController::class, 'UserConfiguration'])->name('config');
+   Route::post('/configuracion/updatePerfil', [ConfigurationController::class, 'UpdatePerfil'])->name('configPerfilUpdate');
+   Route::post('/configuracion/password', [ConfigurationController::class, 'UpdatePassword'])->name('configPasswordUpdate');
 });
