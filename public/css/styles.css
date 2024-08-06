@@ -138,7 +138,7 @@ header ul a {
 
 .card-login {
     height: 33rem;
-    width: 26rem;
+    width: 30rem;
     transform: translateY(8rem);
 }
 
@@ -436,6 +436,27 @@ header ul a {
     justify-content: center;
 }
 
+.LinkCaducado h1{
+    font-size: 1.5rem;
+}
+
+.LinkCaducado h3{
+    font-size: 5rem;
+    color: green;
+}
+
+.LinkCaducado p{
+    font-size: 1.5rem;
+}
+
+.LinkCaducado a{
+    font-size: 1.5rem;
+}
+
+.LinkCaducado p{
+    font-size: 1.5rem;
+}
+
 .createClienteTurno {
     height: 46rem;
     width: 100%;
@@ -461,6 +482,10 @@ header ul a {
 }
 
 .createClienteTurno button {
+    font-size: 1.5rem;
+}
+
+.turnosForm h1{
     font-size: 1.5rem;
 }
 

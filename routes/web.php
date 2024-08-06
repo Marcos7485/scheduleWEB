@@ -23,14 +23,12 @@ Route::get('/', [Main::class, 'welcome'])->name('welcome');
 Route::get('/registro', [Main::class, 'registro'])->name('registro');
 Route::get('/login', [Main::class, 'login'])->name('login');
 
-Route::get('/cliente', [ClientesController::class, 'welcome'])->name('welcome.cliente');
-Route::get('/cliente/registrarse', [ClientesController::class, 'registroView'])->name('registroView.cliente');
-Route::post('/cliente/validar-registro', [ClientesController::class, 'registro'])->name('validar-registroCliente');
-Route::get('/cliente/login', [ClientesController::class, 'loginView'])->name('login.cliente');
-Route::post('/cliente/inicia-sesion', [ClientesController::class, 'login'])->name('inicia-sesion.cliente');
-
-
 Route::post('/validar-registro', [UserController::class, 'registro'])->name('validar-registro');
+Route::get('/user/validar-email', [UserController::class, 'emailvalidateview'])->name('emailvalidateview');
+Route::get('/emailverification/{token}', [UserController::class, 'EmailVerificationUser'])->name('emailverification');
+Route::get('/recuperarcuenta', [UserController::class, 'RecuperarPassword'])->name('recuperar.password');
+Route::get('/emailvalidated', [UserController::class, 'EmailValidated'])->name('validated.email');
+
 Route::post('/inicia-sesion', [UserController::class, 'login'])->name('inicia-sesion');
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 Route::get('/registrarTurno/{token}', [TurnosController::class, 'registrarTurno'])->name('registrar-turno');
@@ -89,7 +87,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/deleteEmpresa', [EmpresaController::class, 'destroy'])->name('Empresa.destroy');
     Route::post('/empresa/update-image', [EmpresaController::class, 'updateImage'])->name('empresa.updateImage');
 
-
     Route::get('/trabajadores', [TrabajadoresController::class, 'menu'])->name('trabajadores');
     Route::get('/create', function () {return view('trabajadores.form');})->name('formTrabajador');
     Route::post('/crearTrabajador', [TrabajadoresController::class, 'crearTrabajador'])->name('crearTrabajador');
@@ -118,11 +115,4 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/accesos', [AccesosController::class, 'accesos'])->name('accesos');
     Route::get('/trabajadorAcceso/{id}', [AccesosController::class, 'TrabajadorAcceso'])->name('trabajador.acceso');
-
-
-    // Clientes Plus++
-    Route::get('/clientes', [ClientesController::class, 'menu'])->name('clientes');
-
-
-    Route::get('/cliente/dashboard', [ClientesController::class, 'dashboard'])->name('dashboard.cliente');
 });

@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginPostRequest;
 use App\Http\Requests\RegistroPostRequest;
+use App\Mail\UserRegister;
 use App\Models\Disponibilidad;
+use App\Models\EmailVerificationHash;
 use App\Models\GlobalHash;
 use App\Models\User;
 use App\Services\TurnosSrv;
+use Egulias\EmailValidator\EmailValidator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -33,10 +37,8 @@ class UserController extends Controller
         $user->telefono = $request->telefono;
         $user->email_verified_at = null;
         $user->password = Hash::make($request->password);
-        $user->active = "1";
+        $user->active = 0;
         $user->save();
-        
-        Auth::login($user);
 
         $disponibilidad->idUser = $user->id;
         $disponibilidad->lunes = json_encode("Cerrado");
@@ -50,7 +52,7 @@ class UserController extends Controller
         $disponibilidad->active = "1";
 
         $disponibilidad->save();
-        
+
         $globalHash->idUser = $user->id;
         $globalHash->hash = $this->TurnosSrv->TurnosHashGen();
         $globalHash->lapso = '30';
@@ -58,10 +60,50 @@ class UserController extends Controller
 
         $globalHash->save();
 
-        return redirect(route('dashboard'));
+        $EmailToken = new EmailVerificationHash();
+        $EmailToken->idUser = $user->id;
+        $EmailToken->hash = $this->TurnosSrv->TurnosHashGen();
+        $EmailToken->active = 1;
+        $EmailToken->save();
+
+        Mail::to($user->email)->send(new UserRegister($user, $EmailToken->hash));
+
+        return redirect(route('emailvalidateview'));
     }
 
+    public function emailvalidateview()
+    {
+        return view('session.verificarEmail');
+    }
 
+    public function EmailValidated()
+    {
+        return view('session.emailvalidated');
+    }
+
+    public function RecuperarPassword(){
+        die('Desarrollar');
+    }
+
+    public function EmailVerificationUser($token)
+    {
+        $EmailVerification = EmailVerificationHash::where('hash', $token)->where('active', 1)->first();
+
+        if($EmailVerification !== null){
+
+            $user = User::where('id', $EmailVerification->idUser)->first();
+            $EmailVerification->active = 0;
+            $EmailVerification->save();
+
+            $user->active = 1;
+            $user->email_verified_at = now();
+            $user->save();
+
+            return redirect(route('validated.email'));
+        } else {
+            return redirect(route('login'));
+        }
+    }
 
     public function login(LoginPostRequest $request)
     {
@@ -69,20 +111,24 @@ class UserController extends Controller
         $remember = $request->filled('remember');
         $bool = true;
 
+        $userVerification = User::where('email', $request->email)->first();
 
-        $data = [
-            'menu' => $bool,
-        ];
- 
+        if ($userVerification->active == 1) {
+            $data = [
+                'menu' => $bool,
+            ];
 
-        if (Auth::attempt($credentials, $remember)) {
-            $request->session()->regenerate();
-            return redirect()->intended(route('dashboard', $data));
+            if (Auth::attempt($credentials, $remember)) {
+                $request->session()->regenerate();
+                return redirect()->intended(route('dashboard', $data));
+            }
+
+            return redirect()->back()->withErrors([
+                'error' => 'El email o la contraseña estan incorrectos',
+            ]);
+        } else {
+            return redirect(route('emailvalidateview'));
         }
-
-        return redirect()->back()->withErrors([
-            'error' => 'El email o la contraseña estan incorrectos',
-        ]);
     }
 
 

@@ -36,6 +36,7 @@
                         <li><i class="fa-solid fa-house"></i></li>
                     </a>
                     <li><a href="{{ route('logout') }}">Logout &nbsp;<i class="fa-solid fa-arrow-right-from-bracket"></i></a></li>
+                    <li><a href=""><i class="fa-solid fa-user"></i> {{ Auth::user()->name }}</a></li>
                     @endauth
                 </ul>
             </div>

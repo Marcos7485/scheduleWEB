@@ -24,6 +24,7 @@
             <small style="color: red;">{{ $message }}</small>
             @enderror
             <div>
+                <p>Olvidaste tu contraseña? <a href="{{ route('recuperar.password') }}">Recuperar cuenta</a></p>
                 <p>No tenes cuenta? <a href="{{ route('registro') }}">Registrate</a></p>
             </div>
             <div class="text-center">

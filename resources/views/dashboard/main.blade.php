@@ -4,7 +4,7 @@
 @section('content')
 <div class="page_4 text-center">
     <div class="dashboard-menu">
-        <p>Bienvenido {{ $user->name }}!</p>
+        <p>Bienvenido</p>
         <a href="{{ route('TurnosMenu') }}">
             <div>
                 <h1>Turnos</h1>
@@ -36,15 +36,9 @@
                 <small>Premium</small>
             </div>
         </a>
-        <a href="{{ route('clientes') }}">
-            <div>
-                <h1>Mis Clientes</h1>
-                <p>Plus++</p>
-            </div>
-        </a>
         <a href="{{ route('empresa') }}">
             <div>
-                <h1>Servicios</h1>
+                <h1>Planos</h1>
             </div>
         </a>
         <a href="{{ route('empresa') }}">
