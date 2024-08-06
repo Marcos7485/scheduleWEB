@@ -92,7 +92,7 @@ html {
 header ul a {
     text-decoration: none;
     padding-right: 2rem;
-    color: #C2E150;
+    color: brown;
     font-size: 1.5rem;
 }
 
@@ -112,20 +112,31 @@ header ul a {
 }
 
 .card-welcome {
-    box-shadow: 2px 2px 1px #7D99B2;
-    background-color: #C2E150;
+    box-shadow: -.2rem -.2rem .1rem #7D99B2;
+    background-image: url('/img/agenda.webp');
+    background-size: cover; /* Hace que la imagen cubra todo el div */
+    background-position: center; /* Centra la imagen */
     border-radius: 2rem;
     color: #000000;
-    height: 12rem;
-    width: 25rem;
+    height: 22rem;
+    width: 22rem;
     cursor: pointer;
-    transform: translateY(12rem);
+    margin-top: 7rem;
 }
 
+.card-welcome h1{
+    font-size: var(--fontsize);
+    color: var(--color-White);
+    transform: translateY(-4rem);
+    font-family: "Pacifico", cursive;
+    color: brown;
+}
+
+
 .card-welcome:active {
-    box-shadow: 0 0 0px #7D99B2;
+    box-shadow: 0 0 0 #7D99B2;
     /* Reducir sombra al hacer clic */
-    transform: translate(.5rem, 12rem);
+    transform: translate(-.2rem, -.2rem);
 }
 
 #agenda-design {

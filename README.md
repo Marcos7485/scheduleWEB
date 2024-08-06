@@ -68,3 +68,21 @@ if (!file_exists($link)) {
 lo ejecute con el link de la pagina y listo.
 
 no olvidar que el llamado de la imagen ahora es: src="{{ asset('storage/' . $trabajador->image) }}"
+
+
+
+
+
+# SUBIR:
+
+Comprobar DATABASE.
+
+Guardar Storage fuera del PUBLIC_HTML -> mantener archivos
+Guardar .ENV -> mantener configuracion
+
+Cargar zip fuera de PUBLIC_HTML
+
+Borrar la carpeta Storage dentro del PUBLIC_HTML
+Modificar la configuracion de EMAIL en .ENV
+
+EJECUTAR: agendasoftware.online/create_symlink.php
