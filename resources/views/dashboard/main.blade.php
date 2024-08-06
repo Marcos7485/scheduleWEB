@@ -38,7 +38,7 @@
         </a>
         <a href="{{ route('empresa') }}">
             <div>
-                <h1>Planos</h1>
+                <h1>Mi plan</h1>
             </div>
         </a>
         <a href="{{ route('empresa') }}">

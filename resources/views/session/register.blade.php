@@ -6,6 +6,11 @@
     <div class="card-register">
         <form method="POST" action="{{ route('validar-registro') }}">
             @csrf
+            @if (session('error'))
+            <div class="text-danger">
+                {{ session('error') }}
+            </div>
+            @endif
             <div class="mb-3">
                 <label for="userInput" class="form-label">Nombre</label>
                 <input type="text" class="form-control" id="userInput" name="name" required autocomplete="off" value="{{ old('name') }}">

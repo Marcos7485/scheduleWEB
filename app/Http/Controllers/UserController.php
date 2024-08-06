@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginPostRequest;
 use App\Http\Requests\RecoveryEmailRequest;
+use App\Http\Requests\RecoveryPasswordRequest;
 use App\Http\Requests\RecoveryPasswordResquest;
 use App\Http\Requests\RegistroPostRequest;
 use App\Mail\PasswordUpdate;
@@ -31,49 +32,54 @@ class UserController extends Controller
     }
     public function registro(RegistroPostRequest $request)
     {
-        $user = new User();
-        $disponibilidad = new Disponibilidad();
-        $globalHash = new GlobalHash();
+        $userVerification = User::where('email', $request->email)->first();
+        if ($userVerification == null) {
+            $user = new User();
+            $disponibilidad = new Disponibilidad();
+            $globalHash = new GlobalHash();
 
-        $user->idEmpresa = null;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->image = null;
-        $user->telefono = $request->telefono;
-        $user->email_verified_at = null;
-        $user->password = Hash::make($request->password);
-        $user->active = 0;
-        $user->save();
+            $user->idEmpresa = null;
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->image = null;
+            $user->telefono = $request->telefono;
+            $user->email_verified_at = null;
+            $user->password = Hash::make($request->password);
+            $user->active = 0;
+            $user->save();
 
-        $disponibilidad->idUser = $user->id;
-        $disponibilidad->lunes = json_encode("Cerrado");
-        $disponibilidad->martes = json_encode("Cerrado");
-        $disponibilidad->miercoles = json_encode("Cerrado");
-        $disponibilidad->jueves = json_encode("Cerrado");
-        $disponibilidad->viernes = json_encode("Cerrado");
-        $disponibilidad->sabado = json_encode("Cerrado");
-        $disponibilidad->domingo = json_encode("Cerrado");
-        $disponibilidad->lapsos = "30";
-        $disponibilidad->active = "1";
+            $disponibilidad->idUser = $user->id;
+            $disponibilidad->lunes = json_encode("Cerrado");
+            $disponibilidad->martes = json_encode("Cerrado");
+            $disponibilidad->miercoles = json_encode("Cerrado");
+            $disponibilidad->jueves = json_encode("Cerrado");
+            $disponibilidad->viernes = json_encode("Cerrado");
+            $disponibilidad->sabado = json_encode("Cerrado");
+            $disponibilidad->domingo = json_encode("Cerrado");
+            $disponibilidad->lapsos = "30";
+            $disponibilidad->active = "1";
 
-        $disponibilidad->save();
+            $disponibilidad->save();
 
-        $globalHash->idUser = $user->id;
-        $globalHash->hash = $this->TurnosSrv->TurnosHashGen();
-        $globalHash->lapso = '30';
-        $globalHash->active = "1";
+            $globalHash->idUser = $user->id;
+            $globalHash->hash = $this->TurnosSrv->TurnosHashGen();
+            $globalHash->lapso = '30';
+            $globalHash->active = "1";
 
-        $globalHash->save();
+            $globalHash->save();
 
-        $EmailToken = new EmailVerificationHash();
-        $EmailToken->idUser = $user->id;
-        $EmailToken->hash = $this->TurnosSrv->TurnosHashGen();
-        $EmailToken->active = 1;
-        $EmailToken->save();
+            $EmailToken = new EmailVerificationHash();
+            $EmailToken->idUser = $user->id;
+            $EmailToken->hash = $this->TurnosSrv->TurnosHashGen();
+            $EmailToken->active = 1;
+            $EmailToken->save();
 
-        Mail::to($user->email)->send(new UserRegister($user, $EmailToken->hash));
+            Mail::to($user->email)->send(new UserRegister($user, $EmailToken->hash));
 
-        return redirect(route('emailvalidateview'));
+            return redirect(route('emailvalidateview'));
+        } else {
+            return redirect(route('registro'))->with('error', 'El Email ya se encuentra en uso');
+        }
     }
 
     public function emailvalidateview()
@@ -112,7 +118,7 @@ class UserController extends Controller
             } else {
                 return redirect()->route('recuperar.password')->with('error', 'El email de recuperacion ya fue anteriormente enviado');
             }
-        }else{
+        } else {
             return redirect()->route('recuperar.password')->with('error', 'El email no esta vinculado a un usuario validado');
         }
     }
@@ -120,6 +126,7 @@ class UserController extends Controller
     public function accountrecovery($token)
     {
         $recoveryVerificator = RecoveryHash::where('hash', $token)->where('active', 1)->first();
+
 
         if ($recoveryVerificator !== null) {
             $user = User::where('id', $recoveryVerificator->idUser)->where('active', 1)->first();
@@ -129,11 +136,12 @@ class UserController extends Controller
 
             return view('session.recoveryForm', $data);
         } else {
+            die('es null');
             return redirect()->route('recuperar.password')->with('error', 'El email de recuperacion ya fue utilizado o es inexistente');
         }
     }
 
-    public function passwordreset(RecoveryPasswordResquest $request)
+    public function passwordreset(RecoveryPasswordRequest $request)
     {
         $user = User::where('id', $request->id)->where('active', 1)->first();
         $recoveryHash = RecoveryHash::where('idUser', $user->id)->where('active', 1)->first();
