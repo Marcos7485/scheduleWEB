@@ -3,11 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginPostRequest;
+use App\Http\Requests\RecoveryEmailRequest;
+use App\Http\Requests\RecoveryPasswordResquest;
 use App\Http\Requests\RegistroPostRequest;
+use App\Mail\PasswordUpdate;
+use App\Mail\UserRecovery;
 use App\Mail\UserRegister;
 use App\Models\Disponibilidad;
 use App\Models\EmailVerificationHash;
 use App\Models\GlobalHash;
+use App\Models\RecoveryHash;
 use App\Models\User;
 use App\Services\TurnosSrv;
 use Egulias\EmailValidator\EmailValidator;
@@ -81,15 +86,69 @@ class UserController extends Controller
         return view('session.emailvalidated');
     }
 
-    public function RecuperarPassword(){
-        die('Desarrollar');
+    public function RecuperarPasswordView()
+    {
+        return view('session.recovery');
+    }
+
+    public function recovery(RecoveryEmailRequest $request)
+    {
+        $user = User::where('email', $request->email)->where('active', 1)->first();
+
+        if ($user !== null) {
+            $verificador = RecoveryHash::where('idUser', $user->id)->where('active', 1)->first();
+
+            if ($verificador == null) {
+                $recoveryHash = new RecoveryHash();
+                $recoveryHash->idUser = $user->id;
+                $recoveryHash->hash = $this->TurnosSrv->TurnosHashGen();
+                $recoveryHash->active = 1;
+                $recoveryHash->save();
+
+
+                Mail::to($user->email)->send(new UserRecovery($user, $recoveryHash->hash));
+
+                return redirect()->route('recuperar.password')->with('message', 'Email de recuperación enviado');
+            } else {
+                return redirect()->route('recuperar.password')->with('error', 'El email de recuperacion ya fue anteriormente enviado');
+            }
+        }else{
+            return redirect()->route('recuperar.password')->with('error', 'El email no esta vinculado a un usuario validado');
+        }
+    }
+
+    public function accountrecovery($token)
+    {
+        $recoveryVerificator = RecoveryHash::where('hash', $token)->where('active', 1)->first();
+
+        if ($recoveryVerificator !== null) {
+            $user = User::where('id', $recoveryVerificator->idUser)->where('active', 1)->first();
+            $data = [
+                'idUser' => $user->id
+            ];
+
+            return view('session.recoveryForm', $data);
+        } else {
+            return redirect()->route('recuperar.password')->with('error', 'El email de recuperacion ya fue utilizado o es inexistente');
+        }
+    }
+
+    public function passwordreset(RecoveryPasswordResquest $request)
+    {
+        $user = User::where('id', $request->id)->where('active', 1)->first();
+        $recoveryHash = RecoveryHash::where('idUser', $user->id)->where('active', 1)->first();
+        $recoveryHash->active = 0;
+        $user->password = Hash::make($request->password);
+        $user->save();
+        Mail::to($user->email)->send(new PasswordUpdate($user, $request->password));
+        return redirect()->route('login')->with('message', 'Contraseña modificada con éxito');
     }
 
     public function EmailVerificationUser($token)
     {
         $EmailVerification = EmailVerificationHash::where('hash', $token)->where('active', 1)->first();
 
-        if($EmailVerification !== null){
+        if ($EmailVerification !== null) {
 
             $user = User::where('id', $EmailVerification->idUser)->first();
             $EmailVerification->active = 0;

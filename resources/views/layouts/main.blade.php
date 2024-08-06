@@ -26,10 +26,8 @@
             <div>
                 <ul class="menuHeader">
                     @guest
-                    @if ($menu == true)
                     <li><a href="{{ route('login') }}"><i class="fa-solid fa-right-to-bracket"></i>&nbsp;Login</a></li>
                     <li><a href="{{ route('registro') }}">Registrarse &nbsp;<i class="fa-solid fa-pen-to-square"></i></a></li>
-                    @endif
                     @endguest
                     @auth
                     <a href="{{ route('dashboard') }}">

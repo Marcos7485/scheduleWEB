@@ -6,6 +6,12 @@
     <div class="card-login">
         <form method="POST" action="{{ route('inicia-sesion') }}">
             @csrf
+            @if (session('message'))
+            <div class="text-success">
+                {{ session('message') }} <i class="fa-solid fa-circle-check"></i>
+            </div>
+            @endif
+
             <div class="mb-3">
                 <label for="emailInput" class="form-label">Email</label>
                 <input type="email" class="form-control" id="emailInput" name="email" value="{{ old('email') }}">

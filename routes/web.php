@@ -26,8 +26,11 @@ Route::get('/login', [Main::class, 'login'])->name('login');
 Route::post('/validar-registro', [UserController::class, 'registro'])->name('validar-registro');
 Route::get('/user/validar-email', [UserController::class, 'emailvalidateview'])->name('emailvalidateview');
 Route::get('/emailverification/{token}', [UserController::class, 'EmailVerificationUser'])->name('emailverification');
-Route::get('/recuperarcuenta', [UserController::class, 'RecuperarPassword'])->name('recuperar.password');
+Route::get('/recuperarcuenta', [UserController::class, 'RecuperarPasswordView'])->name('recuperar.password');
+Route::post('/recovery', [UserController::class, 'recovery'])->name('recovery');
+Route::get('/accountrecovery/{token}', [UserController::class, 'accountrecovery'])->name('accountrecovery');
 Route::get('/emailvalidated', [UserController::class, 'EmailValidated'])->name('validated.email');
+Route::post('/passwordreset', [UserController::class, 'passwordreset'])->name('update-password');
 
 Route::post('/inicia-sesion', [UserController::class, 'login'])->name('inicia-sesion');
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
