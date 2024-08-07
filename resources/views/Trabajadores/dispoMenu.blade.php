@@ -9,10 +9,11 @@
             {{ session('info') }}
         </div>
         @endif
+        @if(isset($trabajadores) && count($trabajadores) > 0)
         <div>
             <h1>Disponibilidad</h1>
         </div>
-        @if(isset($trabajadores) && count($trabajadores) > 0)
+        
             @foreach($trabajadores as $trabajador)
             <div class="lineTrabajador">
                 <a href="{{ route('trabajador.disponibilidad', $trabajador->id) }}">

@@ -214,7 +214,7 @@ header ul a {
 .dashboard-menu div {
     display: flex;
     justify-content: center;
-    background: linear-gradient(to bottom right, white, black);
+    background: linear-gradient(to bottom right, black, white);
     clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
     border-radius: 2rem;
     color: #000000;
@@ -234,7 +234,7 @@ header ul a {
     transform: translateX(10rem);
     font-family: "Pacifico", cursive;
     color: brown;
-    text-shadow: 2px 2px 2px var(--color-AirBlue);
+    text-shadow: .1rem .1rem .1rem var(--color-AirBlue);
 }
 
 .dashboard-menu a div p {
@@ -365,7 +365,7 @@ header ul a {
 .dashboard-menu-turnos div {
     display: flex;
     justify-content: center;
-    background: linear-gradient(to bottom right, #7D99B2, #2d72ad);
+    background: linear-gradient(to bottom right, white, #2d72ad);
     clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
     border-radius: 2rem;
     color: #000000;
@@ -427,8 +427,7 @@ header ul a {
     height: 6rem;
     width: 30rem;
     text-align: center;
-    box-shadow: -.2rem .2rem .2rem #7D99B2;
-    background-color: #C2E150;
+    background: linear-gradient(to bottom right, white, #2d72ad);
     border-radius: 2rem;
     color: #000000;
 }
@@ -562,15 +561,18 @@ header ul a {
 #deleteModal .modal-content {
     background-color: var(--color-Black);
     color: var(--color-Pear);
+    font-size: 1.5rem;
 }
 
 #deleteModal .modal-header {
     background-color: var(--color-Black);
     color: var(--color-Pear);
+    font-size: 1.5rem;
 }
 
 #deleteModal .btn-close {
     filter: invert(100%);
+    font-size: 1.5rem;
 }
 
 /* ///////////////////////////////////////////////////////////////////////////////////////////////// */
@@ -595,7 +597,7 @@ header ul a {
 .empresa-menu a div {
     display: flex;
     justify-content: center;
-    background: linear-gradient(to bottom right, #C2E150, #506017);
+    background: linear-gradient(to bottom right, white, #2d72ad);
     clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
     border-radius: 2rem;
     color: #000000;
@@ -636,15 +638,18 @@ header ul a {
 #deleteEmpresa .modal-content {
     background-color: var(--color-Black);
     color: var(--color-Pear);
+    font-size: 1.5rem;
 }
 
 #deleteEmpresa .modal-header {
     background-color: var(--color-Black);
     color: var(--color-Pear);
+    font-size: 1.5rem;
 }
 
 #deleteEmpresa .btn-close {
     filter: invert(100%);
+    font-size: 1.5rem;
 }
 
 /* //////////////////////////////////////////////////////////////////////////////////////////////// */
@@ -681,7 +686,7 @@ header ul a {
 .trabajadores-menu a div {
     display: flex;
     justify-content: center;
-    background: linear-gradient(to bottom right, #7D99B2, #2d72ad);
+    background: linear-gradient(to bottom right, white, #2d72ad);
     clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
     border-radius: 2rem;
     color: #000000;
@@ -715,15 +720,18 @@ header ul a {
 #deleteTrabajador .modal-content {
     background-color: var(--color-Black);
     color: var(--color-Pear);
+    font-size: 1.5rem;
 }
 
 #deleteTrabajador .modal-header {
     background-color: var(--color-Black);
     color: var(--color-Pear);
+    font-size: 1.5rem;
 }
 
 #deleteTrabajador .btn-close {
     filter: invert(100%);
+    font-size: 1.5rem;
 }
 
 .formTrabajadores {
@@ -802,9 +810,6 @@ header ul a {
 .dashboardTrabajador img {
     width: 10rem;
 }
-
-
-
 
 .movies {
     padding: 0 0 2rem 0;
