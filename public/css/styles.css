@@ -92,7 +92,7 @@ html {
 header ul a {
     text-decoration: none;
     padding-right: 2rem;
-    color: brown;
+    color: var(--color-AirBlue);
     font-size: 1.5rem;
 }
 
@@ -214,7 +214,7 @@ header ul a {
 .dashboard-menu div {
     display: flex;
     justify-content: center;
-    background: linear-gradient(to bottom right, #C2E150, #506017);
+    background: linear-gradient(to bottom right, white, black);
     clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
     border-radius: 2rem;
     color: #000000;
@@ -908,7 +908,7 @@ header ul a {
 
 .PlanValor {
     font-size: 1.2em;
-    color: #2a9d8f;
+    color: brown;
     font-weight: bold;
     margin-top: 1rem;
 }

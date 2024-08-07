@@ -17,7 +17,7 @@
         <div class="planColumn">
             <div class="PlanImage">
                 <img src="{{$plan->image}}" alt="">
-                <p class="planTitle">{{$plan->nombre}}</p>
+                <p class="planTitle"><i class="fa-brands fa-d-and-d"></i> {{$plan->nombre}}</p>
             </div>
             <div class="PlanDescripcion">
                 <p>{!! $plan->descripcion !!}</p>

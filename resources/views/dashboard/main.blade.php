@@ -38,7 +38,7 @@
         </a>
         <a href="{{ route('suscripcion') }}">
             <div>
-                <h1>Suscripción</h1>
+                <h1><i class="fa-brands fa-d-and-d"></i> Suscripción</h1>
             </div>
         </a>
         <a href="{{ route('config') }}">
