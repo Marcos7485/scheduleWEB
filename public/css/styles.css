@@ -101,7 +101,7 @@ header ul a {
 
 .page_1 {
     background-color: #000000;
-    margin-bottom: 30rem;
+    margin-bottom: 10rem;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -148,7 +148,7 @@ header ul a {
 
 .page_2 {
     background-color: #000000;
-    height: 45rem;
+    margin-bottom: 10rem;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -173,7 +173,7 @@ header ul a {
 
 .page_3 {
     background-color: #000000;
-    height: 57rem;
+    margin-bottom: 10rem;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -197,7 +197,7 @@ header ul a {
 
 .page_4 {
     background-color: #000000;
-    height: 62rem;
+    margin-bottom: 10rem;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -250,7 +250,7 @@ header ul a {
 
 .page_5 {
     background-color: #000000;
-    height: 47rem;
+    margin-bottom: 10rem;
     width: 100%;
     display: flex !important;
     justify-content: center;
@@ -292,7 +292,7 @@ header ul a {
 
 .form1 {
     background-color: #000000;
-    height: 65rem;
+    margin-bottom: 10rem;
     width: 100%;
     display: flex;
     font-size: 1.5rem;
@@ -397,7 +397,7 @@ header ul a {
 /* ///////////////////////////////////////////////////////////////////////////////////////// */
 
 .darturnospage {
-    height: 46rem;
+    margin-bottom: 10rem;
     width: 100%;
     align-items: center;
     display: flex;
@@ -434,7 +434,7 @@ header ul a {
 
 
 .Page_10 {
-    height: 45rem;
+    margin-bottom: 10rem;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -456,7 +456,7 @@ header ul a {
 /* /////////////////////////////////////////////////////////////////////////// */
 
 .LinkCaducado {
-    height: 46rem;
+    margin-bottom: 10rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -484,7 +484,7 @@ header ul a {
 }
 
 .createClienteTurno {
-    height: 46rem;
+    margin-bottom: 10rem;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -517,7 +517,7 @@ header ul a {
 
 /* CODIGO NUEVO /////////////////////////////////////////////////////////////////////////////////////*/
 .turnoslist {
-    height: 45rem;
+    margin-bottom: 10rem;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -543,7 +543,7 @@ header ul a {
 }
 
 .modificarTurnos {
-    height: 45rem;
+    margin-bottom: 10rem;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -780,6 +780,10 @@ header ul a {
 }
 
 .accesospage a {
+    font-size: 1.5rem;
+}
+
+.accesospage small {
     font-size: 1.5rem;
 }
 

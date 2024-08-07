@@ -74,6 +74,8 @@ class EmpresaController extends Controller
 
         foreach ($trabajadores as $trabajador) {
             if ($trabajador->idEmpresa == $empresa->id) {
+                $trabajador->active = 0;
+                $trabajador->save();
                 $trabajador->delete();
                 if ($trabajador->image) {
                     Storage::disk('public')->delete($trabajador->image);
@@ -114,12 +116,13 @@ class EmpresaController extends Controller
         return redirect()->route('empresa')->with('info', 'Imagen actualizada correctamente');
     }
 
-    public function registrarTurnoEmpresa($token, $id){
+    public function registrarTurnoEmpresa($token, $id)
+    {
         $GlobalHash = GlobalHash::where('hash', $token)->where('active', 1)->first();
 
         $empresa = Empresa::where('id', $GlobalHash->idEmpresa)->where('active', 1)->first();
         $trabajador = Trabajadores::where('id', $id)->where('idEmpresa', $empresa->id)->where('active', 1)->first();
-        
+
 
         $data = [
             'empresa' => $empresa,

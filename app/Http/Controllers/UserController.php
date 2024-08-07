@@ -15,7 +15,9 @@ use App\Models\EmailVerificationHash;
 use App\Models\GlobalHash;
 use App\Models\RecoveryHash;
 use App\Models\User;
+use App\Models\UserPlan;
 use App\Services\TurnosSrv;
+use Carbon\Carbon;
 use Egulias\EmailValidator\EmailValidator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,7 +39,9 @@ class UserController extends Controller
             $user = new User();
             $disponibilidad = new Disponibilidad();
             $globalHash = new GlobalHash();
+            $userPlan = new UserPlan();
 
+            // user
             $user->idEmpresa = null;
             $user->name = $request->name;
             $user->email = $request->email;
@@ -48,6 +52,7 @@ class UserController extends Controller
             $user->active = 0;
             $user->save();
 
+            // user - Disponibilidad
             $disponibilidad->idUser = $user->id;
             $disponibilidad->lunes = json_encode("Cerrado");
             $disponibilidad->martes = json_encode("Cerrado");
@@ -58,16 +63,23 @@ class UserController extends Controller
             $disponibilidad->domingo = json_encode("Cerrado");
             $disponibilidad->lapsos = "30";
             $disponibilidad->active = "1";
-
             $disponibilidad->save();
 
+            // user - Global Link
             $globalHash->idUser = $user->id;
             $globalHash->hash = $this->TurnosSrv->TurnosHashGen();
             $globalHash->lapso = '30';
             $globalHash->active = "1";
-
             $globalHash->save();
 
+            // user - Plan
+            $userPlan->idUser = $user->id;
+            $userPlan->idPlan = null;
+            $userPlan->vencimiento = Carbon::now()->addDays(30);
+            $userPlan->active = 1;
+            $userPlan->save();
+
+            // user - email validations
             $EmailToken = new EmailVerificationHash();
             $EmailToken->idUser = $user->id;
             $EmailToken->hash = $this->TurnosSrv->TurnosHashGen();

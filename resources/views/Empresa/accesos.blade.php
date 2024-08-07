@@ -4,7 +4,7 @@
 @section('content')
 <div class="page_trabajadores text-center">
     <div class="trabajadores-menu">
-
+        @if(isset($trabajadores) && count($trabajadores) > 0)
         <h1>Accesos</h1>
 
         @foreach($trabajadores as $trabajador)
@@ -17,6 +17,11 @@
             </a>
         </div>
         @endforeach
+        @else
+        <div>
+            <h1>No hay trabajadores en tu empresa</h1>
+        </div>
+        @endif
         <a href="{{ route('empresa') }}" class="btn btn-success">volver</a>
     </div>
 </div>

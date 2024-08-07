@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('planes', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('desripcion', 2500);
+            $table->string('decripcion', 2500);
             $table->string('valor');
             $table->string('image');
             $table->tinyInteger('active')->default(1);

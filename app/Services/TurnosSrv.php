@@ -90,6 +90,19 @@ class TurnosSrv
         return $turnos;
     }
 
+    public function TurnosAllRecycledEmpresa($id)
+    {
+        $trabajadores = Trabajadores::onlyTrashed()->where('idEmpresa', $id)->get();
+        // Extrae los IDs de los trabajadores
+        $trabajadoresIds = $trabajadores->pluck('id')->toArray();
+        
+        $turnos = Turnos::whereIn('idTrabajador', $trabajadoresIds)
+            ->orderBy('fechahora')
+            ->get();
+
+        return $turnos;
+    }
+
     public function TurnosAllTrabajador($id)
     {
         $turnos = Turnos::where('idTrabajador', $id)
@@ -246,8 +259,7 @@ class TurnosSrv
     public function FinalizarTurnosEmpresa($id)
     { //editar
         $dates = $this->DispSrv->Dates();
-        $trabajadores = Trabajadores::where('idEmpresa', $id)
-            ->where('active', 1)
+        $trabajadores = Trabajadores::withTrashed()->where('idEmpresa', $id)
             ->get();
 
         $trabajadoresIds = $trabajadores->pluck('id')->toArray();
@@ -286,7 +298,7 @@ class TurnosSrv
             if($turnos[$i]->idUser !== null){
                $user = User::where('id', $turnos[$i]->idUser)->first(); 
             }else{
-               $user = Trabajadores::where('id', $turnos[$i]->idTrabajador)->first(); 
+               $user = Trabajadores::withTrashed()->where('id', $turnos[$i]->idTrabajador)->first(); 
             }
             
 

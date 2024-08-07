@@ -115,6 +115,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/turnosNextWeekEmpresa', [TurnosController::class, 'TurnosNextWeekEmpresa'])->name('turnosNextWeekEmpresa');
     Route::get('/turnosMonthEmpresa', [TurnosController::class, 'TurnosMonthEmpresa'])->name('turnosMonthEmpresa');
     Route::get('/turnosAllEmpresa', [TurnosController::class, 'TurnosAllEmpresa'])->name('turnosAllEmpresa');
+
+    Route::get('/turnosReciclados', [TurnosController::class, 'turnosRecicladosEmpresa'])->name('turnosReciclados');
+
     Route::get('/modificarTurnosEmpresa', [TurnosController::class, 'modificarTurnosEmpresa'])->name('modificar-turnosEmpresa');
     Route::delete('/turnosdel/{id}', [TurnosController::class, 'destroyEmpresa'])->name('turnos.destroyEmpresa');
 

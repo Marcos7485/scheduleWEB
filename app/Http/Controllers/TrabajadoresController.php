@@ -151,6 +151,8 @@ class TrabajadoresController extends Controller
         Accesos::where('idTrabajador', $trabajador->id)->delete();
 
         if ($trabajador->idEmpresa == $empresa->id) {
+            $trabajador->active = 0;
+            $trabajador->save();
             $trabajador->delete();
             if ($trabajador->image) {
                 Storage::disk('public')->delete($trabajador->image);

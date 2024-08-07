@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('recoveryhash', function (Blueprint $table) {
             $table->id();
-            $table->int('idUser');
+            $table->integer('idUser');
             $table->string('hash');
             $table->tinyInteger('active')->default(1);
             $table->timestamps();

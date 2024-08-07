@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('clients_registry', function (Blueprint $table) {
             $table->id();
+            $table->integer('idEmpresa')->nullable();
             $table->string('nombre');
             $table->string('telefono');
-            $table->integer('frequency');
+            $table->integer('frequency')->nullable();
             $table->timestamps();
         });
     }

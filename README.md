@@ -1,21 +1,14 @@
-# Database
-done
+# Work Methodology
 
-# LoginSystem
+- base de datos:
+active -> default 1
+softdeletes  cuando ver necesario
 
-Creacion de rutas Registro, login, logout.
-Request de validacion, LoginPostRequest, RegistroPostRequest.
-Rules personalizadas, ValidPasswordSymbol.
-Layouts, Registro, login, schedule.
-
-lang/es/validation.php
-Archivo de las traducciones al español, junto a la modificacion del archivo .env.
-
-- * Verificacion de telefono por SMS pendiente con TWILO.
+- controller:
+uso de servicios para funciones del controlador
+querys -> active = 1 siempre.
 
 
-
-# schedule
 
 # falta:
 
@@ -24,19 +17,6 @@ Archivo de las traducciones al español, junto a la modificacion del archivo .en
 
 - Autenticacion de registro de usuario, el telegram.
 - verificador de telefono al registrar turno cliente.
-
-
-
-
-
-# Repasar conceptos:
-- Fetch javascript para conectar html con controller.
-- Encriptacion
-
-
-adm@adm.com
-
-321321
 
 
 # ERRORS:

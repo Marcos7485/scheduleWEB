@@ -350,6 +350,24 @@ class TurnosController extends Controller
         }
     }
 
+    public function turnosRecicladosEmpresa(){
+        $user = Auth::user();
+        $empresa = Empresa::where('idUser', $user->id)->where('active', 1)->first();
+        $this->TurnosSrv->FinalizarTurnosEmpresa($empresa->id);
+        $turnosTodos = $this->TurnosSrv->TurnosAllRecycledEmpresa($empresa->id);
+
+        if (!$turnosTodos->isEmpty()) {
+            $data = [
+                'turnos' => $this->TurnosSrv->TransformTurnos($turnosTodos),
+                'periodo' => 'trabajadores eliminados'
+            ];
+            return view('empresa.turnosList', $data);
+        } else {
+            $data = ['message' => 'No hay turnos agendados'];
+            return view('empresa.turnosList', $data);
+        }
+    }
+
     public function TurnosAllTrabajador($id, $hash)
     {
         $trabajador = Trabajadores::where('id', $id)->where('active', 1)->first();

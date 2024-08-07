@@ -13,7 +13,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 
         :root {
-            --fontsize: 2vw;
+            --fontsize: 2.6rem;
             --fontsizeCel: 5vw;
             --color-AirBlue: #7D99B2;
             --color-Pear: #C2E150;
@@ -92,19 +92,23 @@
         }
 
         .pageDetails p {
-            font-size: 1.3rem;
+            font-size: 1.5rem;
         }
 
         .pageDetails input {
-            font-size: 1.3rem;
+            font-size: 1.5rem;
+        }
+
+        .pageDetails select {
+            font-size: 1.5rem;
         }
 
         .pageDetails a {
-            font-size: 1.3rem;
+            font-size: 1.5rem;
         }
 
         .pageDetails button {
-            font-size: 1.3rem;
+            font-size: 1.5rem;
         }
 
         .pageDetails h1 {
@@ -113,19 +117,19 @@
 
         .turnosForm div p {
             background: linear-gradient(to bottom right, #7D99B2, #2d72ad);
-            padding: .2rem;
+            padding: .5rem;
             border-radius: 1rem;
         }
 
         .turnosForm div h1 {
             background: linear-gradient(to bottom right, #7D99B2, #2d72ad);
-            padding: .2rem;
+            padding: .5rem;
             border-radius: 1rem;
         }
 
         .turnosForm div label {
             background: linear-gradient(to bottom right, #7D99B2, #2d72ad);
-            padding: .2rem;
+            padding: .5rem;
             border-radius: 1rem;
         }
     </style>
