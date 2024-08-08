@@ -7,7 +7,16 @@
         <h1>Tu plan activo</h1>
     </div>
     <div class="suscripcionActiva">
-        <p>Periodo de prueba (26 dias restantes) <i class="fa-solid fa-stopwatch"></i></p>
+        @if($trial !== null)
+        <p style="color: brown;">Periodo de prueba ({{$trial}} dias restantes) <i class="fa-solid fa-stopwatch"></i></p>
+        @else
+        <div class="planCard">
+            <p>{{$userPlan->nombre}} <img src="{{$userPlan->image}}"></p>
+            <div style="color: green; font-size: 5rem">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+        </div>
+        @endif
     </div>
     <div>
         <h1>Planes de Suscripción</h1>
@@ -24,7 +33,11 @@
             </div>
             <div>
                 <p class="PlanValor">{{$plan->valor}}</p>
-                <a href="{{$plan->id}}" class="btn btn-success">Suscribirse!</a>
+                @if(isset($userPlan->id) && $userPlan->id == $plan->id)
+                <a class="btn btn-info" disabled>Contratado!</a>
+                @else
+                <a href="{{ route('suscripcion-selected', $plan->id) }}" class="btn btn-success">Suscribirse!</a>
+                @endif
             </div>
         </div>
         @endforeach

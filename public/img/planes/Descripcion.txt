@@ -1,0 +1,12 @@
+BASIC:
+
+<i class="fa-solid fa-star" style="color: goldenrod;"></i> Uso de agenda personal ilimitado <br><i class="fa-solid fa-star" style="color:goldenrod;"></i> Links personales con horarios personalizados<br><i class="fa-solid fa-star" style="color: goldenrod;"></i> Link general para redes sociales<br>
+
+
+
+
+
+
+PREMIUM:
+
+<i class="fa-solid fa-star" style="color: goldenrod;"></i> Uso de agenda personal ilimitado <br><i class="fa-solid fa-star" style="color: goldenrod;"></i> Links personales con horarios personalizados<br><i class="fa-solid fa-star" style="color: goldenrod;"></i> Link general para redes sociales<br><i class="fa-solid fa-star" style="color: goldenrod;"></i> Creación de tu propia empresa<br><i class="fa-solid fa-star" style="color: goldenrod;"></i> Creación de tu staff de trabajadores<br><i class="fa-solid fa-star" style="color: goldenrod;"></i> Horarios ajustables a cada trabajador<br><i class="fa-solid fa-star" style="color: goldenrod;"></i> Presentacion personalizable del trabajador<br><i class="fa-solid fa-star" style="color: goldenrod;"></i> Link de empresa con trabajadores para redes sociales<br><i class="fa-solid fa-star" style="color: goldenrod;"></i> Página de acceso remoto para tus trabajadores<br>

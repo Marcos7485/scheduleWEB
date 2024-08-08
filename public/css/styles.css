@@ -870,9 +870,12 @@ header ul a {
 .suscripcionActiva {
     margin-top: 2rem;
     margin-bottom: 2rem;
-    color: red;
     font-size: 2rem;
     margin: .2rem 0;
+}
+
+.planCard img{
+    width: 5rem;
 }
 
 .Planes {
@@ -980,4 +983,24 @@ header ul a {
     margin-bottom: 2rem;
     font-size: 1.5rem;
 }
+
+
+/* //////////////////////////////////////////////////////////////////////////////////////////// */
+
+.mainSection{
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+}
+
+.pasos {
+    display: flex;
+    justify-content: center;
+}
+
+.section1{
+    display: flex;
+    justify-content: center;
+}
+
+
 /* FINAL CODIGO NUEVO ///////////////////////////////////////////////////////////////////////////// */

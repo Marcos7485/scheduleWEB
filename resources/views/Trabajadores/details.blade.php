@@ -84,7 +84,8 @@
         }
 
         .pageDetails {
-            height: 58rem;
+            margin-top: 1rem;
+            margin-bottom: 12rem;
             width: 100%;
             display: flex;
             justify-content: center;

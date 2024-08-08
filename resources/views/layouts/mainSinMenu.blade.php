@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title')</title>
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="icon" href="/img/icon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />

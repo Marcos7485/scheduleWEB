@@ -78,10 +78,9 @@
             color: #7D99B2;
         }
 
-
         .page_trabajadores {
             background-color: #000000;
-            height: 70vh;
+            margin-bottom: 5rem;
             width: 100%;
             display: flex;
             justify-content: center;

@@ -54,12 +54,12 @@
 
         .banner {
             text-align: center;
+            margin-top: 2rem;
         }
 
         .imgProf {
             width: 12rem;
             border-radius: 50%;
-            margin-top: 2rem;
             margin-bottom: 2rem;
         }
 
@@ -84,7 +84,8 @@
         }
 
         .pageDetails {
-            height: 58rem;
+            margin-top: 1rem;
+            margin-bottom: 12rem;
             width: 100%;
             display: flex;
             justify-content: center;
@@ -140,16 +141,11 @@
 
         <header>
             <div class="banner">
-                <form id="uploadForm" action="{{ route('trabajador.updateImage') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <input type="file" id="fileInput" name="image" class="hidden-file-input" accept="image/*" style="display:none;">
-                    <input type="hidden" name="trabajador_id" value="{{ $trabajador->id }}">
                     @if($trabajador->image != null)
                     <img src="{{ asset('storage/' . $trabajador->image) }}" alt="Imagen de {{ $trabajador->nombre }}" class="imgProf" onclick="document.getElementById('fileInput').click();">
                     @else
                     <img src="{{ asset('storage/' . $empresa->image) }}" alt="Imagen de {{ $trabajador->nombre }}" class="imgProf" onclick="document.getElementById('fileInput').click();">
                     @endif
-                </form>
             </div>
         </header>
 

@@ -7,6 +7,7 @@ use App\Http\Controllers\DisponibilidadController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\EmpresaDisponibilidad;
 use App\Http\Controllers\Main;
+use App\Http\Controllers\MercadoPagoController;
 use App\Http\Controllers\PlanesController;
 use App\Http\Controllers\TrabajadoresController;
 use App\Http\Controllers\TurnosController;
@@ -126,9 +127,17 @@ Route::middleware(['auth'])->group(function () {
 
     // suscripcion
    Route::get('/suscripcion', [PlanesController::class, 'suscripcion'])->name('suscripcion');
+   Route::get('/suscribirse/{id}', [PlanesController::class, 'suscripcionSelected'])->name('suscripcion-selected');
 
    // configuration
    Route::get('/config', [ConfigurationController::class, 'UserConfiguration'])->name('config');
    Route::post('/configuracion/updatePerfil', [ConfigurationController::class, 'UpdatePerfil'])->name('configPerfilUpdate');
    Route::post('/configuracion/password', [ConfigurationController::class, 'UpdatePassword'])->name('configPasswordUpdate');
+
+   // MercadoPago
+   Route::get('/createPreapprovalPlan', [MercadoPagoController::class, 'createPreapprovalPlan'])->name('crearSuscripcion');
+   Route::get('/searchPreapprovalPlan', [MercadoPagoController::class, 'searchPreapprovalPlan'])->name('buscaSuscripcion');
+   Route::get('/preapprovalIdPlan/{id}', [MercadoPagoController::class, 'obtenerPreapprovalPlan'])->name('obtenerSuscripcion');
+   Route::get('/actualizarPlan/{id}', [MercadoPagoController::class, 'actualizarPlan'])->name('actualizarSuscripcion');
+   Route::get('/suscriptionExport', [MercadoPagoController::class, 'suscriptionExport'])->name('exportarSuscripciones');
 });
