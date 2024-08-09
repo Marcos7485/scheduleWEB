@@ -12,6 +12,7 @@ use App\Http\Controllers\PlanesController;
 use App\Http\Controllers\TrabajadoresController;
 use App\Http\Controllers\TurnosController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\UserPlanActive;
 use App\Models\Accesos;
 use App\Models\Disponibilidad;
 use App\Models\EmpresaDispo;
@@ -47,6 +48,7 @@ Route::post('/createTurnoClienteEmpresa', [TurnosController::class, 'createTurno
 
 Route::get('/trabajadoresDashboard/{token}', [AccesosController::class, 'dashboard'])->name('TrabajadorDashboard');
 Route::post('/dashboardLogin', [AccesosController::class, 'dashboardTrabajador'])->name('dashboardLogin.Access');
+Route::get('/dashboardTurnosTrabajador', [AccesosController::class, 'MenuTrabajador'])->name('menuDeTurnosTrabajador');
 
 Route::get('/MenudeTurnosTrabajador/{id}/{hash}', [AccesosController::class, 'MenuTurnosTrabajador'])->name('TurnosMenuTrabajador');
 Route::get('/turnosHoyTrabajador/{id}/{hash}', [TurnosController::class, 'TurnosHoyTrabajador'])->name('turnosHoyTrabajador');
@@ -55,8 +57,11 @@ Route::get('/turnosNextWeekTrabajador/{id}/{hash}', [TurnosController::class, 'T
 Route::get('/turnosMonthTrabajador/{id}/{hash}', [TurnosController::class, 'TurnosMonthTrabajador'])->name('turnosMonthTrabajador');
 Route::get('/turnosAllTrabajador/{id}/{hash}', [TurnosController::class, 'TurnosAllTrabajador'])->name('turnosAllTrabajador');
 
+Route::get('/visitors/suscripcion', [PlanesController::class, 'suscripcionVisit'])->name('suscripcionVisit');
 
-Route::middleware(['auth'])->group(function () {
+
+Route::middleware(['auth', UserPlanActive::class])->group(function () {
+
     Route::get('/dashboard', [Main::class, 'dashboard'])->name('dashboard');
     Route::get('/geral-link', [TurnosController::class, 'geralLink'])->name('geral-link');
 
@@ -126,8 +131,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/trabajadorAcceso/{id}', [AccesosController::class, 'TrabajadorAcceso'])->name('trabajador.acceso');
 
     // suscripcion
-   Route::get('/suscripcion', [PlanesController::class, 'suscripcion'])->name('suscripcion');
-   Route::get('/suscribirse/{id}', [PlanesController::class, 'suscripcionSelected'])->name('suscripcion-selected');
 
    // configuration
    Route::get('/config', [ConfigurationController::class, 'UserConfiguration'])->name('config');
@@ -141,3 +144,6 @@ Route::middleware(['auth'])->group(function () {
    Route::get('/actualizarPlan/{id}', [MercadoPagoController::class, 'actualizarPlan'])->name('actualizarSuscripcion');
    Route::get('/suscriptionExport', [MercadoPagoController::class, 'suscriptionExport'])->name('exportarSuscripciones');
 });
+
+Route::get('/suscripcion', [PlanesController::class, 'suscripcion'])->name('suscripcion')->middleware('auth');
+Route::get('/suscribirse/{id}', [PlanesController::class, 'suscripcionSelected'])->name('suscripcion-selected')->middleware('auth');

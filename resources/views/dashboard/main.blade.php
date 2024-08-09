@@ -5,6 +5,12 @@
 <div class="page_4 text-center">
     <div class="dashboard-menu">
         <p>Bienvenido</p>
+        @if(session('trialMessage'))
+        <h3 class="alert alert-danger">
+            {{ session('trialMessage') }}
+        </h3>
+        @endif
+
         <a href="{{ route('TurnosMenu') }}">
             <div>
                 <h1>Turnos</h1>

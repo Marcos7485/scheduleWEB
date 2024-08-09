@@ -126,12 +126,11 @@ header ul a {
 
 .card-welcome h1{
     font-size: var(--fontsize);
-    color: var(--color-White);
+    color: white;
+    text-shadow: 2px 2px 2px black;
     transform: translateY(-4rem);
     font-family: "Pacifico", cursive;
-    color: brown;
 }
-
 
 .card-welcome:active {
     box-shadow: 0 0 0 #7D99B2;
@@ -189,7 +188,7 @@ header ul a {
 }
 
 .card-register {
-    height: 20rem;
+    height: 50rem;
     width: 26rem;
 }
 
@@ -205,6 +204,11 @@ header ul a {
 
 .page_4 p {
     font-size: var(--fontsize);
+}
+.dashboard-menu{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .dashboard-menu a {
@@ -990,16 +994,61 @@ header ul a {
 .mainSection{
     margin-top: 5rem;
     margin-bottom: 5rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: column; 
+    align-items: center;
+}
+
+.mainSection h1{
+    font-size: var(--fontsize);
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.mainSection a{
+    font-size: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 .pasos {
     display: flex;
     justify-content: center;
+    flex-direction: column; 
+    align-items: center;
 }
 
-.section1{
+.pasos img{
+    width: 10rem;
+}
+
+.pasos p{
+    font-size: 1.5rem;
+}
+
+.section1 {
     display: flex;
-    justify-content: center;
+    flex-direction: column; 
+    gap: 2rem; 
+    width: 100%; 
+}
+
+.section1 .item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 5rem;
+}
+
+.section1 img{
+    width: 35rem;
+    border-radius: 2rem;
+}
+
+.section1 p{
+    font-size: 1.5rem;
 }
 
 

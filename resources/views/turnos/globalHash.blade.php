@@ -5,7 +5,7 @@
 <div class="darturnospage text-center">
     <div class="darPageAll">
         <div>
-            <h1>Link de empresa</h1>
+            <h1>Link General</h1>
         </div>
         <div>
             <small id="idmensaje" style="color: green;"></small>

@@ -16,6 +16,7 @@ use App\Models\GlobalHash;
 use App\Models\RecoveryHash;
 use App\Models\User;
 use App\Models\UserPlan;
+use App\Services\PlanesSrv;
 use App\Services\TurnosSrv;
 use Carbon\Carbon;
 use Egulias\EmailValidator\EmailValidator;
@@ -27,10 +28,12 @@ use Illuminate\Support\Facades\Mail;
 class UserController extends Controller
 {
     protected $TurnosSrv;
+    protected $PlanesSrv;
 
-    public function __construct(TurnosSrv $TurnosSrv)
+    public function __construct(TurnosSrv $TurnosSrv, PlanesSrv $PlanesSrv)
     {
         $this->TurnosSrv = $TurnosSrv;
+        $this->PlanesSrv = $PlanesSrv;
     }
     public function registro(RegistroPostRequest $request)
     {
@@ -94,6 +97,11 @@ class UserController extends Controller
         }
     }
 
+    public function inactiveUser()
+    {
+        die('OK desarrollar');
+    }
+
     public function emailvalidateview()
     {
         return view('session.verificarEmail');
@@ -148,7 +156,6 @@ class UserController extends Controller
 
             return view('session.recoveryForm', $data);
         } else {
-            die('es null');
             return redirect()->route('recuperar.password')->with('error', 'El email de recuperacion ya fue utilizado o es inexistente');
         }
     }
@@ -158,6 +165,7 @@ class UserController extends Controller
         $user = User::where('id', $request->id)->where('active', 1)->first();
         $recoveryHash = RecoveryHash::where('idUser', $user->id)->where('active', 1)->first();
         $recoveryHash->active = 0;
+        $recoveryHash->save();
         $user->password = Hash::make($request->password);
         $user->save();
         Mail::to($user->email)->send(new PasswordUpdate($user, $request->password));
@@ -192,14 +200,20 @@ class UserController extends Controller
 
         $userVerification = User::where('email', $request->email)->first();
 
-        if ($userVerification->active == 1) {
+        if ($userVerification->email_verified_at !== null) {
             $data = [
                 'menu' => $bool,
             ];
 
             if (Auth::attempt($credentials, $remember)) {
                 $request->session()->regenerate();
-                return redirect()->intended(route('dashboard', $data));
+                $trial = $this->PlanesSrv->trialDays(Auth::user()->id);
+
+                if ($trial == null) {
+                    return redirect()->intended(route('dashboard', $data));
+                } else {
+                    return redirect()->intended(route('dashboard'))->with('trialMessage', "Modo de prueba restan: " . $trial . " días.");
+                }
             }
 
             return redirect()->back()->withErrors([

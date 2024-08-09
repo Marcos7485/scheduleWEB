@@ -32,7 +32,7 @@
                 <p>{!! $plan->descripcion !!}</p>
             </div>
             <div>
-                <p class="PlanValor">{{$plan->valor}}</p>
+                <p class="PlanValor">${{$plan->valor}}/mes</p>
                 @if(isset($userPlan->id) && $userPlan->id == $plan->id)
                 <a class="btn btn-info" disabled>Contratado!</a>
                 @else

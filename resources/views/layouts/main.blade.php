@@ -29,6 +29,7 @@
                     @guest
                     <li><a href="{{ route('login') }}"><i class="fa-solid fa-right-to-bracket"></i>&nbsp;Login</a></li>
                     <li><a href="{{ route('registro') }}">Registrarse &nbsp;<i class="fa-solid fa-pen-to-square"></i></a></li>
+                    <li><a href="{{ route('suscripcionVisit') }}">Suscribirse &nbsp;<i class="fa-solid fa-feather"></i></a></li>
                     @endguest
                     @auth
                     <a href="{{ route('dashboard') }}">

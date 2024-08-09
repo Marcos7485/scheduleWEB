@@ -17,13 +17,25 @@ class AccesosController extends Controller
         $acceso = Accesos::where('password', $request->password)->where('active', 1)->first();
         $trabajador = Trabajadores::where('id', $acceso->idTrabajador)->where('active', 1)->first();
         $empresa = Empresa::where('id', $trabajador->idEmpresa)->where('active', 1)->first();
-        $data = [
+        // Guardar los datos en la sesión
+
+        session([
             'trabajador' => $trabajador,
             'empresa' => $empresa,
             'password' => $request->password
-        ];
+        ]);
 
-        return view('accesos.turnosMenu', $data);
+        return redirect()->route('menuDeTurnosTrabajador');
+    }
+
+    public function MenuTrabajador()
+    {
+        // Obtener los datos de la sesión
+        $trabajador = session('trabajador');
+        $empresa = session('empresa');
+        $password = session('password');
+
+        return view('accesos.turnosMenu', compact('trabajador', 'empresa', 'password'));
     }
 
     public function MenuTurnosTrabajador($id, $hash)

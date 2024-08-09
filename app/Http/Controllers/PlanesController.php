@@ -4,11 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Models\Planes;
 use App\Models\UserPlan;
+use App\Services\PlanesSrv;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PlanesController extends Controller
 {
+    protected $PlanesSrv;
+
+    public function __construct(PlanesSrv $PlanesSrv)
+    {
+        $this->PlanesSrv = $PlanesSrv;
+    }
+
+    public function suscripcionVisit(){
+        $planes = Planes::where('active', 1)->get();
+        $data = [
+            'planes' => $planes
+        ];
+
+        return view('planes.suscripcionVisit', $data);
+    }
 
     public function suscripcion()
     {
@@ -16,13 +32,17 @@ class PlanesController extends Controller
         $planes = Planes::where('active', 1)->get();
         $userPlan = UserPlan::where('id', $user->id)->where('active', 1)->first();
 
+        if($this->PlanesSrv->trialDays($user->id) > 0 || $this->PlanesSrv->trialDays($user->id) == null){
+            $roundedDaysDifference = $this->PlanesSrv->trialDays($user->id);
+        } else {
+            $roundedDaysDifference = 0;
+        }
+        
+
         if ($userPlan->idPlan == null) {
-            $daysDifference = $userPlan->created_at->diffInDays($userPlan->vencimiento);
-            $roundedDaysDifference = floor($daysDifference);
             $planActivo = null;
         } else {
             $planActivo = Planes::where('id', $userPlan->idPlan)->where('active', 1)->first();
-            $roundedDaysDifference = null;
         }
 
         $data = [
@@ -36,12 +56,10 @@ class PlanesController extends Controller
 
     public function suscripcionSelected($id)
     {
-        $user = Auth::user();
         $plan = Planes::where('id', $id)->where('active', 1)->first();
         
         $data = [
-            'plan' => $plan,
-            'user' => $user
+            'plan' => $plan
         ];
 
         return view('planes.selected', $data);
