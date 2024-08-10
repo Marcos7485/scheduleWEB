@@ -519,6 +519,10 @@ header ul a {
     font-size: 1.5rem;
 }
 
+.turnosForm select{
+    font-size: 1.5rem;
+}
+
 /* CODIGO NUEVO /////////////////////////////////////////////////////////////////////////////////////*/
 .turnoslist {
     margin-bottom: 10rem;
