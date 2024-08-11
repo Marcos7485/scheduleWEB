@@ -10,10 +10,16 @@ class PlanesSrv
 
     public function trialDays($idUser)
     {
-        $userPlan = UserPlan::where('id', $idUser)->where('active', 1)->first();
+        $userPlan = UserPlan::where('idUser', $idUser)->where('active', 1)->first();
         if ($userPlan->vencimiento !== null) {
             $daysDifference = $userPlan->created_at->diffInDays($userPlan->vencimiento);
-            return floor($daysDifference);
+
+            if ($daysDifference > 0) {
+                return floor($daysDifference);
+            } else {
+                return 0;
+            }
+
         } else {
             return null;
         }

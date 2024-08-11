@@ -37,7 +37,6 @@
                     <tr>
                         <td class="configColumn">Email</td>
                         <td><input type="email" name="email" value="{{$user->email}}" id="emailInput" disabled></td>
-                        <td><a class="btn btn-info" href="#" onclick="enableEdit('emailInput'); return false;"><i class="fa-solid fa-pencil"></i></a></td>
                     </tr>
                     <tr>
                         <td colspan="3">
@@ -119,7 +118,16 @@
     <hr>
     <div>
         <h1>Suscripción</h1>
-        <p>Periodo de prueba (26 dias restantes) <i class="fa-solid fa-stopwatch"></i></p>
+        @if($trialDays !== null)
+        <p>Periodo de prueba ({{$trialDays}} dias restantes) <i class="fa-solid fa-stopwatch"></i></p>
+        @else
+        <div class="planCard">
+            <p>{{$userPlan->nombre}} <img src="{{$userPlan->image}}"></p>
+            <div style="color: green; font-size: 5rem">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+        </div>
+        @endif
         <a href="{{ route('suscripcion') }}" class="btn btn-info">Solucionar ya!</a>
     </div>
     <hr>

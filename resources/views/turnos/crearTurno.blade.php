@@ -35,7 +35,7 @@
             </select>
          </div>
          <div class="mb-3">
-            <button type="submit" class="btn btn-warning">Agendar</button>
+            <button type="submit" class="btn btn-warning" id="agendarBtn">Agendar</button>
          </div>
       </form>
    </div>
@@ -75,6 +75,7 @@
                console.error('Error:', error);
                horarioSelect.disabled = true;
                horarioSelect.innerHTML = '<option value="">No disponible</option>';
+               agendarBtn.style.display = 'none';
             });
       } else {
          horarioSelect.disabled = true;

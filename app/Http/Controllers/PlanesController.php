@@ -17,7 +17,8 @@ class PlanesController extends Controller
         $this->PlanesSrv = $PlanesSrv;
     }
 
-    public function suscripcionVisit(){
+    public function suscripcionVisit()
+    {
         $planes = Planes::where('active', 1)->get();
         $data = [
             'planes' => $planes
@@ -30,14 +31,9 @@ class PlanesController extends Controller
     {
         $user = Auth::user();
         $planes = Planes::where('active', 1)->get();
-        $userPlan = UserPlan::where('id', $user->id)->where('active', 1)->first();
+        $userPlan = UserPlan::where('idUser', $user->id)->where('active', 1)->first();
 
-        if($this->PlanesSrv->trialDays($user->id) > 0 || $this->PlanesSrv->trialDays($user->id) == null){
-            $roundedDaysDifference = $this->PlanesSrv->trialDays($user->id);
-        } else {
-            $roundedDaysDifference = 0;
-        }
-        
+        $roundedDaysDifference = $this->PlanesSrv->trialDays($user->id);
 
         if ($userPlan->idPlan == null) {
             $planActivo = null;
@@ -57,7 +53,7 @@ class PlanesController extends Controller
     public function suscripcionSelected($id)
     {
         $plan = Planes::where('id', $id)->where('active', 1)->first();
-        
+
         $data = [
             'plan' => $plan
         ];

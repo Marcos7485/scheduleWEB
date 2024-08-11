@@ -8,5 +8,10 @@
             <h1>Bienvenido</h1>
         </div>
     </a>
+    <a href="https://www.dragonrojosoftware.online/">
+        <div>
+            <img src="/img/drs.png" alt="">
+        </div>
+    </a>
 </div>
 @endsection

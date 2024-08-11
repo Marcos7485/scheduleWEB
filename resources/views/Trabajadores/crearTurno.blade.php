@@ -141,11 +141,11 @@
 
         <header>
             <div class="banner">
-                    @if($trabajador->image != null)
-                    <img src="{{ asset('storage/' . $trabajador->image) }}" alt="Imagen de {{ $trabajador->nombre }}" class="imgProf" onclick="document.getElementById('fileInput').click();">
-                    @else
-                    <img src="{{ asset('storage/' . $empresa->image) }}" alt="Imagen de {{ $trabajador->nombre }}" class="imgProf" onclick="document.getElementById('fileInput').click();">
-                    @endif
+                @if($trabajador->image != null)
+                <img src="{{ asset('storage/' . $trabajador->image) }}" alt="Imagen de {{ $trabajador->nombre }}" class="imgProf" onclick="document.getElementById('fileInput').click();">
+                @else
+                <img src="{{ asset('storage/' . $empresa->image) }}" alt="Imagen de {{ $trabajador->nombre }}" class="imgProf" onclick="document.getElementById('fileInput').click();">
+                @endif
             </div>
         </header>
 
@@ -185,7 +185,7 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <button type="submit" class="btn btn-warning">Agendar</button>
+                            <button type="submit" class="btn btn-warning" id="agendarBtn">Agendar</button>
                         </div>
                     </form>
                 </div>
@@ -237,6 +237,7 @@
                         console.error('Error:', error);
                         horarioSelect.disabled = true;
                         horarioSelect.innerHTML = '<option value="">No disponible</option>';
+                        agendarBtn.style.display = 'none';
                     });
             } else {
                 horarioSelect.disabled = true;
@@ -244,6 +245,8 @@
             }
         });
     </script>
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
 </body>

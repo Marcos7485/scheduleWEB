@@ -5,17 +5,32 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UpdatePerfilRequest;
 use App\Models\User;
+use App\Models\UserPlan;
+use App\Services\PlanesSrv;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class ConfigurationController extends Controller
 {
+    protected $PlanesSrv;
+
+    public function __construct(PlanesSrv $PlanesSrv)
+    {
+        $this->PlanesSrv = $PlanesSrv;
+    }
+
     public function UserConfiguration()
     {
         $user = Auth::user();
+        $userPlan = UserPlan::where('idUser', $user->id)->first();
+        $trialDays = $this->PlanesSrv->trialDays($user->id);
+
         $data = [
-            'user' => $user
+            'user' => $user,
+            'trialDays' => $trialDays,
+            'userPlan' => $userPlan
         ];
+        
         return view('config.panel', $data);
     }
 

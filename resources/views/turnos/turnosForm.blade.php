@@ -39,7 +39,7 @@
          </div>
          <div class="mb-3">
             <a href="{{ route('darTurnos') }}" class="btn btn-success">volver</a>
-            <button type="submit" class="btn btn-warning">Agendar</button>
+            <button type="submit" class="btn btn-warning" id="agendarBtn">Agendar</button>
       </form>
    </div>
    @if($message)
@@ -78,6 +78,7 @@
                console.error('Error:', error);
                horarioSelect.disabled = true;
                horarioSelect.innerHTML = '<option value="">No disponible</option>';
+               agendarBtn.style.display = 'none';
             });
       } else {
          horarioSelect.disabled = true;
