@@ -100,8 +100,8 @@ Route::middleware(['auth', UserPlanActive::class])->group(function () {
     Route::get('/config', [ConfigurationController::class, 'UserConfiguration'])->name('config');
     Route::post('/configuracion/updatePerfil', [ConfigurationController::class, 'UpdatePerfil'])->name('configPerfilUpdate');
     Route::post('/configuracion/password', [ConfigurationController::class, 'UpdatePassword'])->name('configPasswordUpdate');
-    
-    
+
+
     Route::middleware([UserPremiumPlan::class])->group(function () {
 
         // Premium
@@ -151,12 +151,16 @@ Route::middleware(['auth', UserPlanActive::class])->group(function () {
 
 
     // MercadoPago
-    Route::get('/createPreapprovalPlan', [MercadoPagoController::class, 'createPreapprovalPlan'])->name('crearSuscripcion');
-    Route::get('/searchPreapprovalPlan', [MercadoPagoController::class, 'searchPreapprovalPlan'])->name('buscaSuscripcion');
-    Route::get('/preapprovalIdPlan/{id}', [MercadoPagoController::class, 'obtenerPreapprovalPlan'])->name('obtenerSuscripcion');
-    Route::get('/actualizarPlan/{id}', [MercadoPagoController::class, 'actualizarPlan'])->name('actualizarSuscripcion');
-    Route::get('/suscriptionExport', [MercadoPagoController::class, 'suscriptionExport'])->name('exportarSuscripciones');
+    Route::get('/mercadopago/callback', [MercadoPagoController::class, 'handleCallback']);
 });
 
 Route::get('/suscripcion', [PlanesController::class, 'suscripcion'])->name('suscripcion')->middleware('auth');
 Route::get('/suscribirse/{id}', [PlanesController::class, 'suscripcionSelected'])->name('suscripcion-selected')->middleware('auth');
+
+
+
+// Route::get('/createPreapprovalPlan', [MercadoPagoController::class, 'createPreapprovalPlan'])->name('crearSuscripcion');
+// Route::get('/actualizarPlan/{id}', [MercadoPagoController::class, 'updatePreapprovalPlan'])->name('actualizarSuscripcion');
+// Route::get('/searchPreapprovalPlan', [MercadoPagoController::class, 'searchPreapprovalPlan'])->name('buscaSuscripcion');
+// Route::get('/preapprovalIdPlan/{id}', [MercadoPagoController::class, 'obtenerPreapprovalPlan'])->name('obtenerSuscripcion');
+// Route::get('/suscriptionExport', [MercadoPagoController::class, 'suscriptionExport'])->name('exportarSuscripciones');

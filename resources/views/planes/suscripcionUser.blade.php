@@ -6,6 +6,11 @@
     <div>
         <h1>Tu plan activo</h1>
     </div>
+    @if(session('message'))
+    <h3 class="alert alert-success">
+        {{ session('message') }}
+    </h3>
+    @endif
     <div class="suscripcionActiva">
         @if($trial !== null)
         <p style="color: brown;">Periodo de prueba ({{$trial}} dias restantes) <i class="fa-solid fa-stopwatch"></i></p>

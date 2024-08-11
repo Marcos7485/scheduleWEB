@@ -9,10 +9,10 @@
     </div>
     <div>
         @if($plan->nombre == 'Plan Basic')
-        <a href="https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=2c938084910f95b601913422f7650b5e" class="btn btn-success">Suscribirse ahora! <i class="fa-solid fa-feather"></i>
+        <a href="https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=2c938084910f959d01913eb368e00ee9" class="btn btn-success">Suscribirse ahora! <i class="fa-solid fa-feather"></i>
         </a>
         @elseif ($plan->nombre == 'Plan Premium')
-        <a href="https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=2c938084910f95b6019138aa5d210d3a" class="btn btn-success">Suscribirse ahora! <i class="fa-solid fa-feather"></i>
+        <a href="https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=2c938084910f95b901913eb546f20ee9" class="btn btn-success">Suscribirse ahora! <i class="fa-solid fa-feather"></i>
         </a>
         @endif
     </div>
