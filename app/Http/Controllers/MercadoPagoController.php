@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\BasicPlanAdquired;
+use App\Mail\PremiumPlanAdquired;
+use App\Models\Planes;
+use App\Models\User;
 use App\Models\UserPlan;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class MercadoPagoController extends Controller
 {
@@ -112,19 +117,29 @@ class MercadoPagoController extends Controller
     public function handleCallback(Request $request)
     {
         $userId = $request->input('user_id'); // Obtener el ID del usuario desde la URL
-        $status = $request->input('status'); 
-        $subscriptionId = $request->input('id'); 
+        $status = $request->input('status');
+        $subscriptionId = $request->input('id');
 
-        if ($status == 'authorized'){
+        if ($status == 'authorized') {
             $userPlan = UserPlan::where('idUser', $userId)->first();
-            if($subscriptionId == '2c938084910f959d01913eb368e00ee9'){
+            if ($subscriptionId == '2c938084910f959d01913eb368e00ee9') {
                 $userPlan->idPlan = 1;
                 $userPlan->vencimiento = null;
                 $userPlan->save();
-            } elseif($subscriptionId == '2c938084910f95b901913eb546f20ee9'){
+
+                $user = User::where('id', $userId)->first();
+                $plan = Planes::where('id', 1)->first();
+
+                Mail::to($user->email)->send(new BasicPlanAdquired($user, $plan));
+            } elseif ($subscriptionId == '2c938084910f95b901913eb546f20ee9') {
                 $userPlan->idPlan = 2;
                 $userPlan->vencimiento = null;
                 $userPlan->save();
+
+                $user = User::where('id', $userId)->first();
+                $plan = Planes::where('id', 2)->first();
+
+                Mail::to($user->email)->send(new PremiumPlanAdquired($user, $plan));
             }
             return redirect()->route('suscripcion')->with('message', '¡Suscripción completada exitosamente!');
         }
