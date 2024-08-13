@@ -15,6 +15,7 @@ class PlanesController extends Controller
     public function __construct(PlanesSrv $PlanesSrv)
     {
         $this->PlanesSrv = $PlanesSrv;
+   
     }
 
     public function suscripcionVisit()
