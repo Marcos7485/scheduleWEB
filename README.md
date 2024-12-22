@@ -2,7 +2,7 @@
 
 - base de datos:
 active -> default 1
-softdeletes  cuando ver necesario
+softdeletes  Siempre
 
 - controller:
 uso de servicios para funciones del controlador

@@ -407,42 +407,12 @@ class TurnosSrv
 
         $lapsos = [];
 
-        if ($horainicio < $horafin) {
-            while ($horainicio < $horafin) {
-                $lapsos[] = $horainicio->format('H:i');
-                $horainicio->addMinutes(30);
-            }
-        }
-
-
-        if ($horafin->lt($horainicio)) {
-            // Ajustar la hora de fin si es menor que la hora de inicio (cruza medianoche)
-            if ($horafin->lt($horainicio)) {
-                $horafin->addDay(); // Añadir un día para manejar el rango que cruza medianoche
-            }
-
-            $current = $horainicio->copy(); // Crear una copia de la hora de inicio para modificar
-
-            while ($current->lt($horafin)) {
-                $lapsos[] = $current->format('H:i');
-                $current->addMinutes(30);
-            }
-        }
-
-
-        if ($horainicio->eq($horafin)) {
-            // Agregar el valor inicial
+  
+        while ($horainicio < $horafin) {
             $lapsos[] = $horainicio->format('H:i');
-
-            // Agregar 30 minutos a la hora de inicio
             $horainicio->addMinutes(30);
-
-            // Bucle para agregar lapsos cada 30 minutos
-            while ($horainicio->lt($horafin->copy()->addDay())) {
-                $lapsos[] = $horainicio->format('H:i');
-                $horainicio->addMinutes(30);
-            }
         }
+ 
 
         $turnosOcupados = Turnos::whereDate('fechahora', $fechaCarbon->toDateString())
             ->where('idUser', $idUser)
@@ -544,42 +514,11 @@ class TurnosSrv
 
         $lapsos = [];
 
-
-        if ($horainicio < $horafin) {
-            while ($horainicio < $horafin) {
-                $lapsos[] = $horainicio->format('H:i');
-                $horainicio->addMinutes(30);
-            }
-        }
-
-        if ($horafin->lt($horainicio)) {
-            // Ajustar la hora de fin si es menor que la hora de inicio (cruza medianoche)
-            if ($horafin->lt($horainicio)) {
-                $horafin->addDay(); // Añadir un día para manejar el rango que cruza medianoche
-            }
-
-            $current = $horainicio->copy(); // Crear una copia de la hora de inicio para modificar
-
-            while ($current->lt($horafin)) {
-                $lapsos[] = $current->format('H:i');
-                $current->addMinutes(30);
-            }
-        }
-
-        if ($horainicio->eq($horafin)) {
-            // Agregar el valor inicial
+        while ($horainicio < $horafin) {
             $lapsos[] = $horainicio->format('H:i');
-
-            // Agregar 30 minutos a la hora de inicio
             $horainicio->addMinutes(30);
-
-            // Bucle para agregar lapsos cada 30 minutos
-            while ($horainicio->lt($horafin->copy()->addDay())) {
-                $lapsos[] = $horainicio->format('H:i');
-                $horainicio->addMinutes(30);
-            }
         }
-
+     
         $turnosOcupados = Turnos::whereDate('fechahora', $fechaCarbon->toDateString())
             ->where('idTrabajador', $idTrabajador)
             ->get();

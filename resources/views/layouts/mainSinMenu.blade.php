@@ -32,7 +32,7 @@
 
         <footer>
             <div class="row" id="footer">
-                <a href="https://www.dragonrojosoftware.online/">
+                <a href="https://www.dragonrojosoftware.com/">
                     <p>Powered by &nbsp;<img src="/img/drs.png" id="drs-icon"> &copy; 2024</p>
                 </a>
             </div>
